@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text">
+        <item name="android:gravity">center</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+
+    <!--    Caption-->
+    <style name="Text.Caption" parent="Text">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+
+    <style name="Text.Caption.Regular" parent="Text.Caption">
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="Text.Caption.Semibold" parent="Text.Caption">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="Text.Caption.Bold" parent="Text.Caption">
+        <item name="fontFamily">@font/inter_bold</item>
+    </style>
+
+
+    <!--    Body-->
+    <style name="Text.Body" parent="Text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="Text.Body.Regular" parent="Text.Body">
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="Text.Body.Semibold" parent="Text.Body">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="Text.Body.Bold" parent="Text.Body">
+        <item name="fontFamily">@font/inter_bold</item>
+    </style>
+
+
+    <!--    Label-->
+    <style name="Text.Label" parent="Text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="Text.Label.Regular" parent="Text.Label">
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="Text.Label.Semibold" parent="Text.Label">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="Text.Label.Bold" parent="Text.Label">
+        <item name="fontFamily">@font/inter_bold</item>
+    </style>
+
+    <!--    Title-->
+    <style name="Text.Title" parent="Text">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="Text.Title.Regular" parent="Text.Title">
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="Text.Title.Semibold" parent="Text.Title">
+        <item name="fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="Text.Title.Bold" parent="Text.Title">
+        <item name="fontFamily">@font/inter_bold</item>
+    </style>
+</resources>

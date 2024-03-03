@@ -1,11 +1,59 @@
 package com.proxglobal.smart_ocr
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import android.Manifest
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.airbnb.lottie.LottieCompositionFactory
+import com.airbnb.lottie.LottieDrawable
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.hjq.permissions.XXPermissions
+import com.proxglobal.smart_ocr.base.BaseActivity
+import com.proxglobal.smart_ocr.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    private lateinit var navController: NavController
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun initView() {
+        super.initView()
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+        navController = navHostFragment!!.navController
+
+        binding.bottomNav.setupWithNavController(navController)
+    }
+
+    override fun addAction() {
+        super.addAction()
+        binding.btScan.setOnClickListener {
+            XXPermissions.with(this)
+                .permission(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+                .request { permissions, allGranted ->
+                    if (allGranted) {
+                        navController.navigate(R.id.cameraFragment)
+                    } else {
+                        toastShort("Permission denied")
+                    }
+                }
+        }
+
+    }
+
+    private fun getLottieDrawable(
+        res: Int,
+        view: BottomNavigationView
+    ): LottieDrawable {
+        return LottieDrawable().apply {
+            val result = LottieCompositionFactory.fromRawRes(
+                view.context.applicationContext, res
+            ).addListener {
+                callback = view
+                composition = it
+            }
+
+        }
     }
 }

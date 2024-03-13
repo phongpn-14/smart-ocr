@@ -8,6 +8,9 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentAuthBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +45,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                     .setSupported(true)
                     // Your server's client ID, not your Android client ID.
                     .setServerClientId("85075210945-f5l0gevpd3s6su1vsocanop8hldh1lqd.apps.googleusercontent.com")
+                    .setFilterByAuthorizedAccounts(false)
                     // Only show accounts previously used to sign in.
                     .build()
             )
@@ -85,7 +89,8 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                 try {
                     startIntentSenderForResult(
                         result.pendingIntent.intentSender, REQ_ONE_TAP,
-                        null, 0, 0, 0, null)
+                        null, 0, 0, 0, null
+                    )
                 } catch (e: IntentSender.SendIntentException) {
                     Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
                 }
@@ -104,11 +109,25 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                 try {
                     val credential = oneTapClient.getSignInCredentialFromIntent(data)
                     val idToken = credential.googleIdToken
+
                     when {
                         idToken != null -> {
                             // Got an ID token from Google. Use it to authenticate
                             // with your backend.
                             Log.d(TAG, "Got ID token.")
+                            val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+                            Firebase.auth.signInWithCredential(firebaseCredential)
+                                .addOnCompleteListener(requireActivity()) { task ->
+                                    if (task.isSuccessful) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Log.d(TAG, "signInWithCredential:success")
+                                        navigate(R.id.homeFragment)
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Log.w(TAG, "signInWithCredential:failure", task.exception)
+                                    }
+                                }
+                            navigate(R.id.homeFragment)
                         }
 
                         else -> {
@@ -118,7 +137,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                     }
                 } catch (e: ApiException) {
                     e.printStackTrace()
-                    // ...
                 }
             }
         }

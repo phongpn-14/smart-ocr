@@ -9,6 +9,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     protected lateinit var binding: T
@@ -87,11 +89,14 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         }
     }
 
-    fun navigate(brother: Fragment, name: String, popupInclusive: Boolean) {
-        if (popupInclusive) {
-            parentFragmentManager.popBackStackImmediate()
-        }
-        (requireActivity() as BaseActivity<*>).showChildFragment(brother, name)
+    fun navigate(id: Int, extras: Bundle? = null) {
+        findNavController().navigate(id, extras, navOptions {
+            anim {
+                enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
+                exit = androidx.navigation.ui.R.anim.nav_default_exit_anim
+
+            }
+        })
     }
 
     fun navigateUp() {

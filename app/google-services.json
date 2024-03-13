@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "85075210945",
+    "project_id": "smart-ocr-9c4ff",
+    "storage_bucket": "smart-ocr-9c4ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85075210945:android:ccd793bb4812228bce1a40",
+        "android_client_info": {
+          "package_name": "com.proxglobal.smart_ocr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85075210945-f5l0gevpd3s6su1vsocanop8hldh1lqd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd-Pum2GsXL0lddKac5BdZIYr6-UWBT4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85075210945-f5l0gevpd3s6su1vsocanop8hldh1lqd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

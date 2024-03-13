@@ -6,6 +6,7 @@ plugins {
     id 'kotlin-platform-android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -126,5 +127,27 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     implementation("org.greenrobot:eventbus:3.3.1")
+
+    /** ---------------------Firebase---------------------**/
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+
+    /** ---------------------Network---------------------**/
+    def retrofitVersion = "2.9.0"
+    def moshiVersion = "1.14.0"
+    def okhttpInterceptorVersion = "4.9.0"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpInterceptorVersion"
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    implementation "com.github.skydoves:sandwich:1.3.9"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.liulishuo.okdownload:okhttp:1.0.7"
+    implementation "com.liulishuo.okdownload:okdownload:1.0.7"
 
 }

@@ -1,9 +1,11 @@
-package com.proxglobal.smart_ocr.ui.camera
+package com.example.smartocr.ui.camera
 
 import com.proxglobal.smart_ocr.R
-import com.proxglobal.smart_ocr.base.BaseFragment
+import com.example.smartocr.base.BaseFragment
 import com.proxglobal.smart_ocr.databinding.FragmentCameraBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     override fun getLayoutId(): Int {
         return R.layout.fragment_camera

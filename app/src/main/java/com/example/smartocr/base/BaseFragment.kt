@@ -1,4 +1,4 @@
-package com.proxglobal.smart_ocr.base
+package com.example.smartocr.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -3,22 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_nav"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/authFragment">
 
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="com.proxglobal.smart_ocr.ui.camera.CameraFragment"
+        android:name="com.example.smartocr.ui.camera.CameraFragment"
         android:label="CameraFragment"
         tools:layout="@layout/fragment_camera" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.proxglobal.smart_ocr.ui.home.HomeFragment"
+        android:name="com.example.smartocr.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.proxglobal.smart_ocr.ui.setting.SettingFragment"
+        android:name="com.example.smartocr.ui.setting.SettingFragment"
         android:label="SettingFragment"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.example.smartocr.ui.auth.AuthFragment"
+        android:label="AuthFragment"
+        tools:layout="@layout/fragment_auth" />
 
 </navigation>

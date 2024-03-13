@@ -1,7 +1,7 @@
-package com.proxglobal.smart_ocr.ui.setting
+package com.example.smartocr.ui.setting
 
 import com.proxglobal.smart_ocr.R
-import com.proxglobal.smart_ocr.base.BaseFragment
+import com.example.smartocr.base.BaseFragment
 import com.proxglobal.smart_ocr.databinding.FragmentSettingBinding
 
 class SettingFragment: BaseFragment<FragmentSettingBinding>() {

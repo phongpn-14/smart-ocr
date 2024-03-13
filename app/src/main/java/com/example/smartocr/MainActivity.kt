@@ -1,4 +1,4 @@
-package com.proxglobal.smart_ocr
+package com.example.smartocr
 
 import android.Manifest
 import androidx.navigation.NavController
@@ -8,9 +8,12 @@ import com.airbnb.lottie.LottieCompositionFactory
 import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hjq.permissions.XXPermissions
-import com.proxglobal.smart_ocr.base.BaseActivity
+import com.proxglobal.smart_ocr.R
+import com.example.smartocr.base.BaseActivity
 import com.proxglobal.smart_ocr.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var navController: NavController
     override fun getLayoutId(): Int {

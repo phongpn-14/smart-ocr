@@ -109,7 +109,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                 try {
                     val credential = oneTapClient.getSignInCredentialFromIntent(data)
                     val idToken = credential.googleIdToken
-
                     when {
                         idToken != null -> {
                             // Got an ID token from Google. Use it to authenticate
@@ -127,7 +126,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                                         Log.w(TAG, "signInWithCredential:failure", task.exception)
                                     }
                                 }
-                            navigate(R.id.homeFragment)
                         }
 
                         else -> {

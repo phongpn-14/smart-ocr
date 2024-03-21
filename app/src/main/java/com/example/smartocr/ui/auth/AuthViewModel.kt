@@ -10,4 +10,8 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor() : ViewModel() {
 
     fun isUserReady() = Firebase.auth.currentUser != null
+
+    fun signOut() {
+        Firebase.auth.signOut()
+    }
 }

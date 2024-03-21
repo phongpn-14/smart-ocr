@@ -11,14 +11,44 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/tv_name"
             style="@style/Text.Title.Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/coming_soon"
+            android:layout_margin="16dp"
+            android:text="User Name"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            style="@style/Text.Body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="example@gmail.com"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_sign_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="64dp"
+            android:fontFamily="@font/inter_semibold"
+            android:text="Sign out"
+            android:textColor="#E57373"
+            app:backgroundTint="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.85"
+            app:strokeColor="#80000000"
+            app:strokeWidth="1dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

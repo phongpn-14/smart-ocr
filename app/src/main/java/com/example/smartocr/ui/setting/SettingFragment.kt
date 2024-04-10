@@ -53,6 +53,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         super.addAction()
         binding.btSignOut.setOnClickListener {
             authViewModel.signOut()
+            GoogleSignIn.getClient(requireContext(), GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .signOut()
             navigate(R.id.authFragment)
         }
 
@@ -66,6 +68,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 ).setApplicationName(getString(R.string.app_name))
                     .build()
                 driveHelper = GoogleDriveServiceHelper(drive)
+                driveHelper!!.createFolder()
                 val fileIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                 fileIntent.addCategory(Intent.CATEGORY_OPENABLE)
                 fileIntent.type = "*/*"
@@ -90,11 +93,13 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 data?.let { intent ->
                     val selectPath = createFileFromContentUri(intent.data!!).absolutePath
                     selectPath.logd()
-                    driveHelper!!.createFolder()
+                    toastShort("Uploading... Please wait")
                     driveHelper!!.uploadFileToGoogleDrive(selectPath)
                         .addOnSuccessListener {
+                            toastShort("Success")
                             "uploadDone = ${true}".logd()
                         }.addOnFailureListener {
+                            toastShort("Failure, message = ${it.message}")
                             "uploadDone = ${it.message}".logd()
                         }
                 } ?: run { Log.d("SettingFragment", "onActivityResult: intent null") }
@@ -109,6 +114,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             ).setApplicationName(getString(R.string.app_name))
                 .build()
             driveHelper = GoogleDriveServiceHelper(drive)
+            driveHelper!!.createFolder()
         }
 
     }

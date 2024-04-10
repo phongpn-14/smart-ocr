@@ -7,7 +7,15 @@ import com.example.smartocr.base.BaseFragment
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Scope
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
+import com.google.api.client.http.javanet.NetHttpTransport
+import com.google.api.client.json.gson.GsonFactory
+import com.google.api.services.drive.Drive
+import com.google.api.services.drive.DriveScopes
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -23,6 +31,8 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
     private lateinit var signUpRequest: BeginSignInRequest
 
     private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
+    private val REQ_DRIVE = 3  // Can be any integer unique to the Activity
+
     private var showOneTapUI = true
 
     val TAG = "Check signin"
@@ -121,6 +131,9 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "signInWithCredential:success")
                                         navigate(R.id.homeFragment)
+
+                                        Log.d(TAG, "onActivityResult: $id")
+
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -136,6 +149,10 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
                 } catch (e: ApiException) {
                     e.printStackTrace()
                 }
+            }
+
+            REQ_DRIVE -> {
+
             }
         }
     }

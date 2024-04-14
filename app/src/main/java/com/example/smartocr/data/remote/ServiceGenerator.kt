@@ -1,10 +1,11 @@
 package com.example.smartocr.data.remote
 
 import android.content.Context
+import android.net.wifi.WifiManager
 import android.os.Build
+import android.text.format.Formatter
 import androidx.annotation.RequiresApi
 import com.airbnb.lottie.BuildConfig
-import com.squareup.moshi.Moshi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Cache
 import okhttp3.CacheControl
@@ -13,6 +14,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.io.File
+import java.net.Inet4Address
+import java.net.NetworkInterface
+import java.net.SocketException
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -23,6 +27,7 @@ private const val timeoutRead = 120   //In seconds
 private const val contentType = "Content-Type"
 private const val contentTypeValue = "application/json"
 private const val timeoutConnect = 120   //In seconds
+private const val baseurl = "http://192.168.1.36:3502/"
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Singleton
@@ -82,10 +87,17 @@ class ServiceGenerator @Inject constructor(
             .writeTimeout(Duration.ofSeconds(120))
     }
 
-    fun <S> createService(serviceClass: Class<S>, baseUrl: String, cache: Boolean = true): S {
+    fun <S> createService(
+        serviceClass: Class<S>,
+        baseUrl: String = baseurl,
+        cache: Boolean = true
+    ): S {
         if (cache) {
             okHttpBuilder.addInterceptor(cacheInterceptor)
         }
+        val wm = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+        val ip: String = Formatter.formatIpAddress(wm.connectionInfo.ipAddress)
         val client = okHttpBuilder.build()
         retrofit = Retrofit.Builder()
             .baseUrl(baseUrl).client(client)
@@ -94,4 +106,23 @@ class ServiceGenerator @Inject constructor(
         return retrofit.create(serviceClass)
     }
 
+
+    fun getLocalIpAddress(): String? {
+        try {
+            val en = NetworkInterface.getNetworkInterfaces()
+            while (en.hasMoreElements()) {
+                val intf = en.nextElement()
+                val enumIpAddr = intf.inetAddresses
+                while (enumIpAddr.hasMoreElements()) {
+                    val inetAddress = enumIpAddr.nextElement()
+                    if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
+                        return inetAddress.getHostAddress()
+                    }
+                }
+            }
+        } catch (ex: SocketException) {
+            ex.printStackTrace()
+        }
+        return null
+    }
 }

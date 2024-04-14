@@ -1,7 +1,9 @@
 package com.example.smartocr.di
 
 import android.content.Context
+import com.example.smartocr.data.DataRepository
 import com.example.smartocr.data.local.LocalData
+import com.example.smartocr.data.remote.RemoteData
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

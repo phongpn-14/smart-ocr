@@ -64,6 +64,10 @@ sealed class Resource<out T>(val data: T? = null, val errorCode: Int? = null) {
         }
     }
 
+    suspend fun <R> transform(transform: suspend (Resource<T>) -> R): R {
+        return transform(this)
+    }
+
     val isSuccess get() = this is Success
     val isError get() = this is Error
     val isLoading get() = this is Loading

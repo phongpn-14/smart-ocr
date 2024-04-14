@@ -1,22 +1,22 @@
 package com.example.smartocr.data.remote
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
+import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.remote.service.SmartOCRService
 import com.example.smartocr.util.NetworkConnectivity
 import com.example.smartocr.util.logd
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.MultipartBody
 import retrofit2.Response
+import java.io.File
 import java.io.IOException
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 class RemoteData @Inject
 constructor(
     private val serviceGenerator: ServiceGenerator,
@@ -27,6 +27,19 @@ constructor(
     override fun helloWorld(): Flow<Resource<ResponseHelloWorld>> {
         return flow {
             emit(processCall { smartOcr.helloWorld() })
+        }.flowOn(io)
+    }
+
+    override fun processOcrCCCD(image: File): Flow<Resource<OcrCCCD>> {
+        val part = MultipartBody.Part.createFormData(
+            "file",
+            image.name,
+            UploadRequestBody(image, onUpload = {
+
+            })
+        )
+        return flow {
+            emit(processCall { smartOcr.processOcrCCCD(part) })
         }.flowOn(io)
     }
 

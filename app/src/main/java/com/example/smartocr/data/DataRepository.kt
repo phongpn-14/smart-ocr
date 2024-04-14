@@ -1,10 +1,12 @@
 package com.example.smartocr.data
 
 import com.example.smartocr.data.local.LocalData
+import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.remote.RemoteData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.io.File
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -21,6 +23,8 @@ class DataRepository @Inject constructor(
             it as Resource.Error
         }
     }
+
+    override suspend fun processCCCD(image: File): Flow<Resource<OcrCCCD>> = remoteRepository.processOcrCCCD(image)
 
     override val coroutineContext: CoroutineContext
         get() = ioDispatcher

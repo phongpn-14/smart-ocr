@@ -27,9 +27,8 @@ private const val timeoutRead = 120   //In seconds
 private const val contentType = "Content-Type"
 private const val contentTypeValue = "application/json"
 private const val timeoutConnect = 120   //In seconds
-private const val baseurl = "http://192.168.1.36:3502/"
+private const val baseurl = "http://192.168.1.26:3502/"
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Singleton
 class ServiceGenerator @Inject constructor(
     @ApplicationContext private val context: Context

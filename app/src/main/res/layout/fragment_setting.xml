@@ -32,6 +32,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtIpServer"
+                style="@style/Text.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@null"
+                android:text="192.168.1.1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_sign_out"
@@ -52,11 +75,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_upload_file"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="64dp"
             android:fontFamily="@font/inter_semibold"
-            style="@style/Widget.Material3.Button"
             android:text="Up file to Drive"
             android:textColor="#4E4E4E"
             app:backgroundTint="@android:color/transparent"

@@ -1,5 +1,6 @@
 package com.example.smartocr.ui.camera
 
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
@@ -27,6 +28,10 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                 cameraViewModel.processPictureResult(result) {
                     withContext(Dispatchers.Main) {
                         it.whenSuccess {
+                            findNavController().navigate(
+                                R.id.viewScannedCCCDFragment,
+                                bundleOf("cccd" to it.data!!)
+                            )
                             toastShort(it.data!!.name)
                         }.whenError {
                             toastShort(it.message!!)

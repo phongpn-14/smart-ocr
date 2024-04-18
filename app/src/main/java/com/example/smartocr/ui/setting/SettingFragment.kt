@@ -5,9 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.drive.GoogleDriveServiceHelper
+import com.example.smartocr.data.remote.baseurl
 import com.example.smartocr.ui.auth.AuthViewModel
 import com.example.smartocr.util.logd
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -84,6 +86,14 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 )
                 startActivityForResult(client.signInIntent, 2)
             }
+        }
+
+        binding.edtIpServer.addTextChangedListener {
+            baseurl = "http://${it.toString().trim()}:3502/"
+        }
+
+        binding.root.setOnClickListener {
+            hideKeyboard(true)
         }
     }
 

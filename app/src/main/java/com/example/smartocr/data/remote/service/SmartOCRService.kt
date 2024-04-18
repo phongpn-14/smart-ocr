@@ -1,6 +1,7 @@
 package com.example.smartocr.data.remote.service
 
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
+import com.example.smartocr.data.dto.response.ResponseOcrCCCD
 import com.example.smartocr.data.model.OcrCCCD
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -15,6 +16,6 @@ interface SmartOCRService {
 
     @Multipart
     @POST("/api/ocr_cccd")
-    suspend fun processOcrCCCD(@Part image: MultipartBody.Part): Response<OcrCCCD>
+    suspend fun processOcrCCCD(@Part image: MultipartBody.Part): Response<ResponseOcrCCCD>
 
 }

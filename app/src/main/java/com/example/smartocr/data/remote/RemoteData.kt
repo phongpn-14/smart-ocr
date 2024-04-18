@@ -2,6 +2,7 @@ package com.example.smartocr.data.remote
 
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
+import com.example.smartocr.data.dto.response.ResponseOcrCCCD
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.remote.service.SmartOCRService
 import com.example.smartocr.util.NetworkConnectivity
@@ -23,14 +24,14 @@ constructor(
     private val networkConnectivity: NetworkConnectivity,
     private val io: CoroutineContext
 ) : RemoteDataSource {
-    private val smartOcr by lazy { serviceGenerator.createService(SmartOCRService::class.java) }
+    var smartOcr = serviceGenerator.createService(SmartOCRService::class.java)
     override fun helloWorld(): Flow<Resource<ResponseHelloWorld>> {
         return flow {
             emit(processCall { smartOcr.helloWorld() })
         }.flowOn(io)
     }
 
-    override fun processOcrCCCD(image: File): Flow<Resource<OcrCCCD>> {
+    override fun processOcrCCCD(image: File): Flow<Resource<ResponseOcrCCCD>> {
         val part = MultipartBody.Part.createFormData(
             "file",
             image.name,
@@ -44,6 +45,7 @@ constructor(
     }
 
     private suspend fun <T> processCall(responseCall: suspend () -> Response<T>): Resource<T> {
+        smartOcr = serviceGenerator.createService(SmartOCRService::class.java)
         if (!networkConnectivity.isConnected()) {
             return Resource.Error(message = "No internet")
         }

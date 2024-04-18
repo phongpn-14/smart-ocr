@@ -24,7 +24,8 @@ class DataRepository @Inject constructor(
         }
     }
 
-    override suspend fun processCCCD(image: File): Flow<Resource<OcrCCCD>> = remoteRepository.processOcrCCCD(image)
+    override suspend fun processCCCD(image: File): Flow<Resource<OcrCCCD>> =
+        remoteRepository.processOcrCCCD(image).map { it.map { it!!.result!! } }
 
     override val coroutineContext: CoroutineContext
         get() = ioDispatcher

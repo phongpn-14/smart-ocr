@@ -103,4 +103,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         parentFragmentManager.popBackStackImmediate()
     }
 
+    open fun hideKeyboard(clearFocusView: Boolean = true) {
+        (activity as? BaseActivity<*>)?.hideKeyboard(clearFocusView)
+    }
 }

@@ -25,5 +25,10 @@
         android:name="com.example.smartocr.ui.auth.AuthFragment"
         android:label="AuthFragment"
         tools:layout="@layout/fragment_auth" />
+    <fragment
+        android:id="@+id/viewScannedCCCDFragment"
+        android:name="com.example.smartocr.ui.cccd.ViewScannedCCCDFragment"
+        android:label="ViewScannedCCCDFragment"
+        tools:layout="@layout/fragment_view_scanned_cccd" />
 
 </navigation>

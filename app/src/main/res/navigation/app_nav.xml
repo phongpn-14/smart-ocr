@@ -30,5 +30,10 @@
         android:name="com.example.smartocr.ui.cccd.ViewScannedCCCDFragment"
         android:label="ViewScannedCCCDFragment"
         tools:layout="@layout/fragment_view_scanned_cccd" />
+    <fragment
+        android:id="@+id/cameraResultFragment"
+        android:name="com.example.smartocr.ui.camera.CameraResultFragment"
+        android:label="CameraResultFragment"
+        tools:layout="@layout/fragment_camera_result" />
 
 </navigation>

@@ -6,13 +6,10 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
-import com.airbnb.lottie.LottieCompositionFactory
-import com.airbnb.lottie.LottieDrawable
 import com.example.smartocr.base.BaseActivity
 import com.example.smartocr.ui.auth.AuthViewModel
 import com.example.smartocr.util.gone
 import com.example.smartocr.util.visible
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hjq.permissions.XXPermissions
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.ActivityMainBinding
@@ -47,7 +44,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun addObserver() {
         super.addObserver()
         navController.addOnDestinationChangedListener { nav, des, extras ->
-            if (des.id in listOf(R.id.authFragment, R.id.cameraFragment)) {
+            if (des.id in listOf(
+                    R.id.authFragment,
+                    R.id.cameraFragment,
+                    R.id.cameraResultFragment,
+                    R.id.viewScannedCCCDFragment
+                )
+            ) {
                 binding.bottomNav.gone()
                 binding.btScan.gone()
             } else {

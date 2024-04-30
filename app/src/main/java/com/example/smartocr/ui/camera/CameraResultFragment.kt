@@ -32,9 +32,18 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
         }
 
         binding.btContinue.setOnClickListener {
-            cameraViewModel.processPictureResult {
-                withContext(Dispatchers.Main) {
-                    it.whenSuccess {
+            when (cameraViewModel.mode) {
+                CameraFragment.MODE_CCCD -> processCCCD()
+            }
+
+        }
+    }
+
+    private fun processCCCD() {
+        cameraViewModel.processPictureResult {
+            withContext(Dispatchers.Main) {
+                it.whenSuccess {
+                    try {
                         findNavController().navigate(
                             R.id.viewScannedCCCDFragment,
                             bundleOf("cccd" to it.data!!),
@@ -42,14 +51,41 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
                                 this.popUpTo(R.id.cameraFragment) {
                                     this.inclusive = false
                                 }
-                            },
+                            }
                         )
-                        toastShort(it.data!!.name)
-                    }.whenError {
-                        toastShort(it.message!!)
-                    }.whenLoading {
-                        toastShort("Processing...")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
+                }.whenError {
+                    toastShort(it.message!!)
+                }.whenLoading {
+                    toastShort("Processing...")
+                }
+            }
+        }
+    }
+
+    private fun processWithoutTemplate() {
+        cameraViewModel.processWithoutTemplate {
+            withContext(Dispatchers.Main) {
+                it.whenSuccess {
+                    try {
+                        findNavController().navigate(
+                            R.id.viewScannedCCCDFragment,
+                            bundleOf("cccd" to it.data!!),
+                            navOptions {
+                                this.popUpTo(R.id.cameraFragment) {
+                                    this.inclusive = false
+                                }
+                            }
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }.whenError {
+                    toastShort(it.message!!)
+                }.whenLoading {
+                    toastShort("Processing...")
                 }
             }
         }

@@ -16,19 +16,27 @@ class ViewScannedCCCDFragment : BaseFragment<FragmentViewScannedCccdBinding>() {
     override fun initView() {
         super.initView()
         val ocrCCCD = requireArguments().getParcelable<OcrCCCD>("cccd")!!
-        binding.tvName.text = ocrCCCD.name
-        binding.tvBirthday.text = ocrCCCD.birth
-        binding.tvId.text = ocrCCCD.iD
-        binding.tvSex.text = ocrCCCD.sex
-        binding.tvHomeTown.text = ocrCCCD.homeTown
-        binding.tvPermanentAddress.text = ocrCCCD.permanentAddress
-        binding.tvNationality.text = ocrCCCD.nationality
+        binding.tvName.setText(ocrCCCD.name)
+        binding.tvBirthday.setText(ocrCCCD.birth)
+        binding.tvId.setText(ocrCCCD.iD)
+        binding.tvSex.setText(ocrCCCD.sex)
+        binding.tvHomeTown.setText(ocrCCCD.homeTown)
+        binding.tvPermanentAddress.setText(ocrCCCD.permanentAddress)
+        binding.tvNationality.setText(ocrCCCD.nationality)
     }
 
     override fun addAction() {
         super.addAction()
         binding.btBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        binding.btSave.setOnClickListener {
+            toastShort("Coming soon")
+        }
+
+        binding.root.setOnClickListener {
+            hideKeyboard(true)
         }
     }
 

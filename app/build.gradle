@@ -21,6 +21,7 @@ android {
         versionCode 1
         versionName "1.0"
         archivesBaseName = "Smart-OCR${versionName}"
+        compileSdkPreview = "UpsideDownCake"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

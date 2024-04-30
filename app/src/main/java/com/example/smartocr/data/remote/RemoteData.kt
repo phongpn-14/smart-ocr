@@ -3,7 +3,7 @@ package com.example.smartocr.data.remote
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
 import com.example.smartocr.data.dto.response.ResponseOcrCCCD
-import com.example.smartocr.data.model.OcrCCCD
+import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.remote.service.SmartOCRService
 import com.example.smartocr.util.NetworkConnectivity
 import com.example.smartocr.util.logd
@@ -41,6 +41,19 @@ constructor(
         )
         return flow {
             emit(processCall { smartOcr.processOcrCCCD(part) })
+        }.flowOn(io)
+    }
+
+    override fun processWithoutTemplate(file: File): Flow<Resource<ResponseTemplateMetadata>> {
+        val part = MultipartBody.Part.createFormData(
+            "file",
+            file.name,
+            UploadRequestBody(file, onUpload = {
+
+            })
+        )
+        return flow {
+            emit(processCall { smartOcr.processWithoutTemplate(part) })
         }.flowOn(io)
     }
 

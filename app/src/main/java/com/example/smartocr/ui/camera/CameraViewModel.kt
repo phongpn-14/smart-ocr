@@ -8,6 +8,7 @@ import com.example.smartocr.data.Resource
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.util.Action
 import com.example.smartocr.util.dp
+import com.example.smartocr.util.logd
 import com.example.smartocr.util.toFile
 import com.otaliastudios.cameraview.PictureResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,7 @@ class CameraViewModel @Inject constructor(
     private val dataRepositorySource: DataRepositorySource
 ) : ViewModel() {
     private var tmpResultBitmap: Bitmap? = null
+    var mode = CameraFragment.MODE_CCCD
 
     fun convertResult(result: PictureResult, onDone: Action) {
         result.toBitmap {
@@ -28,15 +30,35 @@ class CameraViewModel @Inject constructor(
                 val centerY = bitmap.height / 2f - 100.dp
                 val left = centerX - 150.dp
                 val top = centerY - 100.dp
+                bitmap.toFile()
                 tmpResultBitmap?.recycle()
-                "left = $left, top = $top, width = ${bitmap.width},height = ${bitmap.height}"
-                tmpResultBitmap = Bitmap.createBitmap(bitmap, left.toInt(), top.toInt(), 300.dp, 200.dp)
+                "left = $left, top = $top, width = ${bitmap.width},height = ${bitmap.height}".logd()
+                tmpResultBitmap =
+                    Bitmap.createBitmap(bitmap, left.toInt(), top.toInt(), 300.dp, 200.dp)
                 onDone.invoke()
             }
         }
     }
 
     fun getTempResult() = tmpResultBitmap!!
+
+    fun processWithoutTemplate(callback: suspend (Resource<String?>) -> Unit) {
+        viewModelScope.launch(Dispatchers.Main) {
+            callback.invoke(Resource.Loading)
+            viewModelScope.launch(Dispatchers.Default) {
+                val file = tmpResultBitmap!!.toFile()
+                dataRepositorySource.processWithoutTemplate(file).collect {
+                    callback.invoke(it.map {
+                        val metaText = it?.metadata?.tableMetadata?.map {
+                            it.tableData.rows.flatten().map { it.text }.mergeAll()
+                        }?.mergeAll()
+                        metaText?.logd()
+                        metaText
+                    })
+                }
+            }
+        }
+    }
 
     fun processPictureResult(callback: suspend (Resource<OcrCCCD>) -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
@@ -57,6 +79,11 @@ class CameraViewModel @Inject constructor(
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
 
+    private fun List<String>.mergeAll(): String {
+        return StringBuilder().apply {
+            forEach { append(it) }
+        }.toString()
     }
 }

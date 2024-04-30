@@ -35,5 +35,10 @@
         android:name="com.example.smartocr.ui.camera.CameraResultFragment"
         android:label="CameraResultFragment"
         tools:layout="@layout/fragment_camera_result" />
+    <fragment
+        tools:layout="@layout/fragment_saved_template"
+        android:id="@+id/savedTemplateFragment"
+        android:name="com.example.smartocr.ui.template.SavedTemplateFragment"
+        android:label="SavedTemplateFragment" />
 
 </navigation>

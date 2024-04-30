@@ -28,26 +28,55 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/main_bottom_menu" />
 
-        <com.google.android.material.card.MaterialCardView
+        <ImageView
             android:id="@+id/bt_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardBackgroundColor="#4FC3F7"
-            app:cardCornerRadius="50dp"
-            app:layout_constraintBottom_toBottomOf="@+id/nav_host_fragment"
+            android:src="@drawable/bt_scan"
+            android:translationZ="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
-            app:strokeWidth="0dp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bottom_nav" />
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="4dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/qr_scan" />
+        <androidx.constraintlayout.helper.widget.CircularFlow
+            android:id="@+id/flow_bt_scan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:circularflow_angles="-70, -25, 25, 70"
+            app:circularflow_defaultAngle="0"
+            app:circularflow_defaultRadius="80dp"
+            app:circularflow_viewCenter="@id/bt_scan"
+            app:constraint_referenced_ids="bt_scan_cccd, bt_scan_template, bt_scan_without_template, bt_scan_table"
+            app:layout_constraintBottom_toBottomOf="@id/bt_scan"
+            app:layout_constraintEnd_toEndOf="@id/bt_scan"
+            app:layout_constraintStart_toStartOf="@id/bt_scan"
+            app:layout_constraintTop_toTopOf="@id/bt_scan" />
 
-        </com.google.android.material.card.MaterialCardView>
+        <ImageView
+            android:id="@+id/bt_scan_cccd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bt_scan_cccd" />
+
+        <ImageView
+            android:id="@+id/bt_scan_template"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bt_scan_template" />
+
+        <ImageView
+            android:id="@+id/bt_scan_without_template"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bt_scan_without_template" />
+
+        <ImageView
+            android:id="@+id/bt_scan_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bt_scan_table" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

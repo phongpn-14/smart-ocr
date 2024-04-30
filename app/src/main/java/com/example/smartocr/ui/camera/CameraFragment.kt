@@ -11,9 +11,24 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CameraFragment : BaseFragment<FragmentCameraBinding>() {
+    companion object {
+        val mode = 1
+        const val MODE_CCCD = 0
+        const val MODE_TEMPLATE = 1
+        const val MODE_WITHOUT_TEMPLATE = 2
+        const val MODE_TABLE = 3
+
+    }
+
     private val cameraViewModel by activityViewModels<CameraViewModel>()
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_camera
+    }
+
+    override fun initViewModel() {
+        super.initViewModel()
+        cameraViewModel.mode = requireArguments().getInt("mode")
     }
 
     override fun initView() {

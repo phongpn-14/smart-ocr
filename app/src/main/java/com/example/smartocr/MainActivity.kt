@@ -2,12 +2,15 @@ package com.example.smartocr
 
 import android.Manifest
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
 import com.example.smartocr.base.BaseActivity
 import com.example.smartocr.ui.auth.AuthViewModel
+import com.example.smartocr.ui.camera.CameraFragment
 import com.example.smartocr.util.gone
 import com.example.smartocr.util.visible
 import com.hjq.permissions.XXPermissions
@@ -44,11 +47,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun addObserver() {
         super.addObserver()
         navController.addOnDestinationChangedListener { nav, des, extras ->
-            if (des.id in listOf(
-                    R.id.authFragment,
-                    R.id.cameraFragment,
-                    R.id.cameraResultFragment,
-                    R.id.viewScannedCCCDFragment
+            if (des.id !in listOf(
+                    R.id.homeFragment, R.id.settingFragment
+//                    R.id.authFragment,
+//                    R.id.cameraFragment,
+//                    R.id.cameraResultFragment,
+//                    R.id.viewScannedCCCDFragment
                 )
             ) {
                 binding.bottomNav.gone()
@@ -67,14 +71,53 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 .permission(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
                 .request { _, allGranted ->
                     if (allGranted) {
-                        navController.navigate(R.id.cameraFragment, null, navOptions {
-                            anim { enter = androidx.navigation.ui.R.anim.nav_default_enter_anim }
-                        })
+                        binding.flowBtScan.isVisible = !binding.flowBtScan.isVisible
+//                        navController.navigate(R.id.cameraFragment, null, navOptions {
+//                            anim { enter = androidx.navigation.ui.R.anim.nav_default_enter_anim }
+//                        })
                     } else {
                         toastShort("Permission denied")
                     }
                 }
         }
+
+        binding.flowBtScan.setOnClickListener {
+            binding.flowBtScan.gone()
+        }
+
+        binding.btScanCccd.setOnClickListener {
+            toCamera(CameraFragment.MODE_CCCD)
+        }
+
+        binding.btScanTemplate.setOnClickListener {
+            toCamera(CameraFragment.MODE_TEMPLATE)
+
+        }
+
+        binding.btScanWithoutTemplate.setOnClickListener {
+            toCamera(CameraFragment.MODE_WITHOUT_TEMPLATE)
+        }
+
+        binding.btScanTable.setOnClickListener {
+            toCamera(CameraFragment.MODE_TABLE)
+        }
+    }
+
+    private fun toCamera(mode: Int) {
+        if (mode == CameraFragment.MODE_TEMPLATE) {
+            navController.navigate(R.id.savedTemplateFragment,
+                bundleOf("mode" to mode),
+                navOptions {
+                    anim { enter = androidx.navigation.ui.R.anim.nav_default_enter_anim }
+                })
+        } else {
+            navController.navigate(R.id.cameraFragment,
+                bundleOf("mode" to mode),
+                navOptions {
+                    anim { enter = androidx.navigation.ui.R.anim.nav_default_enter_anim }
+                })
+        }
+        binding.flowBtScan.gone()
     }
 
 }

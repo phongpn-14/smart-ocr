@@ -57,12 +57,13 @@
                     android:text="ID"
                     tools:ignore="HardcodedText" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvId"
                     style="@style/Text.Body.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:background="@null"
                     android:text="0234567535" />
             </LinearLayout>
 
@@ -79,12 +80,13 @@
                     android:text="Họ và tên"
                     tools:ignore="HardcodedText" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvName"
                     style="@style/Text.Body.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:background="@null"
                     android:text="0234567535" />
             </LinearLayout>
 
@@ -101,12 +103,13 @@
                     android:text="Ngày sinh"
                     tools:ignore="HardcodedText" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvBirthday"
                     style="@style/Text.Body.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:background="@null"
                     android:text="0234567535" />
             </LinearLayout>
 
@@ -124,12 +127,13 @@
                     android:text="Giới tính"
                     tools:ignore="HardcodedText" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvSex"
                     style="@style/Text.Body.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:background="@null"
                     android:text="0234567535" />
             </LinearLayout>
 
@@ -147,12 +151,13 @@
                     android:text="Quê quán"
                     tools:ignore="HardcodedText" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvHomeTown"
                     style="@style/Text.Body.Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:background="@null"
                     android:gravity="start"
                     android:text="0234567535" />
             </LinearLayout>
@@ -170,12 +175,13 @@
                     android:text="Nơi thường trú"
                     tools:ignore="HardcodedText" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvPermanentAddress"
                     style="@style/Text.Body.Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:background="@null"
                     android:gravity="start"
                     android:text="0234567535" />
             </LinearLayout>
@@ -194,18 +200,31 @@
                     android:text="Quốc tịch"
                     tools:ignore="HardcodedText" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvNationality"
                     style="@style/Text.Body.Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:background="@null"
                     android:gravity="start"
                     android:text="0234567535" />
             </LinearLayout>
 
 
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btSave"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/inter_semibold"
+            android:paddingHorizontal="24dp"
+            android:text="Lưu" />
 
     </RelativeLayout>
 </layout>

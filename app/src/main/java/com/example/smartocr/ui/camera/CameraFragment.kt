@@ -34,6 +34,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
     override fun initView() {
         super.initView()
         binding.cameraView.setLifecycleOwner(viewLifecycleOwner)
+        binding.cameraView.snapshotMaxHeight = 2340
         binding.cameraView.addCameraListener(object : CameraListener() {
             override fun onPictureTaken(result: PictureResult) {
                 super.onPictureTaken(result)

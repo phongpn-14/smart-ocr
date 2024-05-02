@@ -2,7 +2,6 @@ package com.example.smartocr.data.remote
 
 import android.content.Context
 import android.net.wifi.WifiManager
-import android.text.format.Formatter
 import com.airbnb.lottie.BuildConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Cache
@@ -11,6 +10,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.File
 import java.net.Inet4Address
 import java.net.NetworkInterface
@@ -87,18 +87,21 @@ class ServiceGenerator @Inject constructor(
     fun <S> createService(
         serviceClass: Class<S>,
         baseUrl: String = baseurl,
-        cache: Boolean = true
+        cache: Boolean = true,
+        scalar: Boolean = false
     ): S {
         if (cache) {
             okHttpBuilder.addInterceptor(cacheInterceptor)
         }
         val wm = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-        val ip: String = Formatter.formatIpAddress(wm.connectionInfo.ipAddress)
         val client = okHttpBuilder.build()
         retrofit = Retrofit.Builder()
             .baseUrl(baseUrl).client(client)
-            .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+            .apply {
+                if (scalar) addConverterFactory(ScalarsConverterFactory.create())
+                else addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+            }
             .build()
         return retrofit.create(serviceClass)
     }

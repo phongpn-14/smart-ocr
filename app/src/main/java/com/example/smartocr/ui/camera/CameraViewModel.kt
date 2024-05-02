@@ -48,13 +48,10 @@ class CameraViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.Default) {
                 val file = tmpResultBitmap!!.toFile()
                 dataRepositorySource.processWithoutTemplate(file).collect {
-                    callback.invoke(it.map {
-                        val metaText = it?.metadata?.tableMetadata?.map {
-                            it.tableData.rows.flatten().map { it.text }.mergeAll()
-                        }?.mergeAll()
-                        metaText?.logd()
-                        metaText
-                    })
+                    it.logd()
+                    val text = it.map { it?.metadata?.textMetadata?.map { it.text }?.mergeAll() }
+                    text.logd()
+                    callback.invoke(text)
                 }
             }
         }
@@ -83,7 +80,7 @@ class CameraViewModel @Inject constructor(
 
     private fun List<String>.mergeAll(): String {
         return StringBuilder().apply {
-            forEach { append(it) }
+            this@mergeAll.forEach { append(it) }
         }.toString()
     }
 }

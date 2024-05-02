@@ -34,6 +34,7 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
         binding.btContinue.setOnClickListener {
             when (cameraViewModel.mode) {
                 CameraFragment.MODE_CCCD -> processCCCD()
+                CameraFragment.MODE_WITHOUT_TEMPLATE -> processWithoutTemplate()
             }
 
         }

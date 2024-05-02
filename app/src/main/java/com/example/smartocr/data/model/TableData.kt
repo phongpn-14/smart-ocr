@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
 
-@Parcelize
 data class TableData(
     @SerializedName("column_number")
     var columnNumber: Int = 0,
@@ -14,7 +13,7 @@ data class TableData(
     @SerializedName("row_number")
     var rowNumber: Int = 0,
     @SerializedName("rows")
-    var rows: List<List<RowData>> = listOf(),
+    var rows: List<List<Any>> = listOf(),
     @SerializedName("rows_coordinates")
     var rowsCoordinates: List<RowsCoordinate> = listOf()
-) : Parcelable
+)

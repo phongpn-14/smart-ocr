@@ -2,7 +2,7 @@ package com.example.smartocr.ui.cccd
 
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
-import com.example.smartocr.data.model.OcrCCCD
+import com.example.smartocr.ui.camera.ScanResult
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentViewScannedCccdBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,7 +16,8 @@ class ViewScannedCCCDFragment : BaseFragment<FragmentViewScannedCccdBinding>() {
     override fun initView() {
         super.initView()
         try {
-            val ocrCCCD = requireArguments().getParcelable<OcrCCCD>("cccd")!!
+            val result = requireArguments().getParcelable<ScanResult.CCCDResult>("result")!!
+            val ocrCCCD = result.ocrCCCD
             binding.tvName.setText(ocrCCCD.name)
             binding.tvBirthday.setText(ocrCCCD.birth)
             binding.tvId.setText(ocrCCCD.iD)

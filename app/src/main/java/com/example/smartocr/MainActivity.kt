@@ -11,6 +11,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.smartocr.base.BaseActivity
 import com.example.smartocr.ui.auth.AuthViewModel
 import com.example.smartocr.ui.camera.CameraFragment
+import com.example.smartocr.ui.camera.ScanJob
+import com.example.smartocr.ui.camera.WithoutTemplateJob
 import com.example.smartocr.util.gone
 import com.example.smartocr.util.visible
 import com.hjq.permissions.XXPermissions
@@ -105,14 +107,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun toCamera(mode: Int) {
         if (mode == CameraFragment.MODE_TEMPLATE) {
-            navController.navigate(R.id.savedTemplateFragment,
-                bundleOf("mode" to mode),
-                navOptions {
-                    anim { enter = androidx.navigation.ui.R.anim.nav_default_enter_anim }
-                })
+            navController.navigate(R.id.savedTemplateFragment)
         } else {
+            val job = when (mode) {
+                CameraFragment.MODE_CCCD -> ScanJob()
+                else -> WithoutTemplateJob()
+            }
+
             navController.navigate(R.id.cameraFragment,
-                bundleOf("mode" to mode),
+                bundleOf("job" to job),
                 navOptions {
                     anim { enter = androidx.navigation.ui.R.anim.nav_default_enter_anim }
                 })

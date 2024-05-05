@@ -28,7 +28,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
     override fun initViewModel() {
         super.initViewModel()
-        cameraViewModel.mode = requireArguments().getInt("mode")
+        cameraViewModel.scanJob = requireArguments().getParcelable("job")!!
     }
 
     override fun initView() {
@@ -39,7 +39,11 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
             override fun onPictureTaken(result: PictureResult) {
                 super.onPictureTaken(result)
                 cameraViewModel.convertResult(result) {
-                    findNavController().navigate(R.id.cameraResultFragment)
+                    it.whenSuccess {
+                        findNavController().navigate(R.id.cameraResultFragment)
+                    }.whenError {
+                        toastShort(it.message!!)
+                    }
                 }
             }
         })

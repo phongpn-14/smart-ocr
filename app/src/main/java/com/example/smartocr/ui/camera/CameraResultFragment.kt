@@ -5,6 +5,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.smartocr.base.BaseFragment
+import com.example.smartocr.data.Resource
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentCameraResultBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,9 +33,11 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
         }
 
         binding.btContinue.setOnClickListener {
-            when (cameraViewModel.mode) {
-                CameraFragment.MODE_CCCD -> processCCCD()
-                CameraFragment.MODE_WITHOUT_TEMPLATE -> processWithoutTemplate()
+            val job = cameraViewModel.scanJob
+            when (job) {
+                is CCCDJob -> processCCCD()
+                is WithoutTemplateJob -> processWithoutTemplate()
+                is TemplateJob -> processTemplate(job.templateId)
             }
 
         }
@@ -42,53 +45,42 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
 
     private fun processCCCD() {
         cameraViewModel.processPictureResult {
-            withContext(Dispatchers.Main) {
-                it.whenSuccess {
-                    try {
-                        findNavController().navigate(
-                            R.id.viewScannedCCCDFragment,
-                            bundleOf("cccd" to it.data!!),
-                            navOptions {
-                                this.popUpTo(R.id.cameraFragment) {
-                                    this.inclusive = false
-                                }
-                            }
-                        )
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }.whenError {
-                    toastShort(it.message!!)
-                }.whenLoading {
-                    toastShort("Processing...")
-                }
-            }
+            withContext(Dispatchers.Main) { handleResult(it) }
         }
     }
 
     private fun processWithoutTemplate() {
         cameraViewModel.processWithoutTemplate {
-            withContext(Dispatchers.Main) {
-                it.whenSuccess {
-                    try {
-                        findNavController().navigate(
-                            R.id.viewScannedCCCDFragment,
-                            bundleOf("cccd" to it.data!!),
-                            navOptions {
-                                this.popUpTo(R.id.cameraFragment) {
-                                    this.inclusive = false
-                                }
-                            }
-                        )
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }.whenError {
-                    toastShort(it.message!!)
-                }.whenLoading {
-                    toastShort("Processing...")
+            withContext(Dispatchers.Main) { handleResult(it) }
+        }
+    }
+
+    private fun processTemplate(templateId: String) {
+        cameraViewModel.processTemplate(templateId) {
+            withContext(Dispatchers.Main) { handleResult(it) }
+        }
+    }
+
+    private suspend fun handleResult(result: Resource<ScanResult>) {
+        result.whenSuccess {
+            try {
+                val screen = when (it.data) {
+                    is ScanResult.CCCDResult -> R.id.viewScannedCCCDFragment
+                    is ScanResult.TemplateResult -> R.id.viewOcrSimpleFragment
+                    else -> R.id.viewOcrSimpleFragment
                 }
+                findNavController().navigate(screen, bundleOf("result" to it.data), navOptions {
+                    this.popUpTo(R.id.cameraFragment) {
+                        this.inclusive = false
+                    }
+                })
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+        }.whenError {
+            toastShort(it.message!!)
+        }.whenLoading {
+            toastShort("Processing...")
         }
     }
 }

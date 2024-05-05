@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smartocr.data.DataRepositorySource
 import com.example.smartocr.data.Resource
-import com.example.smartocr.data.model.OcrCCCD
-import com.example.smartocr.util.Action
 import com.example.smartocr.util.dp
 import com.example.smartocr.util.logd
 import com.example.smartocr.util.toFile
@@ -21,9 +19,9 @@ class CameraViewModel @Inject constructor(
     private val dataRepositorySource: DataRepositorySource
 ) : ViewModel() {
     private var tmpResultBitmap: Bitmap? = null
-    var mode = CameraFragment.MODE_CCCD
+    lateinit var scanJob: ScanJob
 
-    fun convertResult(result: PictureResult, onDone: Action) {
+    fun convertResult(result: PictureResult, onDone: suspend (Resource<Unit>) -> Unit) {
         result.toBitmap {
             it?.let { bitmap ->
                 val centerX = bitmap.width / 2f
@@ -32,17 +30,25 @@ class CameraViewModel @Inject constructor(
                 val top = centerY - 100.dp
                 bitmap.toFile()
                 tmpResultBitmap?.recycle()
+                if (top <= 0) {
+                    viewModelScope.launch {
+                        onDone.invoke(Resource.Error(message = "Something wrong. Please try again later."))
+                    }
+                    return@toBitmap
+                }
                 "left = $left, top = $top, width = ${bitmap.width},height = ${bitmap.height}".logd()
                 tmpResultBitmap =
                     Bitmap.createBitmap(bitmap, left.toInt(), top.toInt(), 300.dp, 200.dp)
-                onDone.invoke()
+                viewModelScope.launch {
+                    onDone.invoke(Resource.Success(Unit))
+                }
             }
         }
     }
 
     fun getTempResult() = tmpResultBitmap!!
 
-    fun processWithoutTemplate(callback: suspend (Resource<String?>) -> Unit) {
+    fun processWithoutTemplate(callback: suspend (Resource<ScanResult>) -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {
@@ -51,19 +57,39 @@ class CameraViewModel @Inject constructor(
                     it.logd()
                     val text = it.map { it?.metadata?.textMetadata?.map { it.text }?.mergeAll() }
                     text.logd()
-                    callback.invoke(text)
+                    callback.invoke(text.map {
+                        ScanResult.SimpleResult(result = it!!)
+                    })
                 }
             }
         }
     }
 
-    fun processPictureResult(callback: suspend (Resource<OcrCCCD>) -> Unit) {
+    fun processTemplate(id: String, callback: suspend (Resource<ScanResult>) -> Unit) {
+        viewModelScope.launch(Dispatchers.Main) {
+            callback.invoke(Resource.Loading)
+            viewModelScope.launch(Dispatchers.Default) {
+                val file = tmpResultBitmap!!.toFile()
+                dataRepositorySource.processTemplate(file, id).collect {
+                    it.logd()
+                    callback.invoke(it.map {
+                        ScanResult.TemplateResult(
+                            templateId = id,
+                            fileUrl = it!!.fileUrl
+                        )
+                    })
+                }
+            }
+        }
+    }
+
+    fun processPictureResult(callback: suspend (Resource<ScanResult>) -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {
                 val file = tmpResultBitmap!!.toFile()
                 dataRepositorySource.processCCCD(file).collect {
-                    callback.invoke(it)
+                    callback.invoke(it.map { ScanResult.CCCDResult(ocrCCCD = it!!) })
                 }
             }
         }

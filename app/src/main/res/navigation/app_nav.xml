@@ -45,5 +45,10 @@
         android:name="com.example.smartocr.ui.ocr_simple.ViewOcrSimpleFragment"
         android:label="ViewOcrSimpleFragment"
         tools:layout="@layout/fragment_view_ocr_simple" />
+    <fragment
+        android:id="@+id/viewOcrTableFragment"
+        android:name="com.example.smartocr.ui.table.ViewOcrTableFragment"
+        android:label="ViewOcrTableFragment"
+        tools:layout="@layout/fragment_view_ocr_table" />
 
 </navigation>

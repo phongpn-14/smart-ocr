@@ -38,6 +38,7 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
                 is CCCDJob -> processCCCD()
                 is WithoutTemplateJob -> processWithoutTemplate()
                 is TemplateJob -> processTemplate(job.templateId)
+                is TableJob -> processTable()
             }
 
         }
@@ -61,12 +62,19 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
         }
     }
 
+    private fun processTable() {
+        cameraViewModel.processTable(requireContext()) {
+            withContext(Dispatchers.Main) { handleResult(it) }
+        }
+    }
+
     private suspend fun handleResult(result: Resource<ScanResult>) {
         result.whenSuccess {
             try {
                 val screen = when (it.data) {
                     is ScanResult.CCCDResult -> R.id.viewScannedCCCDFragment
                     is ScanResult.TemplateResult -> R.id.viewOcrSimpleFragment
+                    is ScanResult.TableResult -> R.id.viewOcrTableFragment
                     else -> R.id.viewOcrSimpleFragment
                 }
                 findNavController().navigate(screen, bundleOf("result" to it.data), navOptions {

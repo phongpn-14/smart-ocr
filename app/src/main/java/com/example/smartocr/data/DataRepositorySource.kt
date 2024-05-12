@@ -1,5 +1,6 @@
 package com.example.smartocr.data
 
+import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.model.OcrCCCD
@@ -14,4 +15,10 @@ interface DataRepositorySource {
     suspend fun processWithoutTemplate(file: File): Flow<Resource<ResponseTemplateMetadata>>
 
     suspend fun processTemplate(file: File, templateId: String): Flow<Resource<ResponseTemplate>>
+
+    suspend fun processTableMetadata(
+        file: File,
+    ): Flow<Resource<String>>
+
+    suspend fun processTable(file: File, fileName: String): Flow<Resource<ResponseTable>>
 }

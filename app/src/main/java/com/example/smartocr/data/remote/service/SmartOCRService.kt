@@ -2,6 +2,7 @@ package com.example.smartocr.data.remote.service
 
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
 import com.example.smartocr.data.dto.response.ResponseOcrCCCD
+import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import okhttp3.MultipartBody
@@ -29,4 +30,15 @@ interface SmartOCRService {
     @Multipart
     @POST("/api/ocr")
     suspend fun processWithoutTemplate(@Part file: MultipartBody.Part): Response<ResponseTemplateMetadata>
+
+    @Multipart
+    @POST("/api/ocr")
+    suspend fun processTableMetadata(@Part file: MultipartBody.Part): Response<String>
+
+    @Multipart
+    @POST("/api/table/save_table")
+    suspend fun processTable(
+        @Part file: MultipartBody.Part,
+        @Part fileName: MultipartBody.Part
+    ): Response<ResponseTable>
 }

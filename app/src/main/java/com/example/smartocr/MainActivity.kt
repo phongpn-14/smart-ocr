@@ -10,8 +10,10 @@ import androidx.navigation.navOptions
 import androidx.navigation.ui.setupWithNavController
 import com.example.smartocr.base.BaseActivity
 import com.example.smartocr.ui.auth.AuthViewModel
+import com.example.smartocr.ui.camera.CCCDJob
 import com.example.smartocr.ui.camera.CameraFragment
 import com.example.smartocr.ui.camera.ScanJob
+import com.example.smartocr.ui.camera.TableJob
 import com.example.smartocr.ui.camera.WithoutTemplateJob
 import com.example.smartocr.util.gone
 import com.example.smartocr.util.visible
@@ -110,7 +112,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             navController.navigate(R.id.savedTemplateFragment)
         } else {
             val job = when (mode) {
-                CameraFragment.MODE_CCCD -> ScanJob()
+                CameraFragment.MODE_CCCD -> CCCDJob()
+                CameraFragment.MODE_TABLE -> TableJob()
+                CameraFragment.MODE_WITHOUT_TEMPLATE -> WithoutTemplateJob()
                 else -> WithoutTemplateJob()
             }
 

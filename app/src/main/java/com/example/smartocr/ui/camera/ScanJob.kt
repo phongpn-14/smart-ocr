@@ -25,3 +25,8 @@ data class TemplateJob(
 data class WithoutTemplateJob(
     override var mode: Int = CameraFragment.MODE_WITHOUT_TEMPLATE,
 ) : ScanJob(mode), Parcelable
+
+@Parcelize
+data class TableJob(
+    override var mode: Int = CameraFragment.MODE_TABLE,
+) : ScanJob(mode), Parcelable

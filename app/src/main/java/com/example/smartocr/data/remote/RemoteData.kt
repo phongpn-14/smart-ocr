@@ -3,6 +3,7 @@ package com.example.smartocr.data.remote
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
 import com.example.smartocr.data.dto.response.ResponseOcrCCCD
+import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.remote.service.SmartOCRService
@@ -41,7 +42,9 @@ constructor(
             })
         )
         return flow {
-            emit(processCall { smartOcr.processOcrCCCD(part) })
+            emit(
+                processCall { smartOcr.processOcrCCCD(part) }
+            )
         }.flowOn(io)
     }
 
@@ -70,6 +73,38 @@ constructor(
         return flow {
             emit(processCall { smartOcr.processTemplate(part, templateId) })
         }
+    }
+
+    override fun processTableMetadata(file: File): Flow<Resource<String>> {
+        val part = MultipartBody.Part.createFormData(
+            "file",
+            file.name,
+            UploadRequestBody(file, onUpload = {
+
+            })
+        )
+        return flow {
+            emit(processCall {
+                smartOcr = serviceGenerator.createService(SmartOCRService::class.java, scalar = true)
+                smartOcr.processTableMetadata(part) })
+        }.flowOn(io)
+    }
+
+    override fun processTable(file: File, fileName: String): Flow<Resource<ResponseTable>> {
+        val part = MultipartBody.Part.createFormData(
+            "file",
+            file.name,
+            UploadRequestBody(file, onUpload = {
+
+            })
+        )
+        val name = MultipartBody.Part.createFormData("filename", fileName)
+
+        return flow {
+            emit(processCall {
+                smartOcr.processTable(part, name)
+            })
+        }.flowOn(io)
     }
 
     private suspend fun <T> processCall(responseCall: suspend () -> Response<T>): Resource<T> {

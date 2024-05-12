@@ -28,5 +28,11 @@ sealed class ScanResult(
         override var mode: Int = CameraFragment.MODE_WITHOUT_TEMPLATE,
         var result: String
     ) : ScanResult(mode), Parcelable
+
+    @Parcelize
+    data class TableResult(
+        override var mode: Int = CameraFragment.MODE_TABLE,
+        var fileUrl: String
+    ) : ScanResult(mode), Parcelable
 }
 

@@ -1,17 +1,25 @@
 package com.example.smartocr.ui.camera
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.os.Environment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smartocr.data.DataRepositorySource
 import com.example.smartocr.data.Resource
+import com.example.smartocr.data.remote.baseurl
+import com.example.smartocr.util.OkDownloaderManager
 import com.example.smartocr.util.dp
 import com.example.smartocr.util.logd
 import com.example.smartocr.util.toFile
+import com.hjq.permissions.XXPermissions
 import com.otaliastudios.cameraview.PictureResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.PrintWriter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -83,6 +91,88 @@ class CameraViewModel @Inject constructor(
         }
     }
 
+    fun processTable(context: Context, callback: suspend (Resource<ScanResult>) -> Unit) {
+        viewModelScope.launch(Dispatchers.Main) {
+            callback.invoke(Resource.Loading)
+            viewModelScope.launch(Dispatchers.Default) {
+                val file = tmpResultBitmap!!.toFile()
+                dataRepositorySource.processTableMetadata(file).collect {
+                    it.whenSuccess {
+                        withContext(Dispatchers.IO) {
+                            val metadataTemp =
+                                File.createTempFile("metadata", ".json")
+
+                            val writer = PrintWriter(metadataTemp)
+                            writer.println(it.data)
+                            writer.close()
+
+                            dataRepositorySource.processTable(metadataTemp, "result.xlsx")
+                                .collect {
+                                    XXPermissions.with(context)
+                                        .permission(
+                                            android.Manifest.permission.READ_MEDIA_VIDEO,
+                                            android.Manifest.permission.READ_MEDIA_IMAGES
+                                        )
+                                        .request { _, granted ->
+                                            viewModelScope.launch {
+
+                                                it.whenSuccess {
+                                                    val savedDir = File(
+                                                        Environment.getExternalStoragePublicDirectory(
+                                                            Environment.DIRECTORY_DOWNLOADS
+                                                        ),
+                                                        "OCR"
+                                                    ).apply {
+                                                        if (!exists()) {
+                                                            mkdirs()
+                                                        }
+                                                    }
+                                                    OkDownloaderManager.download(
+                                                        listOf(
+                                                            File(
+                                                                savedDir,
+                                                                "result_${System.currentTimeMillis()}.xlsx"
+                                                            ).absolutePath
+                                                        ),
+                                                        listOf(
+                                                            it.data!!.fileUrl.replace(
+                                                                "http://localhost:3502/",
+                                                                baseurl
+                                                            )
+                                                        ),
+                                                        onSuccess = { name, path ->
+                                                            path.logd()
+                                                            viewModelScope.launch {
+                                                                callback.invoke(
+                                                                    Resource.Success(
+                                                                        data =
+                                                                        ScanResult.TableResult(
+                                                                            fileUrl = path
+                                                                        )
+                                                                    )
+                                                                )
+                                                            }
+
+                                                        }
+                                                    )
+
+                                                }.whenError {
+                                                    callback.invoke(Resource.Error(message = it.message))
+                                                }
+                                            }
+                                        }
+                                }
+                        }
+                    }.whenError {
+                        callback.invoke(Resource.Error(message = it.message))
+                    }
+
+                }
+
+            }
+        }
+    }
+
     fun processPictureResult(callback: suspend (Resource<ScanResult>) -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
@@ -106,7 +196,7 @@ class CameraViewModel @Inject constructor(
 
     private fun List<String>.mergeAll(): String {
         return StringBuilder().apply {
-            this@mergeAll.forEach { append(it) }
+            this@mergeAll.forEach { append(it + "\n") }
         }.toString()
     }
 }

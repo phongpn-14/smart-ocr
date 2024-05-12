@@ -1,5 +1,6 @@
 package com.example.smartocr.data
 
+import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.local.LocalData
@@ -38,6 +39,14 @@ class DataRepository @Inject constructor(
         templateId: String
     ): Flow<Resource<ResponseTemplate>> {
         return remoteRepository.processTemplate(file, templateId)
+    }
+
+    override suspend fun processTableMetadata(file: File): Flow<Resource<String>> {
+        return remoteRepository.processTableMetadata(file)
+    }
+
+    override suspend fun processTable(file: File, fileName: String): Flow<Resource<ResponseTable>> {
+        return remoteRepository.processTable(file, fileName)
     }
 
     override val coroutineContext: CoroutineContext

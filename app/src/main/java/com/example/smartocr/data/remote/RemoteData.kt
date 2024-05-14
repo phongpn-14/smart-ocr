@@ -2,10 +2,10 @@ package com.example.smartocr.data.remote
 
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
-import com.example.smartocr.data.dto.response.ResponseOcrCCCD
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
+import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.remote.service.SmartOCRService
 import com.example.smartocr.util.NetworkConnectivity
 import com.example.smartocr.util.logd
@@ -33,7 +33,7 @@ constructor(
         }.flowOn(io)
     }
 
-    override fun processOcrCCCD(image: File): Flow<Resource<ResponseOcrCCCD>> {
+    override fun processOcrCCCD(image: File): Flow<Resource<OcrCCCD>> {
         val part = MultipartBody.Part.createFormData(
             "file",
             image.name,
@@ -85,8 +85,10 @@ constructor(
         )
         return flow {
             emit(processCall {
-                smartOcr = serviceGenerator.createService(SmartOCRService::class.java, scalar = true)
-                smartOcr.processTableMetadata(part) })
+                smartOcr =
+                    serviceGenerator.createService(SmartOCRService::class.java, scalar = true)
+                smartOcr.processTableMetadata(part)
+            })
         }.flowOn(io)
     }
 

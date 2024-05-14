@@ -28,7 +28,7 @@ class DataRepository @Inject constructor(
     }
 
     override suspend fun processCCCD(image: File): Flow<Resource<OcrCCCD>> =
-        remoteRepository.processOcrCCCD(image).map { it.map { it!!.result!! } }
+        remoteRepository.processOcrCCCD(image).map { it }
 
     override suspend fun processWithoutTemplate(file: File): Flow<Resource<ResponseTemplateMetadata>> {
         return remoteRepository.processWithoutTemplate(file)

@@ -38,7 +38,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         binding.cameraView.addCameraListener(object : CameraListener() {
             override fun onPictureTaken(result: PictureResult) {
                 super.onPictureTaken(result)
-                cameraViewModel.convertResult(result) {
+                cameraViewModel.convertResult(result, requireContext()) {
                     it.whenSuccess {
                         findNavController().navigate(R.id.cameraResultFragment)
                     }.whenError {

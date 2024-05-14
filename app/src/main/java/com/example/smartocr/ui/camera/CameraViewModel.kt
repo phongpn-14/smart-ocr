@@ -29,14 +29,23 @@ class CameraViewModel @Inject constructor(
     private var tmpResultBitmap: Bitmap? = null
     lateinit var scanJob: ScanJob
 
-    fun convertResult(result: PictureResult, onDone: suspend (Resource<Unit>) -> Unit) {
+    fun convertResult(
+        result: PictureResult,
+        context: Context,
+        onDone: suspend (Resource<Unit>) -> Unit
+    ) {
         result.toBitmap {
             it?.let { bitmap ->
-                val centerX = bitmap.width / 2f
-                val centerY = bitmap.height / 2f - 100.dp
+                val t = Bitmap.createScaledBitmap(
+                    it,
+                    context.resources.displayMetrics.widthPixels,
+                    context.resources.displayMetrics.heightPixels,
+                    false
+                )
+                val centerX = t.width / 2f
+                val centerY = t.height / 2f - 100.dp
                 val left = centerX - 150.dp
                 val top = centerY - 100.dp
-                bitmap.toFile()
                 tmpResultBitmap?.recycle()
                 if (top <= 0) {
                     viewModelScope.launch {
@@ -44,9 +53,9 @@ class CameraViewModel @Inject constructor(
                     }
                     return@toBitmap
                 }
-                "left = $left, top = $top, width = ${bitmap.width},height = ${bitmap.height}".logd()
+                "left = $left, top = $top, width = ${t.width},height = ${t.height}".logd()
                 tmpResultBitmap =
-                    Bitmap.createBitmap(bitmap, left.toInt(), top.toInt(), 300.dp, 200.dp)
+                    Bitmap.createBitmap(t, left.toInt(), top.toInt(), 300.dp, 200.dp)
                 viewModelScope.launch {
                     onDone.invoke(Resource.Success(Unit))
                 }

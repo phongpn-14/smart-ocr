@@ -15,7 +15,12 @@
         <com.otaliastudios.cameraview.CameraView
             android:id="@+id/cameraView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:cameraEngine="camera2"
+            app:cameraSnapshotMaxWidth="1280"
+            app:cameraSnapshotMaxHeight="2340"
+            app:cameraMode="picture"
+            app:cameraPreview="glSurface" />
 
         <com.example.smartocr.ui.CutOffView
             android:layout_width="match_parent"

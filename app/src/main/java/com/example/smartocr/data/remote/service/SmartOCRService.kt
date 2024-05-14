@@ -5,6 +5,7 @@ import com.example.smartocr.data.dto.response.ResponseOcrCCCD
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
+import com.example.smartocr.data.model.OcrCCCD
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.GET
@@ -18,7 +19,7 @@ interface SmartOCRService {
 
     @Multipart
     @POST("/api/ocr_cccd")
-    suspend fun processOcrCCCD(@Part image: MultipartBody.Part): Response<ResponseOcrCCCD>
+    suspend fun processOcrCCCD(@Part image: MultipartBody.Part): Response<OcrCCCD>
 
     @Multipart
     @POST("/api/template")

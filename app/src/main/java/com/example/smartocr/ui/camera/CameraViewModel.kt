@@ -9,7 +9,6 @@ import com.example.smartocr.data.DataRepositorySource
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.remote.baseurl
 import com.example.smartocr.util.OkDownloaderManager
-import com.example.smartocr.util.dp
 import com.example.smartocr.util.logd
 import com.example.smartocr.util.toFile
 import com.hjq.permissions.XXPermissions
@@ -31,6 +30,7 @@ class CameraViewModel @Inject constructor(
 
     fun convertResult(
         result: PictureResult,
+        width: Int, height: Int, topOffset: Int,
         context: Context,
         onDone: suspend (Resource<Unit>) -> Unit
     ) {
@@ -43,9 +43,9 @@ class CameraViewModel @Inject constructor(
                     false
                 )
                 val centerX = t.width / 2f
-                val centerY = t.height / 2f - 100.dp
-                val left = centerX - 150.dp
-                val top = centerY - 100.dp
+                val centerY = t.height / 2f - topOffset
+                val left = centerX - width / 2
+                val top = centerY - height / 2
                 tmpResultBitmap?.recycle()
                 if (top <= 0) {
                     viewModelScope.launch {
@@ -55,7 +55,7 @@ class CameraViewModel @Inject constructor(
                 }
                 "left = $left, top = $top, width = ${t.width},height = ${t.height}".logd()
                 tmpResultBitmap =
-                    Bitmap.createBitmap(t, left.toInt(), top.toInt(), 300.dp, 200.dp)
+                    Bitmap.createBitmap(t, left.toInt(), top.toInt(), width, height)
                 viewModelScope.launch {
                     onDone.invoke(Resource.Success(Unit))
                 }
@@ -89,12 +89,24 @@ class CameraViewModel @Inject constructor(
                 val file = tmpResultBitmap!!.toFile()
                 dataRepositorySource.processTemplate(file, id).collect {
                     it.logd()
-                    callback.invoke(it.map {
-                        ScanResult.TemplateResult(
-                            templateId = id,
-                            fileUrl = it!!.fileUrl
-                        )
-                    })
+                    it.whenSuccess {
+                        downloadFile(it.data!!.fileUrl, ".docx") { path ->
+                            viewModelScope.launch {
+                                callback.invoke(
+                                    Resource.Success(
+                                        ScanResult.TemplateResult(
+                                            templateId = id,
+                                            fileUrl = path
+                                        )
+                                    )
+                                )
+                            }
+
+                        }
+
+                    }.whenError {
+                        callback.invoke(Resource.Error(message = it.message))
+                    }
                 }
             }
         }
@@ -192,6 +204,31 @@ class CameraViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun downloadFile(url: String, extension: String, onFinish: (String) -> Unit) {
+        val savedDir = File(
+            Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS
+            ),
+            "OCR"
+        ).apply {
+            if (!exists()) {
+                mkdirs()
+            }
+        }
+        OkDownloaderManager.download(
+            listOf(File(savedDir, "result_${System.currentTimeMillis()}.$extension").absolutePath),
+            listOf(url.replace("http://localhost:3502/", baseurl)),
+            onSuccess = { name, path ->
+                path.logd()
+                viewModelScope.launch {
+                    onFinish.invoke(path)
+                }
+
+            }
+        )
+
     }
 
     fun retake() {

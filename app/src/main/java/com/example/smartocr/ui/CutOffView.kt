@@ -18,15 +18,19 @@ class CutOffView(context: Context, attr: AttributeSet) : View(context, attr, 0) 
         style = Paint.Style.STROKE
     }
     private var mPath: Path? = null
-    private val excludedWidth = 300.dp
-    private val excludedHeight = 200.dp
+    var excludedWidth = 300.dp
+    var excludedHeight = 200.dp
+
+    var cutOffTopOffset = 100.dp
+
+    private var needReDraw = true
 
     val centerX get() = width / 2f
-    val centerY get() = height / 2f - 100.dp
+    val centerY get() = height / 2f - cutOffTopOffset
 
 
     override fun onDraw(canvas: Canvas) {
-        if (mPath == null) {
+        if (needReDraw) {
             mPath = Path()
             // Define the excluded rectangle
             val excludedRect = RectF().apply {
@@ -44,9 +48,23 @@ class CutOffView(context: Context, attr: AttributeSet) : View(context, attr, 0) 
                 Path.Direction.CW
             )
 
+            canvas.drawPath(mPath!!, mPaint)
+            canvas.clipPath(mPath!!, Region.Op.DIFFERENCE)
+            canvas.drawColor(Color.parseColor("#60000000"))
+            needReDraw = false
         }
-        canvas.drawPath(mPath!!, mPaint)
-        canvas.clipPath(mPath!!, Region.Op.DIFFERENCE)
-        canvas.drawColor(Color.parseColor("#60000000"))
+    }
+
+    fun setCutOffSize(width: Int, height: Int) {
+        excludedWidth = width
+        excludedHeight = height
+        needReDraw = true
+        invalidate()
+    }
+
+    fun setOffset(top: Int) {
+        cutOffTopOffset = top
+        needReDraw = true
+        invalidate()
     }
 }

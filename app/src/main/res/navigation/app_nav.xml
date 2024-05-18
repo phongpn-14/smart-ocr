@@ -60,5 +60,10 @@
         android:name="com.example.smartocr.ui.cccd.ListScannedCCCDFragment"
         android:label="ListScannedCCCDFragment"
         tools:layout="@layout/layout_item_scanned_cccd" />
+    <fragment
+        android:id="@+id/viewOcrTemplateResultFragment"
+        tools:layout="@layout/fragment_view_ocr_template"
+        android:name="com.example.smartocr.ui.template.ViewOcrTemplateResultFragment"
+        android:label="ViewOcrTemplateResultFragment" />
 
 </navigation>

@@ -17,12 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cameraEngine="camera2"
-            app:cameraSnapshotMaxWidth="1280"
-            app:cameraSnapshotMaxHeight="2340"
             app:cameraMode="picture"
-            app:cameraPreview="glSurface" />
+            app:cameraPreview="glSurface"
+            app:cameraSnapshotMaxHeight="2340"
+            app:cameraSnapshotMaxWidth="1280"></com.otaliastudios.cameraview.CameraView>
 
         <com.example.smartocr.ui.CutOffView
+            android:id="@+id/cutOff"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -45,7 +46,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.84" />
+            app:layout_constraintVertical_bias="0.88" />
 
         <TextView
             style="@style/Text.Body.Regular"
@@ -54,10 +55,30 @@
             android:layout_margin="16dp"
             android:text="Bạn vui lòng đặt viền của CMND/CCCD khớp với khung hình"
             android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.584"
             tools:layout_editor_absoluteX="16dp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/Text.Caption.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="Expand your scan area"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/slider"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="0.0"
+            android:valueTo="1.0"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

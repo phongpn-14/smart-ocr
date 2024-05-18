@@ -23,7 +23,7 @@ interface SmartOCRService {
     suspend fun processOcrCCCD(@Part image: MultipartBody.Part): Response<OcrCCCD>
 
     @Multipart
-    @POST("/api/template")
+    @POST("/api/ocr_temp")
     suspend fun processTemplate(
         @Part file: MultipartBody.Part,
         @Part templateId: MultipartBody.Part

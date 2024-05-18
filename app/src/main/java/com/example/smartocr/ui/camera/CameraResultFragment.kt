@@ -73,7 +73,7 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
             try {
                 val screen = when (it.data) {
                     is ScanResult.CCCDResult -> R.id.viewScannedCCCDFragment
-                    is ScanResult.TemplateResult -> R.id.viewOcrSimpleFragment
+                    is ScanResult.TemplateResult -> R.id.viewOcrTemplateResultFragment
                     is ScanResult.TableResult -> R.id.viewOcrTableFragment
                     else -> R.id.viewOcrSimpleFragment
                 }

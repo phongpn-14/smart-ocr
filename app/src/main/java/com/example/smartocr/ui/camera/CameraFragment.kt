@@ -3,6 +3,7 @@ package com.example.smartocr.ui.camera
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
+import com.example.smartocr.util.dp
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.PictureResult
 import com.proxglobal.smart_ocr.R
@@ -38,7 +39,13 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         binding.cameraView.addCameraListener(object : CameraListener() {
             override fun onPictureTaken(result: PictureResult) {
                 super.onPictureTaken(result)
-                cameraViewModel.convertResult(result, requireContext()) {
+                cameraViewModel.convertResult(
+                    result,
+                    binding.cutOff.excludedWidth,
+                    binding.cutOff.excludedHeight,
+                    binding.cutOff.cutOffTopOffset,
+                    requireContext()
+                ) {
                     it.whenSuccess {
                         findNavController().navigate(R.id.cameraResultFragment)
                     }.whenError {
@@ -47,6 +54,12 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                 }
             }
         })
+        when (cameraViewModel.scanJob) {
+            is TemplateJob -> {
+                binding.cutOff.setCutOffSize(300.dp, 500.dp)
+                binding.cutOff.setOffset(0)
+            }
+        }
     }
 
     override fun addAction() {
@@ -57,6 +70,13 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
 
         binding.btTakePhoto.setOnClickListener {
             binding.cameraView.takePictureSnapshot()
+        }
+
+        binding.slider.addOnChangeListener { _, fl, fromUser ->
+            if (fromUser) {
+                binding.cutOff.setCutOffSize(300.dp, (500.dp * fl).toInt())
+            }
+
         }
     }
 }

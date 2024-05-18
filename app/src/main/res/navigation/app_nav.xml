@@ -55,5 +55,10 @@
         android:name="com.example.smartocr.ui.setting.FragmentConfigDomain"
         android:label="FragmentConfigDomain"
         tools:layout="@layout/fragment_config_domain" />
+    <fragment
+        android:id="@+id/listScannedCCCDFragment"
+        android:name="com.example.smartocr.ui.cccd.ListScannedCCCDFragment"
+        android:label="ListScannedCCCDFragment"
+        tools:layout="@layout/layout_item_scanned_cccd" />
 
 </navigation>

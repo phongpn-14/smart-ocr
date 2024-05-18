@@ -55,7 +55,7 @@ class DataRepository @Inject constructor(
     }
 
     override suspend fun listCCCD(): Flow<Resource<List<OcrCCCD>>> {
-        TODO("Not yet implemented")
+        return remoteRepository.listCCCD()
     }
 
     override val coroutineContext: CoroutineContext

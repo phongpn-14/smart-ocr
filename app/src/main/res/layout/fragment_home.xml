@@ -97,6 +97,7 @@
                     <TextView
                         style="@style/Text.Caption.Regular"
                         android:layout_width="wrap_content"
+                        android:id="@+id/tv_cccd_count"
                         android:layout_height="wrap_content"
                         android:text="120 File"
                         android:textColor="#9694FF"

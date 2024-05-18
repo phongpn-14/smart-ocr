@@ -2,6 +2,7 @@ package com.example.smartocr.data.remote
 
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
+import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
@@ -12,6 +13,7 @@ import com.example.smartocr.util.logd
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import retrofit2.Response
 import java.io.File
@@ -107,6 +109,27 @@ constructor(
                 smartOcr.processTable(part, name)
             })
         }.flowOn(io)
+    }
+
+    override fun login(userName: String, password: String): Flow<Resource<ResponseLogin>> {
+        val username = MultipartBody.Part.createFormData("username", userName)
+        val password = MultipartBody.Part.createFormData("password", password)
+        return flow {
+            emit(processCall {
+                smartOcr.login(username, password)
+            })
+        }.flowOn(io)
+    }
+
+    override fun listCCCD(): Flow<Resource<List<OcrCCCD>>> {
+        return flow {
+            emit(processCall {
+                smartOcr.listCCCD()
+            })
+        }.flowOn(io)
+            .map {
+                it.map { it?.map { it.document } ?: listOf() }
+            }
     }
 
     private suspend fun <T> processCall(responseCall: suspend () -> Response<T>): Resource<T> {

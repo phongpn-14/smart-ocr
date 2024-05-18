@@ -1,7 +1,8 @@
 package com.example.smartocr.data.remote.service
 
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
-import com.example.smartocr.data.dto.response.ResponseOcrCCCD
+import com.example.smartocr.data.dto.response.ResponseListScannedCCCD
+import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
@@ -42,4 +43,20 @@ interface SmartOCRService {
         @Part file: MultipartBody.Part,
         @Part fileName: MultipartBody.Part
     ): Response<ResponseTable>
+
+    @Multipart
+    @POST("/login")
+    suspend fun login(
+        @Part userName: MultipartBody.Part,
+        @Part password: MultipartBody.Part
+    ): Response<ResponseLogin>
+
+    @Multipart
+    @POST("/api/db/display")
+    suspend fun listCCCD(
+        @Part dbName: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "db_name",
+            "db_cccd"
+        )
+    ): Response<ResponseListScannedCCCD>
 }

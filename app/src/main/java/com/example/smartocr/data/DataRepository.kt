@@ -1,5 +1,6 @@
 package com.example.smartocr.data
 
+import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
@@ -47,6 +48,14 @@ class DataRepository @Inject constructor(
 
     override suspend fun processTable(file: File, fileName: String): Flow<Resource<ResponseTable>> {
         return remoteRepository.processTable(file, fileName)
+    }
+
+    override suspend fun login(username: String, password: String): Flow<Resource<ResponseLogin>> {
+        return remoteRepository.login(username, password)
+    }
+
+    override suspend fun listCCCD(): Flow<Resource<List<OcrCCCD>>> {
+        TODO("Not yet implemented")
     }
 
     override val coroutineContext: CoroutineContext

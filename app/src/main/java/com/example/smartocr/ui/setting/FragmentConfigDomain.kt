@@ -1,10 +1,14 @@
-package com.example.smartocr.ui.home
+package com.example.smartocr.ui.setting
 
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.DataRepositorySource
+import com.example.smartocr.data.remote.baseurl
+import com.example.smartocr.util.SharePreferenceExt
 import com.proxglobal.smart_ocr.R
-import com.proxglobal.smart_ocr.databinding.FragmentHomeBinding
+import com.proxglobal.smart_ocr.databinding.FragmentConfigDomainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,16 +16,31 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class FragmentConfigDomain : BaseFragment<FragmentConfigDomainBinding>() {
     @Inject
     lateinit var dataRepositorySource: DataRepositorySource
     override fun getLayoutId(): Int {
-        return R.layout.fragment_home
+        return R.layout.fragment_config_domain
+    }
+
+    override fun initView() {
+        super.initView()
+        binding.edtIpServer.setText(SharePreferenceExt.lastDomain)
     }
 
     override fun addAction() {
         super.addAction()
-        binding.btHello.setOnClickListener {
+        binding.btBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.edtIpServer.addTextChangedListener {
+            SharePreferenceExt.lastDomain = it.toString().trim()
+            baseurl = "http://${it.toString().trim()}:3502/"
+        }
+
+
+        binding.btServer.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 dataRepositorySource.helloWorld().collect {
                     withContext(Dispatchers.Main) {
@@ -33,8 +52,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    override fun onBackPressed(): Boolean {
-        requireActivity().finish()
-        return true
-    }
 }

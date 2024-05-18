@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.kaopiz.kprogresshud.KProgressHUD
 
 abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
     protected lateinit var binding: T
+    private var hud: KProgressHUD? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,5 +68,20 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
         if (clearFocusView) {
             viewFocus.clearFocus()
         }
+    }
+
+    fun showLoading() {
+        hud = KProgressHUD.create(this)
+            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+            .setLabel("Please wait")
+            .setCancellable(true)
+            .setAnimationSpeed(2)
+            .setDimAmount(0.5f)
+            .show();
+    }
+
+    fun dismissLoading() {
+        hud?.dismiss()
+        hud = null
     }
 }

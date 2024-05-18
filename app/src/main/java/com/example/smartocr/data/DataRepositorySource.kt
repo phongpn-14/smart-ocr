@@ -1,5 +1,6 @@
 package com.example.smartocr.data
 
+import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
@@ -21,4 +22,8 @@ interface DataRepositorySource {
     ): Flow<Resource<String>>
 
     suspend fun processTable(file: File, fileName: String): Flow<Resource<ResponseTable>>
+
+    suspend fun login(username: String, password: String): Flow<Resource<ResponseLogin>>
+
+    suspend fun listCCCD(): Flow<Resource<List<OcrCCCD>>>
 }

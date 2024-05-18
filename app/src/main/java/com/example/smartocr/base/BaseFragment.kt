@@ -11,9 +11,11 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
+import com.kaopiz.kprogresshud.KProgressHUD
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     protected lateinit var binding: T
+    private var hud: KProgressHUD? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -105,5 +107,25 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     open fun hideKeyboard(clearFocusView: Boolean = true) {
         (activity as? BaseActivity<*>)?.hideKeyboard(clearFocusView)
+    }
+
+    fun showLoading() {
+        hud = KProgressHUD.create(requireActivity())
+            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+            .setLabel("Please wait")
+            .setCancellable(true)
+            .setAnimationSpeed(2)
+            .setDimAmount(0.5f)
+            .show();
+    }
+
+    fun dismissLoading() {
+        hud?.dismiss()
+        hud = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dismissLoading()
     }
 }

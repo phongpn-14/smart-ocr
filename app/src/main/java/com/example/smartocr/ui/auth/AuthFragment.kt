@@ -3,29 +3,28 @@ package com.example.smartocr.ui.auth
 import android.content.Intent
 import android.content.IntentSender
 import android.util.Log
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.smartocr.base.BaseFragment
+import com.example.smartocr.util.repeatOnLifecycleStartState
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.Scope
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.google.api.client.http.javanet.NetHttpTransport
-import com.google.api.client.json.gson.GsonFactory
-import com.google.api.services.drive.Drive
-import com.google.api.services.drive.DriveScopes
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentAuthBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class AuthFragment : BaseFragment<FragmentAuthBinding>() {
+    private val authViewModel: AuthViewModel by viewModels()
+
     private lateinit var oneTapClient: SignInClient
     private lateinit var signInRequest: BeginSignInRequest
     private lateinit var signUpRequest: BeginSignInRequest
@@ -44,7 +43,51 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
 
     override fun addAction() {
         super.addAction()
-        binding.btGoogle.setOnClickListener { auth() }
+        binding.btGoogle.setOnClickListener {
+            authViewModel.login(
+                binding.edtUserName.text.toString().trim(),
+                binding.edtPassword.text.toString().trim()
+            )
+        }
+
+        binding.btConfigDomain.setOnClickListener {
+            navigate(R.id.fragmentConfigDomain)
+        }
+    }
+
+    override fun addObserver() {
+        super.addObserver()
+        repeatOnLifecycleStartState {
+            launch {
+                authViewModel.authState.collect {
+                    it.whenLoading {
+                        toastShort("Loading")
+                        showLoading()
+                    }.whenSuccess {
+                        toastShort("Login Success")
+                        findNavController().navigate(
+                            R.id.homeFragment,
+                            null,
+                            navOptions = navOptions {
+                                popUpTo(R.id.homeFragment) {
+                                    inclusive = false
+                                }
+                            })
+                    }.whenError {
+                        toastShort("Failure. Message = ${it.message}")
+                    }
+                }
+            }
+
+            launch {
+                authViewModel.authSideEffect.collect {
+                    it.getValueIfNotHandle {
+                        it?.let { mes -> toastShort(mes) }
+
+                    }
+                }
+            }
+        }
     }
 
     fun auth() {

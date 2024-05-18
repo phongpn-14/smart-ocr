@@ -88,6 +88,8 @@ dependencies {
     /** ---------------------Animation---------------------**/
     implementation 'com.github.florent37:viewanimator:1.1.2'
     implementation 'com.airbnb.android:lottie:5.2.0'
+    implementation 'com.kaopiz:kprogresshud:1.0.2'
+
 
     /** ---------------------Network---------------------**/
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"

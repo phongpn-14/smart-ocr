@@ -50,5 +50,10 @@
         android:name="com.example.smartocr.ui.table.ViewOcrTableFragment"
         android:label="ViewOcrTableFragment"
         tools:layout="@layout/fragment_view_ocr_table" />
+    <fragment
+        android:id="@+id/fragmentConfigDomain"
+        android:name="com.example.smartocr.ui.setting.FragmentConfigDomain"
+        android:label="FragmentConfigDomain"
+        tools:layout="@layout/fragment_config_domain" />
 
 </navigation>

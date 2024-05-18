@@ -3,6 +3,7 @@ package com.example.smartocr.data.remote
 import android.content.Context
 import android.net.wifi.WifiManager
 import com.airbnb.lottie.BuildConfig
+import com.example.smartocr.util.SharePreferenceExt
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Cache
 import okhttp3.CacheControl
@@ -25,7 +26,7 @@ private const val timeoutRead = 120   //In seconds
 private const val contentType = "Content-Type"
 private const val contentTypeValue = "application/json"
 private const val timeoutConnect = 120   //In seconds
-var baseurl = "http://192.168.31.124:3502/"
+var baseurl = "http://${SharePreferenceExt.lastDomain}:3502/"
 
 @Singleton
 class ServiceGenerator @Inject constructor(

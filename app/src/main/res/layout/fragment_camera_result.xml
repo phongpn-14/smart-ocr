@@ -54,7 +54,7 @@
             style="@style/Text.Body.Semibold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:paddingHorizontal="24dp"
             android:text="Tiếp tục"
             android:textColor="@color/white"

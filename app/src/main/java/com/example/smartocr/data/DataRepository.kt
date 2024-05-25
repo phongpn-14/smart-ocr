@@ -4,6 +4,7 @@ import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
+import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.local.LocalData
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.remote.RemoteData
@@ -56,6 +57,10 @@ class DataRepository @Inject constructor(
 
     override suspend fun listCCCD(): Flow<Resource<List<OcrCCCD>>> {
         return remoteRepository.listCCCD()
+    }
+
+    override suspend fun listTemplate(): Flow<Resource<List<Template>>> {
+        return remoteRepository.listTemplate()
     }
 
     override val coroutineContext: CoroutineContext

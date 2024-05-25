@@ -6,6 +6,7 @@ import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
+import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.model.OcrCCCD
 import kotlinx.coroutines.flow.Flow
 import java.io.File
@@ -20,4 +21,5 @@ internal interface RemoteDataSource {
 
     fun login(userName: String, password: String): Flow<Resource<ResponseLogin>>
     fun listCCCD(): Flow<Resource<List<OcrCCCD>>>
+    fun listTemplate(): Flow<Resource<List<Template>>>
 }

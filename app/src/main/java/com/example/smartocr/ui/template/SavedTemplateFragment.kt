@@ -47,12 +47,19 @@ class SavedTemplateFragment : BaseFragment<FragmentSavedTemplateBinding>() {
         super.addObserver()
         repeatOnLifecycleStartState {
             launch {
+                templateViewModel.listTemplateState.collect {
+                    it.whenSuccess {
+                        templateAdapter.update(it.data!!.map {
+                            ItemSavedTemplate(it) {
+
+
+                            }
+                        })
+                    }
+
+                }
                 templateViewModel.templateId.collect {
-                    templateAdapter.update(it.map {
-                        ItemSavedTemplate(it) {
-                            selectedId = it
-                        }
-                    })
+
                 }
             }
         }

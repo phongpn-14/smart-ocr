@@ -26,6 +26,7 @@ class CameraViewModel @Inject constructor(
     private val dataRepositorySource: DataRepositorySource
 ) : ViewModel() {
     private var tmpResultBitmap: Bitmap? = null
+    var tmpResultFile: File? = null
     lateinit var scanJob: ScanJob
 
     fun convertResult(
@@ -57,6 +58,7 @@ class CameraViewModel @Inject constructor(
                 tmpResultBitmap =
                     Bitmap.createBitmap(t, left.toInt(), top.toInt(), width, height)
                 viewModelScope.launch {
+                    tmpResultFile = tmpResultBitmap!!.toFile()
                     onDone.invoke(Resource.Success(Unit))
                 }
             }
@@ -69,8 +71,7 @@ class CameraViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {
-                val file = tmpResultBitmap!!.toFile()
-                dataRepositorySource.processWithoutTemplate(file).collect {
+                dataRepositorySource.processWithoutTemplate(tmpResultFile!!).collect {
                     it.logd()
                     val text = it.map { it?.metadata?.textMetadata?.map { it.text }?.mergeAll() }
                     text.logd()
@@ -86,8 +87,7 @@ class CameraViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {
-                val file = tmpResultBitmap!!.toFile()
-                dataRepositorySource.processTemplate(file, id).collect {
+                dataRepositorySource.processTemplate(tmpResultFile!!, id).collect {
                     it.logd()
                     it.whenSuccess {
                         downloadFile(it.data!!.fileUrl, ".docx") { path ->
@@ -116,8 +116,7 @@ class CameraViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {
-                val file = tmpResultBitmap!!.toFile()
-                dataRepositorySource.processTableMetadata(file).collect {
+                dataRepositorySource.processTableMetadata(tmpResultFile!!).collect {
                     it.whenSuccess {
                         withContext(Dispatchers.IO) {
                             val metadataTemp =
@@ -198,8 +197,7 @@ class CameraViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {
-                val file = tmpResultBitmap!!.toFile()
-                dataRepositorySource.processCCCD(file).collect {
+                dataRepositorySource.processCCCD(tmpResultFile!!).collect {
                     callback.invoke(it.map { ScanResult.CCCDResult(ocrCCCD = it!!) })
                 }
             }

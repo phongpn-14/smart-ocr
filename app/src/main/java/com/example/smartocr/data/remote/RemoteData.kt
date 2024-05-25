@@ -6,6 +6,7 @@ import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
+import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.remote.service.SmartOCRService
 import com.example.smartocr.util.NetworkConnectivity
@@ -130,6 +131,14 @@ constructor(
             .map {
                 it.map { it?.map { it.document } ?: listOf() }
             }
+    }
+
+    override fun listTemplate(): Flow<Resource<List<Template>>> {
+        return flow {
+            emit(processCall {
+                smartOcr.listTemplate()
+            })
+        }.flowOn(io)
     }
 
     private suspend fun <T> processCall(responseCall: suspend () -> Response<T>): Resource<T> {

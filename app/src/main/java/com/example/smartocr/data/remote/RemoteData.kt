@@ -133,6 +133,25 @@ constructor(
             }
     }
 
+    override fun editCCCD(documentId: String, file: File): Flow<Resource<String>> {
+        val cccdId = MultipartBody.Part.createFormData("document_id", documentId)
+        val part = MultipartBody.Part.createFormData(
+            "file",
+            file.name,
+            UploadRequestBody(
+                file,
+                onUpload = {
+                })
+        )
+        return flow {
+            emit(processCall(true) {
+                smartOcr.editCCCD(documentId = cccdId, file = part)
+            })
+        }
+            .flowOn(io)
+
+    }
+
     override fun listTemplate(): Flow<Resource<List<Template>>> {
         return flow {
             emit(processCall {
@@ -141,8 +160,12 @@ constructor(
         }.flowOn(io)
     }
 
-    private suspend fun <T> processCall(responseCall: suspend () -> Response<T>): Resource<T> {
-        smartOcr = serviceGenerator.createService(SmartOCRService::class.java)
+    private suspend
+    fun <T> processCall(
+        scalar: Boolean = false,
+        responseCall: suspend () -> Response<T>
+    ): Resource<T> {
+        smartOcr = serviceGenerator.createService(SmartOCRService::class.java, scalar = scalar)
         if (!networkConnectivity.isConnected()) {
             return Resource.Error(message = "No internet")
         }
@@ -153,7 +176,10 @@ constructor(
                 Resource.Success(data = response.body()!!)
             } else {
                 response.body()?.logd()
-                Resource.Error(errorCode = response.code(), message = response.message())
+                Resource.Error(
+                    errorCode = response.code(),
+                    message = response.message()
+                )
             }
         } catch (e: IOException) {
             e.printStackTrace()

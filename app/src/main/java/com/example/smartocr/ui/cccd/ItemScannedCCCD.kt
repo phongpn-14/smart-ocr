@@ -15,6 +15,9 @@ class ItemScannedCCCD(private val cccd: OcrCCCD, private val onClick: TypeAction
             tvNumber.text = "No: ${cccd.iD}"
             tvHometown.text = "Nơi sinh: ${cccd.homeTown}"
 
+            root.setOnClickListener {
+                onClick.invoke(cccd)
+            }
         }
     }
 

@@ -25,7 +25,7 @@ import javax.inject.Inject
 class CameraViewModel @Inject constructor(
     private val dataRepositorySource: DataRepositorySource
 ) : ViewModel() {
-    private var tmpResultBitmap: Bitmap? = null
+    var tmpResultBitmap: Bitmap? = null
     var tmpResultFile: File? = null
     lateinit var scanJob: ScanJob
 

@@ -1,9 +1,9 @@
 package com.example.smartocr.data.model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 
 @Parcelize
 data class OcrCCCD(
@@ -26,5 +26,7 @@ data class OcrCCCD(
     @SerializedName("thuong_tru_1")
     var thuongTru1: String = "",
     @SerializedName("thuong_tru_2")
-    var thuongTru2: String = ""
+    var thuongTru2: String = "",
+    @SerializedName("objectID")
+    var objectID: String = ""
 ) : Parcelable

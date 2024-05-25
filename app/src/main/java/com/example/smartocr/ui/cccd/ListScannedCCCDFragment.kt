@@ -3,6 +3,7 @@ package com.example.smartocr.ui.cccd
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
+import com.example.smartocr.ui.camera.ScanResult
 import com.example.smartocr.ui.home.HomeViewModel
 import com.example.smartocr.util.groupieAdapter
 import com.example.smartocr.util.repeatOnLifecycleStartState
@@ -35,8 +36,12 @@ class ListScannedCCCDFragment : BaseFragment<FragmentListScannedCccdBinding>() {
                 homeViewModel.listCCCD().collect {
                     it.whenSuccess {
                         scannedCCCDAdapter.update(it.data!!.map {
-                            ItemScannedCCCD(it) {
-
+                            ItemScannedCCCD(it) { cccd ->
+                                navigate(
+                                    ListScannedCCCDFragmentDirections.actionListScannedCCCDFragmentToViewScannedCCCDFragment(
+                                        ScanResult.CCCDResult(ocrCCCD = cccd)
+                                    )
+                                )
                             }
                         })
                     }

@@ -29,7 +29,16 @@
         android:id="@+id/viewScannedCCCDFragment"
         android:name="com.example.smartocr.ui.cccd.ViewScannedCCCDFragment"
         android:label="ViewScannedCCCDFragment"
-        tools:layout="@layout/fragment_view_scanned_cccd" />
+        tools:layout="@layout/fragment_view_scanned_cccd">
+        <argument
+            android:name="editable"
+            android:defaultValue="true"
+            app:argType="boolean" />
+        <argument
+            android:name="result"
+            app:argType="com.example.smartocr.ui.camera.ScanResult$CCCDResult"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/cameraResultFragment"
         android:name="com.example.smartocr.ui.camera.CameraResultFragment"
@@ -59,11 +68,27 @@
         android:id="@+id/listScannedCCCDFragment"
         android:name="com.example.smartocr.ui.cccd.ListScannedCCCDFragment"
         android:label="ListScannedCCCDFragment"
-        tools:layout="@layout/layout_item_scanned_cccd" />
+        tools:layout="@layout/layout_item_scanned_cccd">
+        <action
+            android:id="@+id/action_listScannedCCCDFragment_to_viewScannedCCCDFragment"
+            app:destination="@id/viewScannedCCCDFragment">
+            <argument
+                android:name="editable"
+                android:defaultValue="false" />
+            <argument
+                android:name="result"
+                app:argType="com.example.smartocr.ui.camera.ScanResult$CCCDResult" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/viewOcrTemplateResultFragment"
-        tools:layout="@layout/fragment_view_ocr_template"
         android:name="com.example.smartocr.ui.template.ViewOcrTemplateResultFragment"
-        android:label="ViewOcrTemplateResultFragment" />
+        android:label="ViewOcrTemplateResultFragment"
+        tools:layout="@layout/fragment_view_ocr_template" />
+    <fragment
+        android:id="@+id/cropImageFragment"
+        android:name="com.example.smartocr.ui.camera.CropImageFragment"
+        android:label="CropImageFragment"
+        tools:layout="@layout/fragment_crop_image" />
 
 </navigation>

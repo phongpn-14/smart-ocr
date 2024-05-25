@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.IdRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
+import androidx.navigation.PopUpToBuilder
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.kaopiz.kprogresshud.KProgressHUD
@@ -91,12 +94,29 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         }
     }
 
-    fun navigate(id: Int, extras: Bundle? = null) {
+    fun navigate(
+        id: Int,
+        extras: Bundle? = null,
+        @IdRes popUpTo: Int? = null,
+        popUpToBuilder: PopUpToBuilder.() -> Unit = {}
+    ) {
         findNavController().navigate(id, extras, navOptions {
             anim {
                 enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
                 exit = androidx.navigation.ui.R.anim.nav_default_exit_anim
+            }
+        })
+    }
 
+    fun navigate(
+        directions: NavDirections,
+        @IdRes popUpTo: Int? = null,
+        popUpToBuilder: PopUpToBuilder.() -> Unit = {}
+    ) {
+        findNavController().navigate(directions, navOptions {
+            anim {
+                enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
+                exit = androidx.navigation.ui.R.anim.nav_default_exit_anim
             }
         })
     }

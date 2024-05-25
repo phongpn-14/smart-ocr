@@ -28,5 +28,7 @@ interface DataRepositorySource {
 
     suspend fun listCCCD(): Flow<Resource<List<OcrCCCD>>>
 
+    suspend fun editCCCD(documentId: String, file: File): Flow<Resource<String>>
+
     suspend fun listTemplate(): Flow<Resource<List<Template>>>
 }

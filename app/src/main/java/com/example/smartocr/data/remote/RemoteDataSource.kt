@@ -21,5 +21,7 @@ internal interface RemoteDataSource {
 
     fun login(userName: String, password: String): Flow<Resource<ResponseLogin>>
     fun listCCCD(): Flow<Resource<List<OcrCCCD>>>
+    fun editCCCD(documentId: String, file: File): Flow<Resource<String>>
+
     fun listTemplate(): Flow<Resource<List<Template>>>
 }

@@ -59,6 +59,10 @@ class DataRepository @Inject constructor(
         return remoteRepository.listCCCD()
     }
 
+    override suspend fun editCCCD(documentId: String, file: File): Flow<Resource<String>> {
+        return remoteRepository.editCCCD(documentId, file)
+    }
+
     override suspend fun listTemplate(): Flow<Resource<List<Template>>> {
         return remoteRepository.listTemplate()
     }

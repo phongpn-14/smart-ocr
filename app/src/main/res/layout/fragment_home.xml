@@ -11,24 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/bt_hello"
-            style="@style/Widget.Material3.Button"
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="64dp"
-            android:fontFamily="@font/inter_semibold"
-            android:text="Ping to Server"
-            android:textColor="#4E4E4E"
-            app:backgroundTint="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.9"
-            app:strokeColor="#2C2C2C"
-            app:strokeWidth="1dp"
-            tools:ignore="HardcodedText" />
+            android:layout_marginHorizontal="30dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/img_home_banner"
+            app:layout_constraintBottom_toTopOf="@+id/bt_saved_cccd"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 
         <TextView
             android:id="@+id/textView"
@@ -60,11 +50,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
+            app:cardBackgroundColor="#DBDBFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.55"
-            app:strokeColor="#8F8F8F"
-            app:strokeWidth="2dp"
+            app:layout_constraintVertical_bias="0.65"
+            app:strokeWidth="0dp"
             tools:layout_editor_absoluteX="30dp">
 
 
@@ -76,18 +66,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
                     android:src="@drawable/ic_cccd_home" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/Text.Caption.Regular"
+                        style="@style/Text.Caption.Semibold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Thông tin CCCD đã lưu"
@@ -95,15 +87,21 @@
                         tools:ignore="HardcodedText" />
 
                     <TextView
+                        android:id="@+id/tv_cccd_count"
                         style="@style/Text.Caption.Regular"
                         android:layout_width="wrap_content"
-                        android:id="@+id/tv_cccd_count"
                         android:layout_height="wrap_content"
                         android:text="120 File"
-                        android:textColor="#9694FF"
+                        android:textColor="#2C3D7A"
                         tools:ignore="HardcodedText" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_alt_arrow_right" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
@@ -114,9 +112,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="8dp"
+            app:cardBackgroundColor="#DBDBFF"
             app:layout_constraintTop_toBottomOf="@id/bt_saved_cccd"
-            app:strokeColor="#8F8F8F"
-            app:strokeWidth="2dp"
+            app:strokeWidth="0dp"
             tools:layout_editor_absoluteX="30dp">
 
 
@@ -128,18 +126,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
                     android:src="@drawable/ic_cccd_home" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/Text.Caption.Regular"
+                        style="@style/Text.Caption.Semibold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mẫu đã lưu"
@@ -151,10 +151,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="120 File"
-                        android:textColor="#9694FF"
+                        android:textColor="#2C3D7A"
                         tools:ignore="HardcodedText" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_alt_arrow_right" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>

@@ -90,5 +90,10 @@
         android:name="com.example.smartocr.ui.camera.CropImageFragment"
         android:label="CropImageFragment"
         tools:layout="@layout/fragment_crop_image" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.smartocr.ui.auth.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_sign_in" />
 
 </navigation>

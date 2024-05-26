@@ -20,6 +20,13 @@ internal interface RemoteDataSource {
     fun processTable(file: File, fileName: String): Flow<Resource<ResponseTable>>
 
     fun login(userName: String, password: String): Flow<Resource<ResponseLogin>>
+    fun signIn(
+        userName: String,
+        password: String,
+        rePassword: String,
+        phone: String
+    ): Flow<Resource<String>>
+
     fun listCCCD(): Flow<Resource<List<OcrCCCD>>>
     fun editCCCD(documentId: String, file: File): Flow<Resource<String>>
 

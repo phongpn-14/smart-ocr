@@ -26,6 +26,13 @@ interface DataRepositorySource {
 
     suspend fun login(username: String, password: String): Flow<Resource<ResponseLogin>>
 
+    suspend fun signIn(
+        username: String,
+        password: String,
+        rePassword: String,
+        phone: String
+    ): Flow<Resource<String>>
+
     suspend fun listCCCD(): Flow<Resource<List<OcrCCCD>>>
 
     suspend fun editCCCD(documentId: String, file: File): Flow<Resource<String>>

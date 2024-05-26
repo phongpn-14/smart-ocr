@@ -53,6 +53,10 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
         binding.btConfigDomain.setOnClickListener {
             navigate(R.id.fragmentConfigDomain)
         }
+
+        binding.btLogIn.setOnClickListener {
+            navigate(R.id.signInFragment)
+        }
     }
 
     override fun addObserver() {

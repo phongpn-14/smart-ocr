@@ -11,6 +11,7 @@ import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.drive.GoogleDriveServiceHelper
 import com.example.smartocr.data.remote.baseurl
 import com.example.smartocr.ui.auth.AuthViewModel
+import com.example.smartocr.util.SharePreferenceExt
 import com.example.smartocr.util.logd
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -47,8 +48,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
 
     override fun initView() {
         super.initView()
-        binding.tvEmail.text = Firebase.auth.currentUser!!.email
-        binding.tvName.text = Firebase.auth.currentUser!!.displayName
+        binding.tvEmail.text = SharePreferenceExt.username
+        binding.tvName.text = SharePreferenceExt.password
     }
 
     override fun addAction() {

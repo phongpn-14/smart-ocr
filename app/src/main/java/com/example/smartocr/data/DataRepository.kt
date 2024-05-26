@@ -55,6 +55,15 @@ class DataRepository @Inject constructor(
         return remoteRepository.login(username, password)
     }
 
+    override suspend fun signIn(
+        username: String,
+        password: String,
+        rePassword: String,
+        phone: String
+    ): Flow<Resource<String>> {
+        return remoteRepository.signIn(username, password, rePassword, phone)
+    }
+
     override suspend fun listCCCD(): Flow<Resource<List<OcrCCCD>>> {
         return remoteRepository.listCCCD()
     }

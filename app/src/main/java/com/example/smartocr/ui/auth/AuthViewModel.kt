@@ -62,4 +62,40 @@ class AuthViewModel @Inject constructor(
             }
         }
     }
+
+    fun signIn(userName: String, password: String, repassword: String, phone: String) {
+        viewModelScope.launch {
+            if (userName.isNullOrEmpty()) {
+                _authSideEffect.value = Event("Username is empty")
+                return@launch
+            }
+            if (password.isNullOrEmpty()) {
+                _authSideEffect.value = Event("Password is empty")
+                return@launch
+            }
+            if (repassword != password) {
+                _authSideEffect.value = Event("Password not match")
+                return@launch
+            }
+            if (phone.isNullOrEmpty()) {
+                _authSideEffect.value = Event("Phone is empty")
+                return@launch
+            }
+
+            if (_authState.value.isLoading) {
+                _authSideEffect.value = Event("Please wait for a minute!")
+                return@launch
+            }
+
+            _authState.value = Resource.Loading
+            dataRepositorySource.signIn(userName, password, repassword, phone).collect {
+                _authState.value = it
+                    .whenSuccess {
+                        SharePreferenceExt.username = userName
+                        SharePreferenceExt.password = password
+                    }
+                    .map { User(userName, userName, password) }
+            }
+        }
+    }
 }

@@ -122,6 +122,24 @@ constructor(
         }.flowOn(io)
     }
 
+    override fun signIn(
+        userName: String,
+        password: String,
+        rePassword: String,
+        phone: String
+    ): Flow<Resource<String>> {
+        val username = MultipartBody.Part.createFormData("username", userName)
+        val password = MultipartBody.Part.createFormData("password", password)
+        val rePassword = MultipartBody.Part.createFormData("re_password", rePassword)
+        val phone = MultipartBody.Part.createFormData("phone", phone)
+        return flow {
+            emit(processCall(true) {
+                smartOcr.signIn(username, password, rePassword, phone)
+            })
+        }.flowOn(io)
+
+    }
+
     override fun listCCCD(): Flow<Resource<List<OcrCCCD>>> {
         return flow {
             emit(processCall {

@@ -72,6 +72,15 @@ interface SmartOCRService {
         @Part password: MultipartBody.Part
     ): Response<ResponseLogin>
 
+    @Multipart
+    @POST("/signup")
+    suspend fun signIn(
+        @Part userName: MultipartBody.Part,
+        @Part password: MultipartBody.Part,
+        @Part rePassword: MultipartBody.Part,
+        @Part phone: MultipartBody.Part,
+    ): Response<String>
+
 
     @Multipart
     @POST("/api/db/display")

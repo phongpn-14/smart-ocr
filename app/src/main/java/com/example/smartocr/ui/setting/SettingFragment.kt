@@ -81,7 +81,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 val client = GoogleSignIn.getClient(
                     requireActivity(),
                     GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .setAccountName(Firebase.auth.currentUser!!.email!!)
                         .requestScopes(Scope(DriveScopes.DRIVE_FILE))
                         .requestEmail()
                         .build()

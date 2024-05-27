@@ -131,7 +131,8 @@ class CameraViewModel @Inject constructor(
                                     XXPermissions.with(context)
                                         .permission(
                                             android.Manifest.permission.READ_MEDIA_VIDEO,
-                                            android.Manifest.permission.READ_MEDIA_IMAGES
+                                            android.Manifest.permission.READ_MEDIA_IMAGES,
+                                            android.Manifest.permission.READ_MEDIA_AUDIO
                                         )
                                         .request { _, granted ->
                                             viewModelScope.launch {

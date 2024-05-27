@@ -34,7 +34,8 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="-16dp"
                 android:gravity="center"
-                android:text="Chi tiết"
+                android:text="Mẫu trả về"
+                android:textColor="#2C3D7A"
                 tools:ignore="HardcodedText" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -43,18 +44,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llDetail"
-            app:layout_constraintVertical_bias="0.35"
             app:strokeColor="#8F8F8F"
             app:strokeWidth="2dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="12dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -66,6 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -88,6 +91,12 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <ImageView
+                    android:id="@+id/bt_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_share" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </com.google.android.material.card.MaterialCardView>
@@ -98,7 +107,6 @@
             android:layout_marginHorizontal="32dp"
             android:text="Up to drive"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bt_saved_cccd"
             app:layout_constraintVertical_bias="0.8"
             tools:layout_editor_absoluteX="32dp" />
 

@@ -50,6 +50,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         super.initView()
         binding.tvEmail.text = SharePreferenceExt.username
         binding.tvName.text = SharePreferenceExt.password
+        binding.edtIpServer.setText(SharePreferenceExt.lastDomain)
     }
 
     override fun addAction() {

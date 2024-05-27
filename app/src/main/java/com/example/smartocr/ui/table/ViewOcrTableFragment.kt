@@ -1,5 +1,6 @@
 package com.example.smartocr.ui.table
 
+import android.content.Context
 import android.content.Intent
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
@@ -36,20 +37,39 @@ class ViewOcrTableFragment : BaseFragment<FragmentViewOcrTableBinding>() {
             val uri = FileProvider.getUriForFile(
                 requireContext(), requireContext().packageName + ".provider", file
             )
-//            val intent =
-//                ShareCompat.IntentBuilder(requireContext())
-//                    .setType(requireContext().contentResolver.getType(uri))
-//                    .setStream(uri).intent
-//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             val createChooser = Intent(Intent.ACTION_VIEW)
             createChooser.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             createChooser.setDataAndType(uri, "application/vnd.ms-excel")
-//            createChooser.setData(uri)
-//            createChooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             requireContext().startActivity(createChooser)
         }
 
-
+        binding.btShare.setOnClickListener {
+            shareMedia(requireContext(), file)
+        }
     }
+
+    private fun shareMedia(context: Context, file: File) {
+        try {
+            val uri = FileProvider.getUriForFile(
+                context, context.packageName + ".provider", file
+            )
+            try {
+                val intent =
+                    ShareCompat.IntentBuilder(requireContext())
+                        .setType(context.contentResolver.getType(uri))
+                        .setStream(uri).intent
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                val createChooser = Intent.createChooser(intent, "Share File")
+                createChooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(createChooser)
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+        } catch (ex: java.lang.Exception) {
+            ex.printStackTrace()
+        }
+    }
+
 }

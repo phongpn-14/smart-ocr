@@ -87,9 +87,7 @@ constructor(
             })
         )
         return flow {
-            emit(processCall {
-                smartOcr =
-                    serviceGenerator.createService(SmartOCRService::class.java, scalar = true)
+            emit(processCall(true) {
                 smartOcr.processTableMetadata(part)
             })
         }.flowOn(io)

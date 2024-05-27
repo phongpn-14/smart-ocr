@@ -38,16 +38,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun addAction() {
         super.addAction()
-        binding.btHello.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                dataRepositorySource.helloWorld().collect {
-                    withContext(Dispatchers.Main) {
-                        it.whenSuccess { toastShort("Hello world from server") }
-                            .whenError { resource -> toastShort(resource.message!!) }
-                    }
-                }
-            }
-        }
 
         binding.btSavedCccd.setOnClickListener {
 //            lifecycleScope.launch(Dispatchers.IO) {

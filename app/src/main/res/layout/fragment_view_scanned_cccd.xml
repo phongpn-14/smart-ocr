@@ -38,190 +38,288 @@
                 tools:ignore="HardcodedText" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/llDetail"
-            android:layout_marginHorizontal="8dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    style="@style/Text.Body.Semibold"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="ID"
-                    tools:ignore="HardcodedText" />
-
-                <EditText
-                    android:id="@+id/tvId"
-                    style="@style/Text.Body.Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:text="0234567535" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    style="@style/Text.Body.Semibold"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Họ và tên"
-                    tools:ignore="HardcodedText" />
-
-                <EditText
-                    android:id="@+id/tvName"
-                    style="@style/Text.Body.Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:text="0234567535" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    style="@style/Text.Body.Semibold"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Ngày sinh"
-                    tools:ignore="HardcodedText" />
-
-                <EditText
-                    android:id="@+id/tvBirthday"
-                    style="@style/Text.Body.Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:text="0234567535" />
-            </LinearLayout>
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="30dp"
+            android:paddingBottom="150dp">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingVertical="10dp">
 
-                <TextView
-                    style="@style/Text.Body.Semibold"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Giới tính"
-                    tools:ignore="HardcodedText" />
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/tvSex"
-                    style="@style/Text.Body.Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:text="0234567535" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingVertical="10dp">
-
-                <TextView
-                    style="@style/Text.Body.Semibold"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Quê quán"
-                    tools:ignore="HardcodedText" />
-
-                <EditText
-                    android:id="@+id/tvHomeTown"
-                    style="@style/Text.Body.Regular"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:gravity="start"
-                    android:text="0234567535" />
-            </LinearLayout>
+                    android:background="@drawable/bg_item_cccd_detail"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingVertical="10dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_user_id" />
 
-                <TextView
-                    style="@style/Text.Body.Semibold"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Nơi thường trú"
-                    tools:ignore="HardcodedText" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Số CCCD"
+                        app:boxStrokeWidth="0dp">
 
-                <EditText
-                    android:id="@+id/tvPermanentAddress"
-                    style="@style/Text.Body.Regular"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tvId"
+                            style="@style/Text.Body.Semibold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|center_vertical"
+                            android:lastBaselineToBottomHeight="6dp"
+                            android:text="0120"
+                            android:textSize="18sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:gravity="start"
-                    android:text="0234567535" />
-            </LinearLayout>
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_item_cccd_detail"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_user"
+                        app:tint="#1C274C" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingVertical="10dp">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Họ và tên"
+                        app:boxStrokeWidth="0dp"
+                        tools:ignore="HardcodedText">
 
-                <TextView
-                    style="@style/Text.Body.Semibold"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="Quốc tịch"
-                    tools:ignore="HardcodedText" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tvName"
+                            style="@style/Text.Body.Semibold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|center_vertical"
+                            android:lastBaselineToBottomHeight="6dp"
+                            android:text="Vũ Hoài Anh"
+                            android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/tvNationality"
-                    style="@style/Text.Body.Regular"
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:gravity="start"
-                    android:text="0234567535" />
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_item_cccd_detail"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_calendar_date"
+                        app:tint="#1C274C" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:hint="Ngày sinh"
+                        app:boxStrokeWidth="0dp"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tvBirthday"
+                            style="@style/Text.Body.Semibold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|center_vertical"
+                            android:lastBaselineToBottomHeight="6dp"
+                            android:text="26/09/2001"
+                            android:textSize="18sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_item_cccd_detail"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_user_check"
+                        app:tint="#1C274C" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:hint="Giới tính"
+                        app:boxStrokeWidth="0dp"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tvSex"
+                            style="@style/Text.Body.Semibold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|center_vertical"
+                            android:lastBaselineToBottomHeight="6dp"
+                            android:text="Nam"
+                            android:textSize="18sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_item_cccd_detail"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_point_on_map"
+                        app:tint="#1C274C" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:hint="Quê quán"
+                        app:boxStrokeWidth="0dp"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tvHomeTown"
+                            style="@style/Text.Body.Semibold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|center_vertical"
+                            android:lastBaselineToBottomHeight="6dp"
+                            android:text="Song Mai, Kim Động, Hưng Yên"
+                            android:textSize="16sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_item_cccd_detail"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_people_nearby"
+                        app:tint="#1C274C" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:hint="Nơi thường trú"
+                        app:boxStrokeWidth="0dp"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tvPermanentAddress"
+                            style="@style/Text.Body.Semibold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|center_vertical"
+                            android:lastBaselineToBottomHeight="6dp"
+                            android:text="Song Mai, Kim Động, Hưng Yên"
+                            android:textSize="16sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_item_cccd_detail"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_people_nearby"
+                        app:tint="#1C274C" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:hint="Quốc tịch"
+                        app:boxStrokeWidth="0dp"
+                        tools:ignore="HardcodedText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tvNationality"
+                            style="@style/Text.Body.Semibold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start|center_vertical"
+                            android:lastBaselineToBottomHeight="6dp"
+                            android:text="Việt Nam"
+                            android:textSize="16sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+
             </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-
-        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btSave"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="wrap_content"
+            style="@style/Button.Primary"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="24dp"
             android:fontFamily="@font/inter_semibold"
             android:paddingHorizontal="24dp"

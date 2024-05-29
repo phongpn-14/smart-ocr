@@ -55,6 +55,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>() {
         }
 
         binding.btLogIn.setOnClickListener {
+            authViewModel.onSignIn()
             navigate(R.id.signInFragment)
         }
     }

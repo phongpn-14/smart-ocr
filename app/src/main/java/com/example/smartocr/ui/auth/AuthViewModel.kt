@@ -11,6 +11,7 @@ import com.example.smartocr.util.singleEventOf
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -39,6 +40,8 @@ class AuthViewModel @Inject constructor(
 
     fun signOut() {
         Firebase.auth.signOut()
+        SharePreferenceExt.username = ""
+        SharePreferenceExt.password = ""
     }
 
     fun login(userName: String, password: String) {
@@ -89,13 +92,17 @@ class AuthViewModel @Inject constructor(
 
             _authState.value = Resource.Loading
             dataRepositorySource.signIn(userName, password, repassword, phone).collect {
-                _authState.value = it
-                    .whenSuccess {
-                        SharePreferenceExt.username = userName
-                        SharePreferenceExt.password = password
-                    }
-                    .map { User(userName, userName, password) }
+                it.whenSuccess {
+                    SharePreferenceExt.username = userName
+                    SharePreferenceExt.password = password
+                    delay(200)
+                    login(userName, password)
+                }
             }
         }
+    }
+
+    fun onSignIn() {
+        _authState.value = Resource.Idle
     }
 }

@@ -4,6 +4,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.DataRepositorySource
+import com.example.smartocr.util.SharePreferenceExt
 import com.example.smartocr.util.repeatOnLifecycleStartState
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentHomeBinding
@@ -21,6 +22,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val homeViewModel by activityViewModels<HomeViewModel>()
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
+    }
+
+    override fun initView() {
+        super.initView()
+        binding.tvUserName.text = SharePreferenceExt.username
     }
 
     override fun addObserver() {

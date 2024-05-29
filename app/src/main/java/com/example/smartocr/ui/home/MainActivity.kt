@@ -1,9 +1,8 @@
-package com.example.smartocr
+package com.example.smartocr.ui.home
 
 import android.Manifest
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
@@ -12,7 +11,6 @@ import com.example.smartocr.base.BaseActivity
 import com.example.smartocr.ui.auth.AuthViewModel
 import com.example.smartocr.ui.camera.CCCDJob
 import com.example.smartocr.ui.camera.CameraFragment
-import com.example.smartocr.ui.camera.ScanJob
 import com.example.smartocr.ui.camera.TableJob
 import com.example.smartocr.ui.camera.WithoutTemplateJob
 import com.example.smartocr.util.gone
@@ -75,10 +73,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 .permission(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
                 .request { _, allGranted ->
                     if (allGranted) {
-                        binding.flowBtScan.isVisible = !binding.flowBtScan.isVisible
-//                        navController.navigate(R.id.cameraFragment, null, navOptions {
-//                            anim { enter = androidx.navigation.ui.R.anim.nav_default_enter_anim }
-//                        })
+                        ScanOptionDialog().show(supportFragmentManager, null)
                     } else {
                         toastShort("Permission denied")
                     }

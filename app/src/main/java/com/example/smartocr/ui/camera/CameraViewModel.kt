@@ -73,7 +73,7 @@ class CameraViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.Default) {
                 dataRepositorySource.processWithoutTemplate(tmpResultFile!!).collect {
                     it.logd()
-                    val text = it.map { it?.metadata?.textMetadata?.map { it.text }?.mergeAll() }
+                    val text = it.map { it?.metadata?.textMetadata?.map { it.text }?.reversed()?.mergeAll() }
                     text.logd()
                     callback.invoke(text.map {
                         ScanResult.SimpleResult(result = it!!)

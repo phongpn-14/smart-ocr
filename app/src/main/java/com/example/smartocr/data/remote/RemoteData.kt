@@ -8,6 +8,7 @@ import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.model.OcrCCCD
+import com.example.smartocr.data.model.TemplateKey
 import com.example.smartocr.data.remote.service.SmartOCRService
 import com.example.smartocr.util.NetworkConnectivity
 import com.example.smartocr.util.logd
@@ -172,6 +173,25 @@ constructor(
         return flow {
             emit(processCall {
                 smartOcr.listTemplate()
+            })
+        }.flowOn(io)
+    }
+
+    override fun createKeyTemplate(data: String, keyName: String): Flow<Resource<String>> {
+        return flow {
+            emit(processCall(scalar = true) {
+                smartOcr.createKeyTemplate(
+                    MultipartBody.Part.createFormData("text", data),
+                    MultipartBody.Part.createFormData("name", keyName),
+                )
+            })
+        }.flowOn(io)
+    }
+
+    override fun listKeyTemplate(): Flow<Resource<List<TemplateKey>>> {
+        return flow {
+            emit(processCall {
+                smartOcr.listTemplateKey()
             })
         }.flowOn(io)
     }

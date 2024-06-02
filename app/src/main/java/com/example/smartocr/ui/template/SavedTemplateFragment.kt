@@ -41,6 +41,10 @@ class SavedTemplateFragment : BaseFragment<FragmentSavedTemplateBinding>() {
                 bundleOf("job" to TemplateJob(templateId = selectedId))
             )
         }
+
+        binding.btAdd.setOnClickListener {
+            findNavController().navigate(R.id.createKeyTemplateFragment)
+        }
     }
 
     override fun addObserver() {
@@ -49,16 +53,13 @@ class SavedTemplateFragment : BaseFragment<FragmentSavedTemplateBinding>() {
             launch {
                 templateViewModel.listTemplateState.collect {
                     it.whenSuccess {
-                        templateAdapter.update(it.data!!.map {
+                        templateAdapter.update((it.data!!).map {
                             ItemSavedTemplate(it) {
-
-
+                                selectedId = it.id
+                                templateViewModel.onChooseTemplate(it)
                             }
                         })
                     }
-
-                }
-                templateViewModel.templateId.collect {
 
                 }
             }

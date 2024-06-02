@@ -185,6 +185,8 @@ dependencies {
     /** ---------------------Groupie---------------------**/
     implementation "com.github.lisawray.groupie:groupie:2.10.1"
     implementation "com.github.lisawray.groupie:groupie-viewbinding:2.10.1"
+    implementation 'com.github.simonebortolin:FlowLayoutManager:1.8.0'
+
 
     implementation("com.vanniktech:android-image-cropper:4.3.3")
 

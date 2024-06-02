@@ -95,5 +95,10 @@
         android:name="com.example.smartocr.ui.auth.SignInFragment"
         android:label="SignInFragment"
         tools:layout="@layout/fragment_sign_in" />
+    <fragment
+        android:id="@+id/createKeyTemplateFragment"
+        android:name="com.example.smartocr.ui.template.CreateKeyTemplateFragment"
+        android:label="CreateKeyTemplateFragment"
+        tools:layout="@layout/fragment_create_key_template" />
 
 </navigation>

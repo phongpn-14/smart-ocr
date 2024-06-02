@@ -8,6 +8,7 @@ import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.model.OcrCCCD
+import com.example.smartocr.data.model.TemplateKey
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
@@ -31,4 +32,6 @@ internal interface RemoteDataSource {
     fun editCCCD(documentId: String, file: File): Flow<Resource<String>>
 
     fun listTemplate(): Flow<Resource<List<Template>>>
+    fun createKeyTemplate(data: String, keyName: String): Flow<Resource<String>>
+    fun listKeyTemplate(): Flow<Resource<List<TemplateKey>>>
 }

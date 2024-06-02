@@ -7,6 +7,7 @@ import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.local.LocalData
 import com.example.smartocr.data.model.OcrCCCD
+import com.example.smartocr.data.model.TemplateKey
 import com.example.smartocr.data.remote.RemoteData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -74,6 +75,14 @@ class DataRepository @Inject constructor(
 
     override suspend fun listTemplate(): Flow<Resource<List<Template>>> {
         return remoteRepository.listTemplate()
+    }
+
+    override fun createKeyTemplate(data: String, keyName: String): Flow<Resource<String>> {
+        return remoteRepository.createKeyTemplate(data, keyName)
+    }
+
+    override fun listKeyTemplate(): Flow<Resource<List<TemplateKey>>> {
+        return remoteRepository.listKeyTemplate()
     }
 
     override val coroutineContext: CoroutineContext

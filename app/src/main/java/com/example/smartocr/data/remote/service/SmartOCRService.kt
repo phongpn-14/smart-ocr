@@ -8,6 +8,7 @@ import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.model.OcrCCCD
+import com.example.smartocr.data.model.TemplateKey
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.GET
@@ -90,4 +91,25 @@ interface SmartOCRService {
             "db_text"
         )
     ): Response<List<Template>>
+
+    @Multipart
+    @POST("/api/db/display")
+    suspend fun listTemplateKey(
+        @Part dbName: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "db_name",
+            "db_key"
+        )
+    ): Response<List<TemplateKey>>
+
+    @Multipart
+    @POST("/api/up_key")
+    suspend fun createKeyTemplate(
+        @Part keys: MultipartBody.Part,
+        @Part name: MultipartBody.Part,
+    ): Response<String>
+
+    @Multipart
+    @POST("/api/db/display")
+    suspend fun getKeyTemplate(): Response<List<TemplateKey>>
+
 }

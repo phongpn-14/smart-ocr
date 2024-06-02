@@ -49,13 +49,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 //            lifecycleScope.launch(Dispatchers.IO) {
 //                dataRepositorySource.listCCCD().collect {
             navigate(R.id.listScannedCCCDFragment)
-//                    withContext(Dispatchers.Main) {
-//                        it.whenSuccess { toastShort("OK listcccd") }
-//                            .whenError { resource -> toastShort(resource.message!!) }
-//                    }
-//                    it.data?.logd()
-//                }
-//            }
         }
     }
 

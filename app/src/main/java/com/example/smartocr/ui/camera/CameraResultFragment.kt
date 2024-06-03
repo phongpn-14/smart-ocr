@@ -6,6 +6,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.Resource
+import com.hjq.permissions.XXPermissions
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentCameraResultBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,14 +34,26 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
         }
 
         binding.btContinue.setOnClickListener {
-            val job = cameraViewModel.scanJob
-            when (job) {
-                is CCCDJob -> processCCCD()
-                is WithoutTemplateJob -> processWithoutTemplate()
-                is TemplateJob -> processTemplate(job.templateId)
-                is TableJob -> processTable()
-            }
-
+            XXPermissions.with(requireContext())
+                .permission(
+                    android.Manifest.permission.READ_MEDIA_VIDEO,
+                    android.Manifest.permission.READ_MEDIA_IMAGES,
+                    android.Manifest.permission.READ_MEDIA_AUDIO,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                )
+                .request { _, granted ->
+                    if (granted) {
+                        val job = cameraViewModel.scanJob
+                        when (job) {
+                            is CCCDJob -> processCCCD()
+                            is WithoutTemplateJob -> processWithoutTemplate()
+                            is TemplateJob -> processTemplate(job.templateId)
+                            is TableJob -> processTable()
+                        }
+                    } else {
+                        toastShort("Tính năng cần cấp quyền!!")
+                    }
+                }
         }
     }
 

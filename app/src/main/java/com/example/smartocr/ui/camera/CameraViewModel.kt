@@ -90,7 +90,7 @@ class CameraViewModel @Inject constructor(
                                 )
                             }
 
-                        }
+                            }
 
                     }.whenError {
                         callback.invoke(Resource.Error(message = it.message))
@@ -120,7 +120,8 @@ class CameraViewModel @Inject constructor(
                                         .permission(
                                             android.Manifest.permission.READ_MEDIA_VIDEO,
                                             android.Manifest.permission.READ_MEDIA_IMAGES,
-                                            android.Manifest.permission.READ_MEDIA_AUDIO
+                                            android.Manifest.permission.READ_MEDIA_AUDIO,
+                                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                         )
                                         .request { _, granted ->
                                             viewModelScope.launch {

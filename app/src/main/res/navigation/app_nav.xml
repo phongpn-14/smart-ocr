@@ -100,5 +100,14 @@
         android:name="com.example.smartocr.ui.template.CreateKeyTemplateFragment"
         android:label="CreateKeyTemplateFragment"
         tools:layout="@layout/fragment_create_key_template" />
+    <fragment
+        android:id="@+id/autoFillViewDetailCCCDFragment"
+        android:name="com.example.smartocr.ui.template.AutoFillViewDetailCCCDFragment"
+        android:label="AutoFillViewDetailCCCDFragment"
+        tools:layout="@layout/fragment_auto_fill_view_scanned_cccd" />
+    <fragment
+        android:id="@+id/chooseCCCDFragment"
+        android:name="com.example.smartocr.ui.template.ChooseCCCDFragment"
+        android:label="ChooseCCCDFragment" />
 
 </navigation>

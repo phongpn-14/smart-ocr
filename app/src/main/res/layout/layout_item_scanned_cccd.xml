@@ -31,31 +31,37 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="8dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_name"
+                    style="@style/Text.Body.Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="start"
                     android:text="PHẠM NHƯ PHON"
                     tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/tv_number"
+                    style="@style/Text.Body.Regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:text="No: 03320100456"
                     tools:ignore="HardcodedText" />
 
-                <TextView
-                    android:id="@+id/tv_hometown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Home: Đai Tập. Khoái. Châu, Hưng Yên"
-                    tools:ignore="HardcodedText" />
-
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_alt_arrow_right" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

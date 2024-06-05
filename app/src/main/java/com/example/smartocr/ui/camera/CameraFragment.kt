@@ -9,10 +9,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.canhub.cropper.CropImageContract
-import com.canhub.cropper.CropImageIntentChooser
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.util.dp
-import com.example.smartocr.util.logd
 import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.PictureResult
 import com.proxglobal.smart_ocr.R
@@ -86,13 +84,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
         binding.cameraView.addCameraListener(object : CameraListener() {
             override fun onPictureTaken(result: PictureResult) {
                 super.onPictureTaken(result)
-                cameraViewModel.convertResult(
-                    result,
-                    binding.cutOff.excludedWidth,
-                    binding.cutOff.excludedHeight,
-                    binding.cutOff.cutOffTopOffset,
-                    requireContext()
-                ) {
+                cameraViewModel.convertResult(result, requireContext()) {
                     it.whenSuccess {
                         findNavController().navigate(R.id.cameraResultFragment)
                     }.whenError {
@@ -101,11 +93,12 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
                 }
             }
         })
-        when (cameraViewModel.scanJob) {
-            is TemplateJob -> {
-                binding.cutOff.setCutOffSize(300.dp, 500.dp)
-                binding.cutOff.setOffset(0)
-            }
+
+        binding.tvTitle.text = when (cameraViewModel.scanJob) {
+            is TemplateJob -> "Quét mẫu có sẵn"
+            is CCCDJob -> "Quét CCCD"
+            is WithoutTemplateJob -> "Quét mẫu mới"
+            else -> "Quét dạng bảng"
         }
     }
 
@@ -119,37 +112,18 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>() {
             binding.cameraView.takePictureSnapshot()
         }
 
-        binding.slider.addOnChangeListener { _, fl, fromUser ->
-            if (fromUser) {
-                binding.cutOff.setCutOffSize(300.dp, (500.dp * fl).toInt())
-            }
-        }
-
         binding.btLibrary.setOnClickListener {
-//            cropImage.launch(
-//                options {
-//                    setToolbarBackButtonColor(Color.BLACK)
-//                    setToolbarColor(Color.WHITE)
-//                    setActivityTitle("Crop Image")
-//                    setImageSource(includeGallery = true, includeCamera = false)
-//                    setGuidelines(CropImageView.Guidelines.ON)
-//                    setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
-//                }
-//            )
             pickImage()
         }
     }
 
     private fun pickImage() {
-       val pickIntent = Intent(Intent.ACTION_CHOOSER, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-            action = Intent.ACTION_PICK
-            type = "image/*"
-        }
+        val pickIntent =
+            Intent(Intent.ACTION_CHOOSER, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
+                action = Intent.ACTION_PICK
+                type = "image/*"
+            }
         intentChooser.launch(pickIntent)
-//        ciIntentChooser.showChooserIntent(
-//            includeCamera = false,
-//            includeGallery = true,
-//        )
     }
 
     private fun setResultCancel() {

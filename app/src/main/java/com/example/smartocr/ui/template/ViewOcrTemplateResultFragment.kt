@@ -3,6 +3,7 @@ package com.example.smartocr.ui.template
 import android.content.Intent
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.ui.camera.ScanResult
@@ -13,6 +14,8 @@ import java.io.File
 
 @AndroidEntryPoint
 class ViewOcrTemplateResultFragment : BaseFragment<FragmentViewOcrTableBinding>() {
+    private val templateViewModel by activityViewModels<TemplateViewModel>()
+
     private lateinit var file: File
     override fun getLayoutId(): Int {
         return R.layout.fragment_view_ocr_table
@@ -22,6 +25,7 @@ class ViewOcrTemplateResultFragment : BaseFragment<FragmentViewOcrTableBinding>(
         super.initView()
         val result = requireArguments().getParcelable<ScanResult.TemplateResult>("result")
         file = File(result!!.fileUrl)
+        templateViewModel.currentTemplateId = result.templateId
         binding.tvFileName.text = file.name
         binding.ivFileSize.text = (file.length() / 1024).toString() + "KB"
     }
@@ -50,6 +54,10 @@ class ViewOcrTemplateResultFragment : BaseFragment<FragmentViewOcrTableBinding>(
 //            createChooser.setData(uri)
 //            createChooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             requireContext().startActivity(createChooser)
+        }
+
+        binding.btAutoFill.setOnClickListener {
+            navigate(R.id.chooseCCCDFragment)
         }
 
 

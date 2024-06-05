@@ -30,33 +30,19 @@ class CameraViewModel @Inject constructor(
     lateinit var scanJob: ScanJob
 
     fun convertResult(
-        result: PictureResult,
-        width: Int, height: Int, topOffset: Int,
-        context: Context,
+        result: PictureResult, context: Context,
         onDone: suspend (Resource<Unit>) -> Unit
     ) {
         result.toBitmap {
             it?.let { bitmap ->
                 val t = Bitmap.createScaledBitmap(
-                    it,
+                    bitmap,
                     context.resources.displayMetrics.widthPixels,
                     context.resources.displayMetrics.heightPixels,
                     false
                 )
-                val centerX = t.width / 2f
-                val centerY = t.height / 2f - topOffset
-                val left = centerX - width / 2
-                val top = centerY - height / 2
                 tmpResultBitmap?.recycle()
-                if (top <= 0) {
-                    viewModelScope.launch {
-                        onDone.invoke(Resource.Error(message = "Something wrong. Please try again later."))
-                    }
-                    return@toBitmap
-                }
-                "left = $left, top = $top, width = ${t.width},height = ${t.height}".logd()
-                tmpResultBitmap =
-                    Bitmap.createBitmap(t, left.toInt(), top.toInt(), width, height)
+                tmpResultBitmap = t
                 viewModelScope.launch {
                     tmpResultFile = tmpResultBitmap!!.toFile()
                     onDone.invoke(Resource.Success(Unit))
@@ -73,7 +59,9 @@ class CameraViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.Default) {
                 dataRepositorySource.processWithoutTemplate(tmpResultFile!!).collect {
                     it.logd()
-                    val text = it.map { it?.metadata?.textMetadata?.map { it.text }?.reversed()?.mergeAll() }
+                    val text = it.map {
+                        it?.metadata?.textMetadata?.map { it.text }?.reversed()?.mergeAll()
+                    }
                     text.logd()
                     callback.invoke(text.map {
                         ScanResult.SimpleResult(result = it!!)

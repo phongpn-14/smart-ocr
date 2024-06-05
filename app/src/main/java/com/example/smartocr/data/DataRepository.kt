@@ -85,6 +85,13 @@ class DataRepository @Inject constructor(
         return remoteRepository.listKeyTemplate()
     }
 
+    override fun autoFill(
+        templateId: String,
+        documentId: String
+    ): Flow<Resource<ResponseTemplate>> {
+        return remoteRepository.autoFill(templateId, documentId)
+    }
+
     override val coroutineContext: CoroutineContext
         get() = ioDispatcher
 

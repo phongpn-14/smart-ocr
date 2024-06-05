@@ -196,6 +196,18 @@ constructor(
         }.flowOn(io)
     }
 
+    override fun autoFill(
+        templateId: String,
+        documentId: String
+    ): Flow<Resource<ResponseTemplate>> = flow {
+        emit(processCall {
+            smartOcr.autoFill(
+                MultipartBody.Part.createFormData("template_id", templateId),
+                MultipartBody.Part.createFormData("document_id", documentId),
+            )
+        })
+    }.flowOn(io)
+
     private suspend
     fun <T> processCall(
         scalar: Boolean = false,

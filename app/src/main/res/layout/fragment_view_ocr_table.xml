@@ -102,12 +102,27 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_auto_fill"
+            style="@style/Button.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="32dp"
-            android:text="Up to drive"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="20dp"
+            android:text="Thêm thông tin"
+            app:layout_constraintBottom_toTopOf="@+id/materialButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/materialButton"
+            style="@style/Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginBottom="60dp"
+            android:text="Lưu thông tin và trở về"
+            android:textColor="#2C3D7A"
+            app:backgroundTint="#D5D8E4"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.8"
+            tools:ignore="HardcodedText"
             tools:layout_editor_absoluteX="32dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

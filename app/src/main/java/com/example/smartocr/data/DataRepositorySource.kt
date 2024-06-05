@@ -43,5 +43,7 @@ interface DataRepositorySource {
     fun createKeyTemplate(data: String, keyName: String): Flow<Resource<String>>
 
     fun listKeyTemplate(): Flow<Resource<List<TemplateKey>>>
+
+    fun autoFill(templateId: String, documentId: String): Flow<Resource<ResponseTemplate>>
 }
 

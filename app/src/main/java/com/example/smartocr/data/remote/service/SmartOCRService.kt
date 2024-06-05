@@ -112,4 +112,11 @@ interface SmartOCRService {
     @POST("/api/db/display")
     suspend fun getKeyTemplate(): Response<List<TemplateKey>>
 
+    @Multipart
+    @POST("/api/ocr_temp/autofill")
+    suspend fun autoFill(
+        @Part templateId: MultipartBody.Part,
+        @Part documentId: MultipartBody.Part,
+    ): Response<ResponseTemplate>
+
 }

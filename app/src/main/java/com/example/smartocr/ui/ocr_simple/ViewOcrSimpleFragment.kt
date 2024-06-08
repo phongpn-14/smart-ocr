@@ -1,5 +1,9 @@
 package com.example.smartocr.ui.ocr_simple
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.ui.camera.ScanResult
@@ -24,5 +28,34 @@ class ViewOcrSimpleFragment : BaseFragment<FragmentViewOcrSimpleBinding>() {
         binding.btBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.btCopy.setOnClickListener {
+            copyTextToClipboard(binding.tvResult.text.toString())
+        }
+
+        binding.btShare.setOnClickListener {
+            shareText(requireContext(), binding.tvResult.text.toString())
+        }
     }
+
+    fun copyTextToClipboard(text: String) {
+        val clipboardManager =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(
+            "label",
+            text
+        )
+        clipboardManager.setPrimaryClip(clip)
+    }
+
+    fun shareText(context: Context, text: String) {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+        context.startActivity(Intent.createChooser(shareIntent, null))
+    }
+
+
 }

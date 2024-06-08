@@ -4,12 +4,14 @@ import android.graphics.Rect
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.example.smartocr.base.BaseFragment
+import com.example.smartocr.data.model.TemplateKey
 import com.example.smartocr.util.dp
 import com.example.smartocr.util.groupieAdapter
 import com.example.smartocr.util.postValue
@@ -26,6 +28,7 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
     private val templateViewModel by activityViewModels<TemplateViewModel>()
     private val keys = MutableLiveData<MutableSet<String>>(mutableSetOf())
     private val keyAdapter = groupieAdapter()
+    private var existKeyTemplate: TemplateKey? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_create_key_template
@@ -33,7 +36,17 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
 
     override fun initView() {
         super.initView()
-        keys.postValue { clear() }
+        existKeyTemplate = requireArguments().getParcelable<TemplateKey>("template_key")
+        keys.postValue {
+            clear()
+            existKeyTemplate?.document?.line?.forEach {
+                add(it)
+            }
+        }
+        binding.tvTitle.text =
+            if (existKeyTemplate == null) "Thêm mẫu mới" else "Chỉnh sửa mẫu"
+        binding.btDelete.isVisible = existKeyTemplate != null
+        binding.edtName.setText(existKeyTemplate?.document?.name)
         binding.rvKeys.apply {
             adapter = keyAdapter
             layoutManager = FlowLayoutManager()
@@ -100,7 +113,8 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
                 it.whenLoading {
                     withContext(Dispatchers.Main) {
                         showLoading()
-                    }}
+                    }
+                }
                     .whenSuccess {
                         withContext(Dispatchers.Main) {
                             toastShort("Key update successfully!")

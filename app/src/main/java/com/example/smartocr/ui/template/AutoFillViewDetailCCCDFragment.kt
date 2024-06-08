@@ -40,7 +40,6 @@ class AutoFillViewDetailCCCDFragment : BaseFragment<FragmentAutoFillViewScannedC
             e.printStackTrace()
         }
 
-        binding.btSave.isVisible = editable
         binding.tvName.isEnabled = editable
         binding.tvBirthday.isEnabled = editable
         binding.tvId.isEnabled = editable

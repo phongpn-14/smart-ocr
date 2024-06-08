@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="16dp"
+            android:gravity="center"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -28,14 +29,25 @@
                 app:tint="@color/black" />
 
             <TextView
+                android:id="@+id/tv_title"
                 style="@style/Text.Title.Bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="-16dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="Tạo Key"
                 tools:ignore="HardcodedText" />
+
+
+            <ImageView
+                android:id="@+id/btDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/black" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.textfield.TextInputEditText

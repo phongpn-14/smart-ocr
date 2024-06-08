@@ -43,8 +43,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/llDetail"
             android:layout_marginHorizontal="24dp"
+            android:clipToPadding="false"
             android:layout_marginTop="30dp"
-            android:paddingBottom="150dp">
+            android:paddingBottom="120dp">
 
 
             <LinearLayout

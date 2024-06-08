@@ -113,5 +113,9 @@
         android:id="@+id/fragmentFileResult"
         android:name="com.example.smartocr.ui.document.FragmentFileResult"
         android:label="FragmentFileResult" />
+    <fragment
+        android:id="@+id/manageTemplateKeyFragment"
+        android:name="com.example.smartocr.ui.template.ManageTemplateKeyFragment"
+        android:label="ManageTemplateKeyFragment" />
 
 </navigation>

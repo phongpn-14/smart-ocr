@@ -110,6 +110,13 @@ interface SmartOCRService {
     ): Response<String>
 
     @Multipart
+    @POST("/api/delete_document")
+    suspend fun deleteKeyTemplate(
+        @Part dbName: MultipartBody.Part = MultipartBody.Part.createFormData("db_name", "db_key"),
+        @Part name: MultipartBody.Part,
+    ): Response<String>
+
+    @Multipart
     @POST("/api/db/display")
     suspend fun getKeyTemplate(): Response<List<TemplateKey>>
 

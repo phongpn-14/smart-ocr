@@ -5,24 +5,18 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.drive.GoogleDriveServiceHelper
-import com.example.smartocr.data.remote.baseurl
 import com.example.smartocr.ui.auth.AuthViewModel
-import com.example.smartocr.util.SharePreferenceExt
 import com.example.smartocr.util.logd
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.Scope
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentSettingBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,9 +42,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
 
     override fun initView() {
         super.initView()
-        binding.tvEmail.text = SharePreferenceExt.username
-        binding.tvName.text = SharePreferenceExt.password
-        binding.edtIpServer.setText(SharePreferenceExt.lastDomain)
     }
 
     override fun addAction() {
@@ -62,35 +53,8 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             navigate(R.id.authFragment)
         }
 
-        binding.btUploadFile.setOnClickListener {
-            GoogleSignIn.getLastSignedInAccount(requireActivity())?.let {
-                oauthCredential.selectedAccount = it.account
-                drive = Drive.Builder(
-                    NetHttpTransport.Builder().build(),
-                    GsonFactory.getDefaultInstance(),
-                    oauthCredential
-                ).setApplicationName(getString(R.string.app_name))
-                    .build()
-                driveHelper = GoogleDriveServiceHelper(drive)
-                driveHelper!!.createFolder()
-                val fileIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                fileIntent.addCategory(Intent.CATEGORY_OPENABLE)
-                fileIntent.type = "*/*"
-                startActivityForResult(fileIntent, 1)
-            } ?: run {
-                val client = GoogleSignIn.getClient(
-                    requireActivity(),
-                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestScopes(Scope(DriveScopes.DRIVE_FILE))
-                        .requestEmail()
-                        .build()
-                )
-                startActivityForResult(client.signInIntent, 2)
-            }
-        }
-
-        binding.edtIpServer.addTextChangedListener {
-            baseurl = "http://${it.toString().trim()}:3502/"
+        binding.btManageKey.setOnClickListener {
+            navigate(R.id.savedTemplateFragment)
         }
 
         binding.root.setOnClickListener {

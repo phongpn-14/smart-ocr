@@ -147,6 +147,7 @@
                         tools:ignore="HardcodedText" />
 
                     <TextView
+                        android:id="@+id/tv_file_result_count"
                         style="@style/Text.Caption.Regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

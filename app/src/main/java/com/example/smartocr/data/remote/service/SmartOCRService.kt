@@ -7,6 +7,7 @@ import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
+import com.example.smartocr.data.model.FileDocument
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.model.TemplateKey
 import okhttp3.MultipartBody
@@ -118,5 +119,9 @@ interface SmartOCRService {
         @Part templateId: MultipartBody.Part,
         @Part documentId: MultipartBody.Part,
     ): Response<ResponseTemplate>
+
+    @Multipart
+    @POST("/api/db/display")
+    suspend fun getListFileResult(): Response<List<FileDocument>>
 
 }

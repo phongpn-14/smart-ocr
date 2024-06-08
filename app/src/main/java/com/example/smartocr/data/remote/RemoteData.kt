@@ -7,6 +7,7 @@ import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
+import com.example.smartocr.data.model.FileDocument
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.model.TemplateKey
 import com.example.smartocr.data.remote.service.SmartOCRService
@@ -207,6 +208,14 @@ constructor(
             )
         })
     }.flowOn(io)
+
+    override fun getAllFileResult(): Flow<Resource<List<FileDocument>>> {
+        return flow {
+            emit(processCall {
+                smartOcr.getListFileResult()
+            })
+        }.flowOn(io)
+    }
 
     private suspend
     fun <T> processCall(

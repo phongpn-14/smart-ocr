@@ -10,4 +10,6 @@ class HomeViewModel @Inject constructor(
     private val dataRepositorySource: DataRepositorySource
 ) : ViewModel() {
     suspend fun listCCCD() = dataRepositorySource.listCCCD()
+
+    suspend fun listFileResult() = dataRepositorySource.getAllFileResult()
 }

@@ -5,6 +5,7 @@ import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
+import com.example.smartocr.data.model.FileDocument
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.model.TemplateKey
 import kotlinx.coroutines.flow.Flow
@@ -45,5 +46,7 @@ interface DataRepositorySource {
     fun listKeyTemplate(): Flow<Resource<List<TemplateKey>>>
 
     fun autoFill(templateId: String, documentId: String): Flow<Resource<ResponseTemplate>>
+
+    fun getAllFileResult(): Flow<Resource<List<FileDocument>>>
 }
 

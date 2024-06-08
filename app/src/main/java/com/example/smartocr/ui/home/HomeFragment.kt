@@ -39,6 +39,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                 }
             }
+
+            launch {
+                homeViewModel.listFileResult().collect {
+                    it.whenSuccess {
+                        binding.tvFileResultCount.text = "${it.data!!.size} File"
+                    }
+                }
+            }
         }
     }
 

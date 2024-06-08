@@ -6,6 +6,7 @@ import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.local.LocalData
+import com.example.smartocr.data.model.FileDocument
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.model.TemplateKey
 import com.example.smartocr.data.remote.RemoteData
@@ -90,6 +91,10 @@ class DataRepository @Inject constructor(
         documentId: String
     ): Flow<Resource<ResponseTemplate>> {
         return remoteRepository.autoFill(templateId, documentId)
+    }
+
+    override fun getAllFileResult(): Flow<Resource<List<FileDocument>>> {
+        return remoteRepository.getAllFileResult()
     }
 
     override val coroutineContext: CoroutineContext

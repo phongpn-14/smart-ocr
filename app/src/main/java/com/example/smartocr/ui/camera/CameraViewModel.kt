@@ -10,6 +10,7 @@ import com.example.smartocr.data.Resource
 import com.example.smartocr.data.remote.baseurl
 import com.example.smartocr.util.OkDownloaderManager
 import com.example.smartocr.util.logd
+import com.example.smartocr.util.sTypeAction
 import com.example.smartocr.util.toFile
 import com.hjq.permissions.XXPermissions
 import com.otaliastudios.cameraview.PictureResult
@@ -53,7 +54,7 @@ class CameraViewModel @Inject constructor(
 
     fun getTempResult() = tmpResultBitmap!!
 
-    fun processWithoutTemplate(callback: suspend (Resource<ScanResult>) -> Unit) {
+    fun processWithoutTemplate(callback: sTypeAction<Resource<ScanResult>>) {
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {
@@ -71,7 +72,7 @@ class CameraViewModel @Inject constructor(
         }
     }
 
-    fun processTemplate(id: String, callback: suspend (Resource<ScanResult>) -> Unit) {
+    fun processTemplate(id: String, callback: sTypeAction<Resource<ScanResult>>) {
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {
@@ -90,7 +91,7 @@ class CameraViewModel @Inject constructor(
                                 )
                             }
 
-                            }
+                        }
 
                     }.whenError {
                         callback.invoke(Resource.Error(message = it.message))
@@ -100,7 +101,7 @@ class CameraViewModel @Inject constructor(
         }
     }
 
-    fun processTable(context: Context, callback: suspend (Resource<ScanResult>) -> Unit) {
+    fun processTable(context: Context, callback: sTypeAction<Resource<ScanResult>>) {
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {
@@ -183,7 +184,7 @@ class CameraViewModel @Inject constructor(
         }
     }
 
-    fun processPictureResult(callback: suspend (Resource<ScanResult>) -> Unit) {
+    fun processPictureResult(callback: sTypeAction<Resource<ScanResult>>) {
         viewModelScope.launch(Dispatchers.Main) {
             callback.invoke(Resource.Loading)
             viewModelScope.launch(Dispatchers.Default) {

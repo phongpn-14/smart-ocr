@@ -6,6 +6,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.Resource
+import com.example.smartocr.util.gone
+import com.example.smartocr.util.visible
 import com.hjq.permissions.XXPermissions
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentCameraResultBinding
@@ -83,6 +85,8 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
 
     private suspend fun handleResult(result: Resource<ScanResult>) {
         result.whenSuccess {
+            dismissLoading()
+            binding.btContinue.isEnabled = true
             try {
                 val screen = when (it.data) {
                     is ScanResult.CCCDResult -> R.id.viewScannedCCCDFragment
@@ -99,8 +103,12 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
                 e.printStackTrace()
             }
         }.whenError {
+            dismissLoading()
+            binding.btContinue.isEnabled = true
             toastShort(it.message!!)
         }.whenLoading {
+            showLoading("Processing...")
+            binding.btContinue.isEnabled = false
             toastShort("Processing...")
         }
     }

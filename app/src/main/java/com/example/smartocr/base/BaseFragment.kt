@@ -129,10 +129,10 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         (activity as? BaseActivity<*>)?.hideKeyboard(clearFocusView)
     }
 
-    fun showLoading() {
+    fun showLoading(waitText: String = "Please wait") {
         hud = KProgressHUD.create(requireActivity())
             .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-            .setLabel("Please wait")
+            .setLabel(waitText)
             .setCancellable(true)
             .setAnimationSpeed(2)
             .setDimAmount(0.5f)

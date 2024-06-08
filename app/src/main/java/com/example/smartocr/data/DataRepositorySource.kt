@@ -48,5 +48,7 @@ interface DataRepositorySource {
     fun autoFill(templateId: String, documentId: String): Flow<Resource<ResponseTemplate>>
 
     fun getAllFileResult(): Flow<Resource<List<FileDocument>>>
+
+    fun deleteFileResult(id: String): Flow<Resource<Unit>>
 }
 

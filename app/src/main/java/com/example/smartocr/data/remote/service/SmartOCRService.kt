@@ -122,6 +122,15 @@ interface SmartOCRService {
 
     @Multipart
     @POST("/api/db/display")
-    suspend fun getListFileResult(): Response<List<FileDocument>>
+    suspend fun getListFileResult(
+        @Part name: MultipartBody.Part = MultipartBody.Part.createFormData("db_name", "db_document"),
+    ): Response<List<FileDocument>>
+
+    @Multipart
+    @POST("/api/db/delete_document")
+    suspend fun deleteFileResult(
+        @Part name: MultipartBody.Part = MultipartBody.Part.createFormData("db_name", "db_document"),
+        @Part documentId : MultipartBody.Part
+    ): Response<String>
 
 }

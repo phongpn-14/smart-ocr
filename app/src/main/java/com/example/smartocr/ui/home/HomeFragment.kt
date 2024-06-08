@@ -54,9 +54,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.addAction()
 
         binding.btSavedCccd.setOnClickListener {
-//            lifecycleScope.launch(Dispatchers.IO) {
-//                dataRepositorySource.listCCCD().collect {
             navigate(R.id.listScannedCCCDFragment)
+        }
+
+        binding.btSavedTemplate.setOnClickListener {
+            navigate(R.id.fragmentFileResult)
         }
     }
 

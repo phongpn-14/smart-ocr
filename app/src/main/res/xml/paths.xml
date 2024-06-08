@@ -2,7 +2,7 @@
 <paths tools:ignore="MissingDefaultResource"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <cache-path name="cache" path="." />
+    <cache-path name="/" path="OCR/" />
     <external-path name="external" path="." />
     <root-path name="root" path="." />
     <files-path name="files" path="." />

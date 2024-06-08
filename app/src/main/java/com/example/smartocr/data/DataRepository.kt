@@ -97,6 +97,10 @@ class DataRepository @Inject constructor(
         return remoteRepository.getAllFileResult()
     }
 
+    override fun deleteFileResult(id: String): Flow<Resource<Unit>> {
+        return remoteRepository.deleteFileResult(id)
+    }
+
     override val coroutineContext: CoroutineContext
         get() = ioDispatcher
 

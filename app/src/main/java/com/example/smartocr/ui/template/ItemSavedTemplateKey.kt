@@ -2,7 +2,6 @@ package com.example.smartocr.ui.template
 
 import android.graphics.Color
 import android.view.View
-import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.model.TemplateKey
 import com.example.smartocr.util.TypeAction
 import com.example.smartocr.util.dp

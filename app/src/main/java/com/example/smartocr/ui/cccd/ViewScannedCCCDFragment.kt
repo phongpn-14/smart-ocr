@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.model.OcrCCCD
-import com.example.smartocr.ui.DocumentViewModel
+import com.example.smartocr.ui.document.DocumentViewModel
 import com.example.smartocr.ui.camera.ScanResult
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentViewScannedCccdBinding

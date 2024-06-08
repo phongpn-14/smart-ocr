@@ -91,7 +91,7 @@
                         style="@style/Text.Caption.Regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="120 File"
+                        android:text="0 File"
                         android:textColor="#2C3D7A"
                         tools:ignore="HardcodedText" />
 
@@ -142,7 +142,7 @@
                         style="@style/Text.Caption.Semibold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mẫu đã lưu"
+                        android:text="File đã lưu"
                         android:textColor="#2C3D7A"
                         tools:ignore="HardcodedText" />
 
@@ -151,7 +151,7 @@
                         style="@style/Text.Caption.Regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="120 File"
+                        android:text="0 File"
                         android:textColor="#2C3D7A"
                         tools:ignore="HardcodedText" />
 

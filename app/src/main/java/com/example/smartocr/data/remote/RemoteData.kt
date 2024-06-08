@@ -217,6 +217,15 @@ constructor(
         }.flowOn(io)
     }
 
+    override fun deleteFileResult(id: String): Flow<Resource<Unit>> = flow {
+        emit(processCall(scalar = true) {
+            smartOcr.deleteFileResult(
+                documentId = MultipartBody.Part.createFormData("document_id", id)
+            )
+
+        })
+    }.map { it.map { } }.flowOn(io)
+
     private suspend
     fun <T> processCall(
         scalar: Boolean = false,

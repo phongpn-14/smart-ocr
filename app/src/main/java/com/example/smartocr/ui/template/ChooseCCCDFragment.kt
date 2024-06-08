@@ -37,8 +37,9 @@ class ChooseCCCDFragment : BaseFragment<FragmentAutoFillViewCccdBinding>() {
                     it.whenSuccess {
                         scannedCCCDAdapter.update(it.data!!.map {
                             ItemScannedCCCD(it) { cccd ->
-                                navigate(R.id.autoFillViewDetailCCCDFragment,
-                                    bundleOf("result" to cccd)
+                                navigate(
+                                    R.id.autoFillViewDetailCCCDFragment,
+                                    bundleOf("result" to cccd, "editable" to false)
                                 )
                             }
                         })

@@ -15,6 +15,7 @@ import androidx.navigation.PopUpToBuilder
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.kaopiz.kprogresshud.KProgressHUD
+import java.io.File
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     protected lateinit var binding: T
@@ -105,6 +106,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
                 enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
                 exit = androidx.navigation.ui.R.anim.nav_default_exit_anim
             }
+            popUpTo?.let { popUpTo(popUpTo, popUpToBuilder) }
         })
     }
 
@@ -118,6 +120,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
                 enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
                 exit = androidx.navigation.ui.R.anim.nav_default_exit_anim
             }
+            popUpTo?.let { popUpTo(popUpTo, popUpToBuilder) }
         })
     }
 
@@ -147,5 +150,9 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         dismissLoading()
+    }
+
+    fun upFileToGoogleDrive(file: File) {
+        (requireActivity() as BaseActivity<*>).upFileToGoogleDrive(file)
     }
 }

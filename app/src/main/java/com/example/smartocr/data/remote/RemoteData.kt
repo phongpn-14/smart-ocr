@@ -201,6 +201,7 @@ constructor(
         templateId: String,
         documentId: String
     ): Flow<Resource<ResponseTemplate>> = flow {
+        emit(Resource.Loading)
         emit(processCall {
             smartOcr.autoFill(
                 MultipartBody.Part.createFormData("template_id", templateId),

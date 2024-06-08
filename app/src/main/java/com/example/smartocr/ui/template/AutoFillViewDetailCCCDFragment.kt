@@ -4,7 +4,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.model.OcrCCCD
@@ -12,7 +11,6 @@ import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentAutoFillViewScannedCccdBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
@@ -98,9 +96,16 @@ class AutoFillViewDetailCCCDFragment : BaseFragment<FragmentAutoFillViewScannedC
             templateViewModel.autoFill(ocrCCCD.objectID) {
                 withContext(Dispatchers.Main) {
                     it.whenLoading {
-                        lifecycleScope.launch { showLoading() }
+                        withContext(Dispatchers.Main) { showLoading() }
                     }.whenSuccess {
-                        navigate(R.id.viewOcrTemplateResultFragment, bundleOf("result" to it.data))
+                        navigate(
+                            R.id.viewOcrTemplateResultFragment,
+                            bundleOf("result" to it.data, "can_autofill" to false),
+                            popUpTo = R.id.cameraFragment,
+                            popUpToBuilder = { inclusive = false })
+
+                    }.whenError {
+                        withContext(Dispatchers.Main) { toastShort(it.message!!) }
                     }
                 }
             }

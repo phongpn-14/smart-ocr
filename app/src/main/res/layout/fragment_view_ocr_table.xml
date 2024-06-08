@@ -67,7 +67,7 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginHorizontal="8dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -76,6 +76,9 @@
                         style="@style/Text.Caption.Regular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="Thông tin CCCD đã lưu"
                         android:textColor="#2C3D7A"
                         tools:ignore="HardcodedText" />
@@ -92,6 +95,13 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <ImageView
+                    android:id="@+id/bt_upload"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_upload" />
+
+                <ImageView
                     android:id="@+id/bt_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -100,30 +110,6 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/bt_auto_fill"
-            style="@style/Button.Primary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginBottom="20dp"
-            android:text="Thêm thông tin"
-            app:layout_constraintBottom_toTopOf="@+id/materialButton" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/materialButton"
-            style="@style/Button.Primary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginBottom="60dp"
-            android:text="Lưu thông tin và trở về"
-            android:textColor="#2C3D7A"
-            app:backgroundTint="#D5D8E4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="HardcodedText"
-            tools:layout_editor_absoluteX="32dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

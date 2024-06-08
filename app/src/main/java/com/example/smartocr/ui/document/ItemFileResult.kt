@@ -10,6 +10,7 @@ import com.xwray.groupie.viewbinding.BindableItem
 class ItemFileResult(
     private val document: FileDocument,
     private val onClick: TypeAction<FileDocument>,
+    private val onUpload: TypeAction<FileDocument>,
     private val onDelete: TypeAction<FileDocument>
 ) :
     BindableItem<LayoutItemFileDocumentBinding>() {
@@ -27,8 +28,10 @@ class ItemFileResult(
             } else if (document.document.filePath.contains(".xlsx")) {
                 ivFileThumb.setImageResource(R.drawable.ic_export_file_xlsx)
             }
+            tvFileName.isSelected = true
 
             root.setOnClickListener { onClick.invoke(document) }
+            btUpload.setOnClickListener { onUpload.invoke(document) }
             btDelete.setOnClickListener { onDelete.invoke(document) }
         }
     }

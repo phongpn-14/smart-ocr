@@ -95,7 +95,7 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
                     else -> R.id.viewOcrSimpleFragment
                 }
                 findNavController().navigate(screen, bundleOf("result" to it.data), navOptions {
-                    this.popUpTo(R.id.cameraFragment) {
+                    this.popUpTo(R.id.homeFragment) {
                         this.inclusive = false
                     }
                 })
@@ -105,7 +105,7 @@ class CameraResultFragment : BaseFragment<FragmentCameraResultBinding>() {
         }.whenError {
             dismissLoading()
             binding.btContinue.isEnabled = true
-            toastShort(it.message!!)
+            toastLong("Ảnh không hợp lệ. Vui lòng chọn ảnh khác")
         }.whenLoading {
             showLoading("Processing...")
             binding.btContinue.isEnabled = false

@@ -37,6 +37,7 @@ class FragmentFileResult : BaseFragment<FragmentFileResultBinding>() {
         super.addObserver()
         repeatOnLifecycleStartState {
             launch {
+
                 documentViewModel.listFileResult().collect {
                     it.whenSuccess {
                         fileResultAdapter.update(it.data!!.map {
@@ -62,6 +63,14 @@ class FragmentFileResult : BaseFragment<FragmentFileResultBinding>() {
                                         );
                                     createChooser.setDataAndType(uri, mimeType)
                                     requireContext().startActivity(createChooser)
+                                }
+                            }, onUpload = {
+                                documentViewModel.downloadFile(
+                                    requireContext(),
+                                    it.document.filePath,
+                                    if (it.document.filePath.contains(".docx")) "docx" else "xlsx"
+                                ) {
+                                    upFileToGoogleDrive(File(it))
                                 }
                             }, onDelete = {
                                 DialogDelete.newInstance {

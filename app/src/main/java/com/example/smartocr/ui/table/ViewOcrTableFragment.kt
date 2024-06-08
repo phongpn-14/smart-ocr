@@ -24,6 +24,7 @@ class ViewOcrTableFragment : BaseFragment<FragmentViewOcrTableBinding>() {
         val result = requireArguments().getParcelable<ScanResult.TableResult>("result")
         file = File(result!!.fileUrl)
         binding.tvFileName.text = file.name
+        binding.tvFileName.isSelected  = true
         binding.ivFileSize.text = (file.length() / 1024).toString() + "KB"
     }
 
@@ -41,6 +42,10 @@ class ViewOcrTableFragment : BaseFragment<FragmentViewOcrTableBinding>() {
             createChooser.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             createChooser.setDataAndType(uri, "application/vnd.ms-excel")
             requireContext().startActivity(createChooser)
+        }
+
+        binding.btUpload.setOnClickListener {
+            upFileToGoogleDrive(file)
         }
 
         binding.btShare.setOnClickListener {

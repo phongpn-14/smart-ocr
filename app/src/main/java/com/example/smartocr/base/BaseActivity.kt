@@ -14,6 +14,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.smartocr.data.drive.GoogleDriveServiceHelper
+import com.example.smartocr.ui.dialog.DialogSuccess
+import com.example.smartocr.util.Action
 import com.example.smartocr.util.logd
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -39,6 +41,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
         GoogleAccountCredential.usingOAuth2(this, listOf(DriveScopes.DRIVE_FILE))
     }
     private var driveHelper: GoogleDriveServiceHelper? = null
+    private var pendingForSignInDriveTask: Action? = null
     private val REQ_CODE_DRIVE = 8888
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,6 +99,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
     }
 
     fun showLoading() {
+        hud?.dismiss()
         hud = KProgressHUD.create(this)
             .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
             .setLabel("Please wait")
@@ -130,7 +134,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
                         .addOnSuccessListener {
                             lifecycleScope.launch {
                                 dismissLoading()
-                                toastShort("Success")
+                                DialogSuccess().show(supportFragmentManager, "")
                             }
                             "uploadDone = ${true}".logd()
                         }.addOnFailureListener {
@@ -149,7 +153,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
                             .addOnSuccessListener {
                                 lifecycleScope.launch {
                                     dismissLoading()
-                                    toastShort("Success")
+                                    DialogSuccess().show(supportFragmentManager, "")
                                 }
                                 "uploadDone = ${true}".logd()
                             }.addOnFailureListener {
@@ -163,6 +167,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
                 }
             }
         } ?: run {
+            showLoading()
             val client = GoogleSignIn.getClient(
                 this,
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -170,6 +175,9 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
                     .requestEmail()
                     .build()
             )
+            pendingForSignInDriveTask = {
+                upFileToGoogleDrive(file)
+            }
             startActivityForResult(client.signInIntent, REQ_CODE_DRIVE)
         }
     }
@@ -189,7 +197,8 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
                 ).setApplicationName(getString(com.proxglobal.smart_ocr.R.string.app_name))
                     .build()
                 driveHelper = GoogleDriveServiceHelper(drive)
-                driveHelper!!.createFolder()
+                pendingForSignInDriveTask?.invoke()
+                pendingForSignInDriveTask = null
             }
 
         }

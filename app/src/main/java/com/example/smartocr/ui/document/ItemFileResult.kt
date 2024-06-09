@@ -10,8 +10,7 @@ import com.xwray.groupie.viewbinding.BindableItem
 class ItemFileResult(
     private val document: FileDocument,
     private val onClick: TypeAction<FileDocument>,
-    private val onUpload: TypeAction<FileDocument>,
-    private val onDelete: TypeAction<FileDocument>
+    private val onMore: TypeAction<FileDocument>
 ) :
     BindableItem<LayoutItemFileDocumentBinding>() {
     override fun bind(viewBinding: LayoutItemFileDocumentBinding, position: Int) {
@@ -31,8 +30,7 @@ class ItemFileResult(
             tvFileName.isSelected = true
 
             root.setOnClickListener { onClick.invoke(document) }
-            btUpload.setOnClickListener { onUpload.invoke(document) }
-            btDelete.setOnClickListener { onDelete.invoke(document) }
+            btMore.setOnClickListener { onMore.invoke(document) }
         }
     }
 

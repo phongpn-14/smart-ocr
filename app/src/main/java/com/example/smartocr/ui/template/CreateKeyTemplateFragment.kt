@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.model.TemplateKey
+import com.example.smartocr.ui.dialog.DialogDelete
 import com.example.smartocr.util.dp
 import com.example.smartocr.util.groupieAdapter
 import com.example.smartocr.util.postValue
@@ -36,7 +37,7 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
 
     override fun initView() {
         super.initView()
-//        existKeyTemplate = requireArguments().getParcelable<TemplateKey>("template_key")
+        existKeyTemplate = arguments?.getParcelable<TemplateKey>("template_key")
         keys.postValue {
             clear()
             existKeyTemplate?.document?.line?.forEach {
@@ -45,8 +46,13 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
         }
         binding.tvTitle.text =
             if (existKeyTemplate == null) "Thêm mẫu mới" else "Chỉnh sửa mẫu"
-        binding.btDelete.isVisible = existKeyTemplate != null
+        binding.btDelete.isVisible = existKeyTemplate != null && existKeyTemplate?.id !in listOf("1","2", "3", "4")
         binding.edtName.setText(existKeyTemplate?.document?.name)
+
+        binding.edtKeys.isEnabled = existKeyTemplate == null
+        binding.edtName.isEnabled = existKeyTemplate == null
+        binding.btSave.isVisible = existKeyTemplate == null
+
         binding.rvKeys.apply {
             adapter = keyAdapter
             layoutManager = FlowLayoutManager()
@@ -89,6 +95,7 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
                         add(v.text.toString())
                     }
                 }
+                binding.edtKeys.text?.clear()
                 // Do whatever you want here
                 return@setOnEditorActionListener true
             } else {
@@ -126,13 +133,26 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
                     }
             }
         }
+
+        binding.btDelete.setOnClickListener {
+            DialogDelete.newInstance {
+                templateViewModel.deleteKeyTemplate(existKeyTemplate!!.id) {
+                    withContext(Dispatchers.Main) {
+                        it.whenSuccess {
+                            toastShort("Delete successfully")
+                            findNavController().navigateUp()
+                        }
+                    }
+                }
+            }.show(childFragmentManager, null)
+        }
     }
 
     override fun addObserver() {
         super.addObserver()
         keys.observe(viewLifecycleOwner) {
             keyAdapter.update(it.map { keyName ->
-                ItemKey(keyName) {
+                ItemKey(keyName, existKeyTemplate == null) {
                     keys.postValue { remove(it) }
                 }
             })

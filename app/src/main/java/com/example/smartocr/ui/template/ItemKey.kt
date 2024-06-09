@@ -1,16 +1,23 @@
 package com.example.smartocr.ui.template
 
 import android.view.View
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.example.smartocr.util.TypeAction
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.LayoutItemCreateKeyTemplateBinding
 import com.xwray.groupie.Item
 import com.xwray.groupie.viewbinding.BindableItem
 
-class ItemKey(private val name: String, private val onClick: TypeAction<String>) :
+class ItemKey(
+    private val name: String,
+    private val deletable: Boolean = true,
+    private val onClick: TypeAction<String>
+) :
     BindableItem<LayoutItemCreateKeyTemplateBinding>() {
     override fun bind(binding: LayoutItemCreateKeyTemplateBinding, p1: Int) {
         binding.tvName.text = name
+        binding.btClose.isVisible = deletable
         binding.btClose.setOnClickListener {
             onClick.invoke(name)
         }

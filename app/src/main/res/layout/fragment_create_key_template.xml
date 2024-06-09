@@ -38,6 +38,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Tạo Key"
+                android:textColor="#2C3D7A"
                 tools:ignore="HardcodedText" />
 
 

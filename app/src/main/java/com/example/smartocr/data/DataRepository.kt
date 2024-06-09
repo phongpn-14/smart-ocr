@@ -1,6 +1,5 @@
 package com.example.smartocr.data
 
-import com.example.smartocr.data.dto.response.ResponseListScannedCCCDItem
 import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
@@ -85,6 +84,10 @@ class DataRepository @Inject constructor(
 
     override fun createKeyTemplate(data: String, keyName: String): Flow<Resource<String>> {
         return remoteRepository.createKeyTemplate(data, keyName)
+    }
+
+    override fun deleteKeyTemplate(keyId: String): Flow<Resource<String>> {
+        return remoteRepository.deleteKeyTemplate(keyId)
     }
 
     override fun listKeyTemplate(): Flow<Resource<List<TemplateKey>>> {

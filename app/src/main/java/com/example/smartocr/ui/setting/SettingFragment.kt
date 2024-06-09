@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.drive.GoogleDriveServiceHelper
@@ -54,7 +55,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         }
 
         binding.btManageKey.setOnClickListener {
-            navigate(R.id.savedTemplateFragment)
+            navigate(R.id.manageTemplateKeyFragment, bundleOf("isManageKey" to true))
         }
 
         binding.root.setOnClickListener {

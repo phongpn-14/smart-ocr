@@ -1,7 +1,9 @@
 package com.example.smartocr.ui.document
 
+import android.content.Context
 import android.content.Intent
 import android.webkit.MimeTypeMap
+import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -64,22 +66,37 @@ class FragmentFileResult : BaseFragment<FragmentFileResultBinding>() {
                                     createChooser.setDataAndType(uri, mimeType)
                                     requireContext().startActivity(createChooser)
                                 }
-                            }, onUpload = {
-                                documentViewModel.downloadFile(
-                                    requireContext(),
-                                    it.document.filePath,
-                                    if (it.document.filePath.contains(".docx")) "docx" else "xlsx"
-                                ) {
-                                    upFileToGoogleDrive(File(it))
-                                }
-                            }, onDelete = {
-                                DialogDelete.newInstance {
-                                    documentViewModel.deleteFileResult(it.id) {
-                                        withContext(Dispatchers.Main) {
-                                            toastShort("Delete successfully!")
+                            }, onMore = {
+                                FileResultBottomSheetDialog(
+                                    it,
+                                    onDelete = {
+                                        DialogDelete.newInstance {
+                                            documentViewModel.deleteFileResult(it.id) {
+                                                withContext(Dispatchers.Main) {
+                                                    toastShort("Delete successfully!")
+                                                }
+                                            }
+                                        }.show(childFragmentManager, null)
+                                    },
+                                    onUpload = {
+                                        documentViewModel.downloadFile(
+                                            requireContext(),
+                                            it.document.filePath,
+                                            if (it.document.filePath.contains(".docx")) "docx" else "xlsx"
+                                        ) {
+                                            upFileToGoogleDrive(File(it))
+                                        }
+                                    },
+                                    onShare = {
+                                        documentViewModel.downloadFile(
+                                            requireContext(),
+                                            it.document.filePath,
+                                            if (it.document.filePath.contains(".docx")) "docx" else "xlsx"
+                                        ) {
+                                            shareMedia(requireContext(), File(it))
                                         }
                                     }
-                                }.show(childFragmentManager, null)
+                                ).show(childFragmentManager, null)
                             })
                         })
                     }
@@ -92,6 +109,30 @@ class FragmentFileResult : BaseFragment<FragmentFileResultBinding>() {
         super.addAction()
         binding.btBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun shareMedia(context: Context, file: File) {
+        try {
+            val uri = FileProvider.getUriForFile(
+                context, context.packageName + ".provider", file
+            )
+            try {
+                val intent =
+                    ShareCompat.IntentBuilder(requireContext())
+                        .setType(context.contentResolver.getType(uri))
+                        .setStream(uri).intent
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                val createChooser = Intent.createChooser(intent, "Share File")
+                createChooser.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(createChooser)
+
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+        } catch (ex: java.lang.Exception) {
+            ex.printStackTrace()
         }
     }
 }

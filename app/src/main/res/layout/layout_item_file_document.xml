@@ -32,7 +32,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="8dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -59,17 +59,10 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/bt_upload"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_upload" />
-
-            <ImageView
-                android:id="@+id/bt_delete"
+                android:id="@+id/bt_more"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_delete" />
+                android:src="@drawable/ic_menu_dots" />
 
         </LinearLayout>
 

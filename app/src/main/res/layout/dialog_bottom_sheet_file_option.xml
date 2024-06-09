@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        style="@style/Widget.Material3.BottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="36dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/Text.Title.Bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="Đơn thi bảo lưu"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/bt_upload"
+            style="@style/Text.Body.Semibold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:drawablePadding="8dp"
+            android:gravity="start"
+            android:paddingVertical="8dp"
+            android:text="Tải lên Google của bạn"
+            android:textColor="#2C3D7A"
+            app:drawableStartCompat="@drawable/ic_cloud_upload"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/bt_share"
+            style="@style/Text.Body.Semibold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="8dp"
+            android:gravity="start"
+            android:paddingVertical="8dp"
+            android:text="Chia sẻ"
+            android:textColor="#2C3D7A"
+            app:drawableStartCompat="@drawable/ic_share"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/bt_delete"
+            style="@style/Text.Body.Semibold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="8dp"
+            android:gravity="start"
+
+            android:paddingVertical="8dp"
+            android:text="Xóa mẫu"
+            android:textColor="#2C3D7A"
+            app:drawableStartCompat="@drawable/ic_trash_bin_minimalistic"
+            tools:ignore="HardcodedText" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

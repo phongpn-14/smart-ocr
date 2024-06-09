@@ -4,6 +4,7 @@ import android.os.Environment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smartocr.data.DataRepository
+import com.example.smartocr.data.DataRepositorySource
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.model.Document
 import com.example.smartocr.data.model.TemplateKey
@@ -24,14 +25,96 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TemplateViewModel @Inject constructor(
-    private val dataRepository: DataRepository
+    private val dataRepository: DataRepositorySource
 ) : ViewModel() {
     private val selectedTemplate = MutableStateFlow<TemplateKey?>(null)
     private val systemTemplate = listOf(
-        TemplateKey(Document(name = "Giấy đề nghị thanh toán"), "1"),
-        TemplateKey(Document(name = "Giấy thu"), "2"),
-        TemplateKey(Document(name = "Phiếu chi"), "3"),
-        TemplateKey(Document(name = "Giấy xác nhận sinh viên"), "4")
+        TemplateKey(
+            Document(
+                name = "Giấy đề nghị thanh toán",
+                line = listOf(
+                    "Đơn vị",
+                    "Bộ phận",
+                    "Họ và tên người đề nghị thanh toán",
+                    "Bộ phận (hoặc địa chỉ)",
+                    "Nội dung thanh toán",
+                    "Số tiền",
+                    "Viết bằng chữ",
+                    "Phương thức thanh toán",
+                    "Nguồn kinh phí",
+                    "Họ, tên người đề nghị thanh toán",
+                    "Mã số đề tài"
+                ),
+            ), "1"
+        ),
+        TemplateKey(
+            Document(
+                name = "Giấy thu",
+                line = listOf(
+                    "Đơn vị",
+                    "Địa chỉ",
+                    "Ngày",
+                    "tháng",
+                    "năm",
+                    "Quyển số",
+                    "Nợ",
+                    "Số",
+                    "Có",
+                    "Họ và tên người nộp tiền",
+                    "Địa chỉ",
+                    "Lý do nộp",
+                    "Số tiền",
+                    "Viết bằng chữ",
+                    "Đã nhận đủ số tiền",
+                    "Kèm theo",
+                    "Tỉ giá ngoại tệ (vàng bạc, đá quý)",
+                    "Số tiền quy đổi"
+                )
+            ), "2"
+        ),
+        TemplateKey(
+            Document(
+                name = "Phiếu chi",
+                line = listOf(
+                    "Quyển số",
+                    "Số",
+                    "Nợ",
+                    "Có",
+                    "Họ và tên người nhận tiền",
+                    "Họ và tên người nhận",
+                    "Địa chỉ",
+                    "Lý do chi",
+                    "Số tiền",
+                    "Bằng chữ",
+                    "Kèm theo",
+                    "Đã nhận đủ số tiền (viết bằng chữ)"
+                )
+            ), "3"
+        ),
+        TemplateKey(
+            Document(
+                name = "Giấy xác nhận sinh viên",
+                line = listOf(
+                    "Họ và tên sinh viên",
+                    "Số điện thoại",
+                    "Ngày sinh",
+                    "Giới tính",
+                    "Số CCCD/CMND",
+                    "Ngày cấp",
+                    "Nơi cấp",
+                    "Hộ khẩu thường trú",
+                    "Nơi ở hiện nay của gia đình",
+                    "Loại hình đào tạo",
+                    "Hệ",
+                    "Ngành",
+                    "Lớp",
+                    "Mã sinh viên",
+                    "Học kỳ",
+                    "Năm học",
+                    "Thời gian khóa học"
+                )
+            ), "4"
+        )
 
     )
 
@@ -71,6 +154,15 @@ class TemplateViewModel @Inject constructor(
                 if (it.isSuccess) {
                     retry.emit(Unit)
                 }
+            }
+        }
+    }
+
+
+    fun deleteKeyTemplate(id: String, callback: sTypeAction<Resource<String>>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataRepository.deleteKeyTemplate(id).collect {
+                callback.invoke(it)
             }
         }
     }

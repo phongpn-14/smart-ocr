@@ -2,7 +2,6 @@ package com.example.smartocr.data.remote
 
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
-import com.example.smartocr.data.dto.response.ResponseListScannedCCCDItem
 import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
@@ -204,6 +203,19 @@ constructor(
         return flow {
             emit(processCall {
                 smartOcr.listTemplateKey()
+            })
+        }.flowOn(io)
+    }
+
+    override fun deleteKeyTemplate(id: String): Flow<Resource<String>> {
+        return flow {
+            emit(processCall {
+                smartOcr.deleteKeyTemplate(
+                    documentId = MultipartBody.Part.createFormData(
+                        "document_id",
+                        id
+                    )
+                )
             })
         }.flowOn(io)
     }

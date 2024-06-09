@@ -109,17 +109,16 @@ class ViewScannedCCCDFragment : BaseFragment<FragmentViewScannedCccdBinding>() {
         }
 
         binding.btDelete.setOnClickListener {
-            documentViewModel.deleteCCCD(ocrCCCD.objectID) {
-                DialogDelete.newInstance {
+            DialogDelete.newInstance {
+                documentViewModel.deleteCCCD(ocrCCCD.objectID) {
                     lifecycleScope.launch(Dispatchers.Main) {
                         it.whenSuccess {
                             toastShort("Successfully")
                             findNavController().navigateUp()
                         }
                     }
-                }.show(childFragmentManager, null)
-            }
-
+                }
+            }.show(childFragmentManager, null)
         }
     }
 

@@ -20,7 +20,7 @@ class ViewOcrSimpleFragment : BaseFragment<FragmentViewOcrSimpleBinding>() {
     override fun initView() {
         super.initView()
         val result = requireArguments().getParcelable<ScanResult.SimpleResult>("result")
-        binding.tvResult.text = result?.result ?: "null"
+        binding.tvResult.setText(result?.result ?: "null")
     }
 
     override fun addAction() {
@@ -38,7 +38,7 @@ class ViewOcrSimpleFragment : BaseFragment<FragmentViewOcrSimpleBinding>() {
         }
     }
 
-    fun copyTextToClipboard(text: String) {
+    private fun copyTextToClipboard(text: String) {
         val clipboardManager =
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText(
@@ -48,7 +48,7 @@ class ViewOcrSimpleFragment : BaseFragment<FragmentViewOcrSimpleBinding>() {
         clipboardManager.setPrimaryClip(clip)
     }
 
-    fun shareText(context: Context, text: String) {
+    private fun shareText(context: Context, text: String) {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, text)

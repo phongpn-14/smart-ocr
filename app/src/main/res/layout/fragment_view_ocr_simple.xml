@@ -38,14 +38,18 @@
                 tools:ignore="HardcodedText" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <TextView
+        <EditText
             android:id="@+id/tvResult"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="24dp"
+            android:background="@null"
+            android:gravity="top"
+            app:layout_constraintBottom_toTopOf="@id/btCopy"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/llDetail" />
+            app:layout_constraintTop_toBottomOf="@id/llDetail"
+            app:layout_constraintVertical_bias="0" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btCopy"
@@ -75,10 +79,10 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="24dp"
-            android:textColor="@color/black"
             android:fontFamily="@font/inter_semibold"
             android:paddingHorizontal="24dp"
             android:text="Share"
+            android:textColor="@color/black"
             app:backgroundTint="#D5D8E4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

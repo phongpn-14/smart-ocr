@@ -46,6 +46,16 @@ interface SmartOCRService {
     ): Response<String>
 
     @Multipart
+    @POST("/api/db/delete_document")
+    suspend fun deleteCCCD(
+        @Part dbName: MultipartBody.Part = MultipartBody.Part.createFormData(
+            "db_name",
+            "db_cccd"
+        ),
+        @Part documentId: MultipartBody.Part,
+    ): Response<String>
+
+    @Multipart
     @POST("/api/ocr_temp")
     suspend fun processTemplate(
         @Part file: MultipartBody.Part,

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.smartocr.data.drive.GoogleDriveServiceHelper
 import com.example.smartocr.util.logd
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -23,6 +24,10 @@ import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
 import com.kaopiz.kprogresshud.KProgressHUD
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.io.File
 
 abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
@@ -115,18 +120,48 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
             ).setApplicationName(getString(com.proxglobal.smart_ocr.R.string.app_name))
                 .build()
             driveHelper = GoogleDriveServiceHelper(drive)
-            driveHelper!!.createFolder()
             showLoading()
-            driveHelper!!.uploadFileToGoogleDrive(file.absolutePath)
-                .addOnSuccessListener {
-                    dismissLoading()
-                    toastShort("Success")
-                    "uploadDone = ${true}".logd()
-                }.addOnFailureListener {
-                    dismissLoading()
-                    toastShort("Failure, message = ${it.message}")
-                    "uploadDone = ${it.message}".logd()
+            lifecycleScope.launch(Dispatchers.Default) {
+                val result = driveHelper!!.isFolderPresent.await()
+                if (result.isNotBlank()) {
+                    driveHelper!!.folderId = result
+                    delay(1000)
+                    driveHelper!!.uploadFileToGoogleDrive(file.absolutePath)
+                        .addOnSuccessListener {
+                            lifecycleScope.launch {
+                                dismissLoading()
+                                toastShort("Success")
+                            }
+                            "uploadDone = ${true}".logd()
+                        }.addOnFailureListener {
+                            lifecycleScope.launch {
+                                dismissLoading()
+                                toastShort("Failure, message = ${it.message}")
+                            }
+                            "uploadDone = ${it.message}, file = ${file.absolutePath}".logd()
+                        }
+                } else driveHelper!!.createFolder().addOnCompleteListener {
+                    "folderId = ${it.result}, success = ${it.isSuccessful}".logd()
+                    driveHelper!!.folderId = it.result
+                    lifecycleScope.launch {
+                        delay(1000)
+                        driveHelper!!.uploadFileToGoogleDrive(file.absolutePath)
+                            .addOnSuccessListener {
+                                lifecycleScope.launch {
+                                    dismissLoading()
+                                    toastShort("Success")
+                                }
+                                "uploadDone = ${true}".logd()
+                            }.addOnFailureListener {
+                                lifecycleScope.launch {
+                                    dismissLoading()
+                                    toastShort("Failure, message = ${it.message}")
+                                }
+                                "uploadDone = ${it.message}, file = ${file.absolutePath}".logd()
+                            }
+                    }
                 }
+            }
         } ?: run {
             val client = GoogleSignIn.getClient(
                 this,

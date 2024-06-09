@@ -36,7 +36,7 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
 
     override fun initView() {
         super.initView()
-        existKeyTemplate = requireArguments().getParcelable<TemplateKey>("template_key")
+//        existKeyTemplate = requireArguments().getParcelable<TemplateKey>("template_key")
         keys.postValue {
             clear()
             existKeyTemplate?.document?.line?.forEach {

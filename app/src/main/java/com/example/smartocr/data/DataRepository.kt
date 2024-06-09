@@ -1,5 +1,6 @@
 package com.example.smartocr.data
 
+import com.example.smartocr.data.dto.response.ResponseListScannedCCCDItem
 import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
@@ -72,6 +73,10 @@ class DataRepository @Inject constructor(
 
     override suspend fun editCCCD(documentId: String, file: File): Flow<Resource<String>> {
         return remoteRepository.editCCCD(documentId, file)
+    }
+
+    override fun deleteCCCD(documentId: String): Flow<Resource<String>> {
+        return remoteRepository.deleteCCCD(documentId)
     }
 
     override suspend fun listTemplate(): Flow<Resource<List<Template>>> {

@@ -2,6 +2,7 @@ package com.example.smartocr.data.remote
 
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
+import com.example.smartocr.data.dto.response.ResponseListScannedCCCDItem
 import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
@@ -31,6 +32,7 @@ internal interface RemoteDataSource {
 
     fun listCCCD(): Flow<Resource<List<OcrCCCD>>>
     fun editCCCD(documentId: String, file: File): Flow<Resource<String>>
+    fun deleteCCCD(documentId: String): Flow<Resource<String>>
 
     fun listTemplate(): Flow<Resource<List<Template>>>
     fun createKeyTemplate(data: String, keyName: String): Flow<Resource<String>>

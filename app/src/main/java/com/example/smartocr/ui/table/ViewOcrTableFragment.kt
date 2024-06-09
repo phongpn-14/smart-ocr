@@ -44,10 +44,6 @@ class ViewOcrTableFragment : BaseFragment<FragmentViewOcrTableBinding>() {
             requireContext().startActivity(createChooser)
         }
 
-        binding.btUpload.setOnClickListener {
-            upFileToGoogleDrive(file)
-        }
-
         binding.btShare.setOnClickListener {
             shareMedia(requireContext(), file)
         }

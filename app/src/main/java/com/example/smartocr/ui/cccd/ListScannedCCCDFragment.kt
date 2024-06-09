@@ -1,5 +1,6 @@
 package com.example.smartocr.ui.cccd
 
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
@@ -38,8 +39,11 @@ class ListScannedCCCDFragment : BaseFragment<FragmentListScannedCccdBinding>() {
                         scannedCCCDAdapter.update(it.data!!.map {
                             ItemScannedCCCD(it) { cccd ->
                                 navigate(
-                                    ListScannedCCCDFragmentDirections.actionListScannedCCCDFragmentToViewScannedCCCDFragment(
-                                        ScanResult.CCCDResult(ocrCCCD = cccd)
+                                    R.id.viewScannedCCCDFragment,
+                                    bundleOf(
+                                        "result" to ScanResult.CCCDResult(ocrCCCD = cccd),
+                                        "deletable" to true,
+                                        "editable" to true
                                     )
                                 )
                             }

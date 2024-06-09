@@ -1,5 +1,6 @@
 package com.example.smartocr.data
 
+import com.example.smartocr.data.dto.response.ResponseListScannedCCCDItem
 import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
@@ -38,6 +39,8 @@ interface DataRepositorySource {
     suspend fun listCCCD(): Flow<Resource<List<OcrCCCD>>>
 
     suspend fun editCCCD(documentId: String, file: File): Flow<Resource<String>>
+
+    fun deleteCCCD(documentId: String): Flow<Resource<String>>
 
     suspend fun listTemplate(): Flow<Resource<List<Template>>>
 

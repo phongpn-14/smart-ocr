@@ -6,6 +6,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
+import com.example.smartocr.data.dto.response.ResponseListScannedCCCDItem
 import com.example.smartocr.data.model.OcrCCCD
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentAutoFillViewScannedCccdBinding

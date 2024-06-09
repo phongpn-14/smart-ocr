@@ -10,10 +10,11 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp"
-        app:cardBackgroundColor="#DBDBFF"
-        app:strokeWidth="0dp">
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:strokeColor="#8F8F8F"
+        app:strokeWidth="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,8 +24,8 @@
             android:paddingVertical="12dp">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_cccd_home" />
 
@@ -38,12 +39,14 @@
 
                 <TextView
                     android:id="@+id/tv_name"
-                    style="@style/Text.Body.Regular"
+                    style="@style/Text.Body.Semibold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="start"
+                    android:textColor="#2C3D7A"
                     android:text="PHẠM NHƯ PHON"
+                    android:textSize="12sp"
                     tools:ignore="HardcodedText" />
 
                 <TextView
@@ -53,6 +56,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:text="No: 03320100456"
+                    android:textColor="#2C3D7A"
+                    android:textSize="10sp"
                     tools:ignore="HardcodedText" />
 
             </LinearLayout>

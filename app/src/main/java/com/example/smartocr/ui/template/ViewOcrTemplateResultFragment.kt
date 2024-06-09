@@ -3,7 +3,6 @@ package com.example.smartocr.ui.template
 import android.content.Intent
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
@@ -31,13 +30,12 @@ class ViewOcrTemplateResultFragment : BaseFragment<FragmentViewOcrTemplateBindin
         binding.tvFileName.isSelected = true
         binding.ivFileSize.text = (file.length() / 1024).toString() + "KB"
 
-        binding.btAutoFill.isVisible = requireArguments().getBoolean("can_autofill", true)
     }
 
     override fun addAction() {
         super.addAction()
         binding.btBack.setOnClickListener {
-            findNavController().navigateUp()
+            navigate(R.id.homeFragment, popUpTo = R.id.homeFragment)
         }
 
         binding.btResult.setOnClickListener {
@@ -52,14 +50,12 @@ class ViewOcrTemplateResultFragment : BaseFragment<FragmentViewOcrTemplateBindin
             requireContext().startActivity(createChooser)
         }
 
-        binding.btUpload.setOnClickListener {
-            upFileToGoogleDrive(file)
-        }
-
         binding.btAutoFill.setOnClickListener {
             navigate(R.id.chooseCCCDFragment)
         }
 
-
+        binding.btBackToHome.setOnClickListener {
+            navigate(R.id.homeFragment, popUpTo = R.id.homeFragment)
+        }
     }
 }

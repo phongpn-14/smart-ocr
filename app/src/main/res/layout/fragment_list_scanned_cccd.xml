@@ -45,6 +45,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/llDetail"
+            android:layout_marginHorizontal="30dp"
             tools:listitem="@layout/layout_item_scanned_cccd" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

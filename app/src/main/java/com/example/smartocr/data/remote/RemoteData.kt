@@ -2,6 +2,7 @@ package com.example.smartocr.data.remote
 
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.dto.response.ResponseHelloWorld
+import com.example.smartocr.data.dto.response.ResponseListScannedCCCDItem
 import com.example.smartocr.data.dto.response.ResponseLogin
 import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
@@ -147,7 +148,7 @@ constructor(
             })
         }.flowOn(io)
             .map {
-                it.map { it?.map { it.document } ?: listOf() }
+                it.map { it?.map { it.document.copy(objectID = it.id) } ?: listOf() }
             }
     }
 
@@ -168,6 +169,16 @@ constructor(
         }
             .flowOn(io)
 
+    }
+
+    override fun deleteCCCD(documentId: String): Flow<Resource<String>> {
+        val cccdId = MultipartBody.Part.createFormData("document_id", documentId)
+
+        return flow {
+            emit(processCall(true) {
+                smartOcr.deleteCCCD(documentId = cccdId)
+            })
+        }
     }
 
     override fun listTemplate(): Flow<Resource<List<Template>>> {

@@ -96,13 +96,6 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <ImageView
-                    android:id="@+id/bt_upload"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_upload" />
-
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </com.google.android.material.card.MaterialCardView>
@@ -115,11 +108,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginBottom="20dp"
-            android:text="Thêm thông tin"
-            app:layout_constraintBottom_toTopOf="@+id/materialButton" />
+            android:text="Tự động hoàn thiện đơn"
+            app:layout_constraintBottom_toTopOf="@+id/btBackToHome"
+            tools:ignore="HardcodedText" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/materialButton"
+            android:id="@+id/btBackToHome"
             style="@style/Button.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

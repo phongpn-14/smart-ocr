@@ -95,13 +95,6 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <ImageView
-                    android:id="@+id/bt_upload"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_upload" />
-
-                <ImageView
                     android:id="@+id/bt_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

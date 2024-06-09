@@ -7,17 +7,20 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.smartocr.base.BaseFragment
 import com.example.smartocr.data.model.OcrCCCD
-import com.example.smartocr.ui.document.DocumentViewModel
 import com.example.smartocr.ui.camera.ScanResult
+import com.example.smartocr.ui.dialog.DialogDelete
+import com.example.smartocr.ui.document.DocumentViewModel
 import com.proxglobal.smart_ocr.R
 import com.proxglobal.smart_ocr.databinding.FragmentViewScannedCccdBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ViewScannedCCCDFragment : BaseFragment<FragmentViewScannedCccdBinding>() {
     private lateinit var ocrCCCD: OcrCCCD
     private var editable: Boolean = true
+    private var deletalbe = false
     private val documentViewModel by activityViewModels<DocumentViewModel>()
     override fun getLayoutId(): Int {
         return R.layout.fragment_view_scanned_cccd
@@ -26,6 +29,8 @@ class ViewScannedCCCDFragment : BaseFragment<FragmentViewScannedCccdBinding>() {
     override fun initView() {
         super.initView()
         editable = requireArguments().getBoolean("editable", editable)
+        deletalbe = requireArguments().getBoolean("deletable", deletalbe)
+
         try {
             val result = requireArguments().getParcelable<ScanResult.CCCDResult>("result")!!
             ocrCCCD = result.ocrCCCD.copy()
@@ -48,16 +53,14 @@ class ViewScannedCCCDFragment : BaseFragment<FragmentViewScannedCccdBinding>() {
         binding.tvHomeTown.isEnabled = editable
         binding.tvPermanentAddress.isEnabled = editable
         binding.tvNationality.isEnabled = editable
+
+        binding.btDelete.isVisible = deletalbe
     }
 
     override fun addAction() {
         super.addAction()
         binding.btBack.setOnClickListener {
             findNavController().navigateUp()
-        }
-
-        binding.btSave.setOnClickListener {
-            toastShort("Coming soon")
         }
 
         binding.root.setOnClickListener {
@@ -98,16 +101,25 @@ class ViewScannedCCCDFragment : BaseFragment<FragmentViewScannedCccdBinding>() {
                     it.whenLoading { toastShort("Process") }
                         .whenSuccess {
                             toastShort(it.data!!)
-                            navigate(
-                                R.id.homeFragment,
-                                popUpTo = R.id.homeFragment,
-                                popUpToBuilder = {
-                                    inclusive = false
-                                })
+                            findNavController().navigateUp()
                         }
                         .whenError { toastShort(it.message ?: "Unknown error") }
                 }
             }
+        }
+
+        binding.btDelete.setOnClickListener {
+            documentViewModel.deleteCCCD(ocrCCCD.objectID) {
+                DialogDelete.newInstance {
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        it.whenSuccess {
+                            toastShort("Successfully")
+                            findNavController().navigateUp()
+                        }
+                    }
+                }.show(childFragmentManager, null)
+            }
+
         }
     }
 

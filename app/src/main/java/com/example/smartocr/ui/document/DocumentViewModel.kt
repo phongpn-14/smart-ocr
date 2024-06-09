@@ -31,6 +31,14 @@ class DocumentViewModel @Inject constructor(
     private val retry = MutableStateFlow(Unit.event())
     suspend fun listCCCD() = dataRepositorySource.listCCCD()
 
+    fun deleteCCCD(id: String, callback: sTypeAction<Resource<String>>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataRepositorySource.deleteCCCD(id).collect {
+                callback.invoke(it)
+            }
+        }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun listFileResult() = retry.flatMapConcat {
         dataRepositorySource.getAllFileResult()

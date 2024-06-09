@@ -127,6 +127,14 @@ interface SmartOCRService {
     ): Response<String>
 
     @Multipart
+    @POST("/api/db/edit_document")
+    suspend fun editKeyTemplate(
+        @Part dbName: MultipartBody.Part = MultipartBody.Part.createFormData("db_name", "db_key"),
+        @Part documentId: MultipartBody.Part,
+        @Part file: MultipartBody.Part
+    ): Response<String>
+
+    @Multipart
     @POST("/api/db/display")
     suspend fun getKeyTemplate(): Response<List<TemplateKey>>
 

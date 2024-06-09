@@ -46,12 +46,13 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
         }
         binding.tvTitle.text =
             if (existKeyTemplate == null) "Thêm mẫu mới" else "Chỉnh sửa mẫu"
-        binding.btDelete.isVisible = existKeyTemplate != null && existKeyTemplate?.id !in listOf("1","2", "3", "4")
+        binding.btDelete.isVisible =
+            existKeyTemplate != null && existKeyTemplate?.id !in listOf("1", "2", "3", "4")
         binding.edtName.setText(existKeyTemplate?.document?.name)
 
-        binding.edtKeys.isEnabled = existKeyTemplate == null
-        binding.edtName.isEnabled = existKeyTemplate == null
-        binding.btSave.isVisible = existKeyTemplate == null
+//        binding.edtKeys.isEnabled = existKeyTemplate == null
+//        binding.edtName.isEnabled = existKeyTemplate == null
+//        binding.btSave.isVisible = existKeyTemplate == null
 
         binding.rvKeys.apply {
             adapter = keyAdapter
@@ -115,14 +116,26 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
                 toastShort("Điền ít nhất 1 key")
                 return@setOnClickListener
             }
-
-            templateViewModel.createKey(keys, name) {
-                it.whenLoading {
-                    withContext(Dispatchers.Main) {
-                        showLoading()
+            if (existKeyTemplate == null) {
+                templateViewModel.createKey(keys, name) {
+                    it.whenLoading {
+                        withContext(Dispatchers.Main) {
+                            showLoading()
+                        }
                     }
+                        .whenSuccess {
+                            withContext(Dispatchers.Main) {
+                                toastShort("Key update successfully!")
+                            }
+                        }.whenError {
+                            withContext(Dispatchers.Main) {
+                                toastShort(it.message!!)
+                            }
+                        }
                 }
-                    .whenSuccess {
+            } else {
+                templateViewModel.editKeyConfig(existKeyTemplate!!.id, keys, name) {
+                    it.whenSuccess {
                         withContext(Dispatchers.Main) {
                             toastShort("Key update successfully!")
                         }
@@ -130,7 +143,13 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
                         withContext(Dispatchers.Main) {
                             toastShort(it.message!!)
                         }
+                    }.whenLoading {
+                        withContext(Dispatchers.Main) {
+                            showLoading()
+                        }
                     }
+
+                }
             }
         }
 
@@ -152,7 +171,7 @@ class CreateKeyTemplateFragment : BaseFragment<FragmentCreateKeyTemplateBinding>
         super.addObserver()
         keys.observe(viewLifecycleOwner) {
             keyAdapter.update(it.map { keyName ->
-                ItemKey(keyName, existKeyTemplate == null) {
+                ItemKey(keyName) {
                     keys.postValue { remove(it) }
                 }
             })

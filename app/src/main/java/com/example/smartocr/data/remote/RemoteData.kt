@@ -7,12 +7,15 @@ import com.example.smartocr.data.dto.response.ResponseTable
 import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
+import com.example.smartocr.data.model.Document
 import com.example.smartocr.data.model.FileDocument
+import com.example.smartocr.data.model.FileDocumentMetadata
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.model.TemplateKey
 import com.example.smartocr.data.remote.service.SmartOCRService
 import com.example.smartocr.util.NetworkConnectivity
 import com.example.smartocr.util.logd
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -20,6 +23,7 @@ import kotlinx.coroutines.flow.map
 import okhttp3.MultipartBody
 import retrofit2.Response
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -220,6 +224,21 @@ constructor(
         }.flowOn(io)
     }
 
+    override fun editKeyTemplate(id: String, data: Document): Flow<Resource<String>> {
+        val documentId = MultipartBody.Part.createFormData("document_id", id)
+        val file = Gson().toJson(data).toFile()
+        val part = MultipartBody.Part.createFormData(
+            "file", file.name, UploadRequestBody(file, onUpload = {}))
+        return flow {
+            emit(processCall(scalar = true) {
+                smartOcr.editKeyTemplate(
+                    documentId =  documentId,
+                    file = part
+                )
+            })
+        }.flowOn(io)
+    }
+
     override fun autoFill(
         templateId: String,
         documentId: String
@@ -275,5 +294,19 @@ constructor(
             e.printStackTrace()
             Resource.Error(message = "Unknown error happened.")
         }
+    }
+
+    fun String.toFile(): File {
+        val file = File.createTempFile("cccd_temp", ".json")
+        var fos: FileOutputStream? = null
+        try {
+            fos = FileOutputStream(file)
+            fos.write(toByteArray())
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            fos?.close()
+        }
+        return file
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">smart-ocr</string>
+    <string name="app_name">IDDoc</string>
     <string name="coming_soon">Coming soon</string>
     <string name="home">Home</string>
     <string name="setting">Setting</string>

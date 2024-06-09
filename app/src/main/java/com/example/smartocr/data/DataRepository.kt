@@ -6,6 +6,7 @@ import com.example.smartocr.data.dto.response.ResponseTemplate
 import com.example.smartocr.data.dto.response.ResponseTemplateMetadata
 import com.example.smartocr.data.dto.response.Template
 import com.example.smartocr.data.local.LocalData
+import com.example.smartocr.data.model.Document
 import com.example.smartocr.data.model.FileDocument
 import com.example.smartocr.data.model.OcrCCCD
 import com.example.smartocr.data.model.TemplateKey
@@ -84,6 +85,10 @@ class DataRepository @Inject constructor(
 
     override fun createKeyTemplate(data: String, keyName: String): Flow<Resource<String>> {
         return remoteRepository.createKeyTemplate(data, keyName)
+    }
+
+    override fun editKeyTemplate(documentId: String, document: Document): Flow<Resource<String>> {
+        return remoteRepository.editKeyTemplate(documentId, document)
     }
 
     override fun deleteKeyTemplate(keyId: String): Flow<Resource<String>> {

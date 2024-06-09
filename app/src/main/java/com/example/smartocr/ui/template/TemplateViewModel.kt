@@ -3,7 +3,6 @@ package com.example.smartocr.ui.template
 import android.os.Environment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.smartocr.data.DataRepository
 import com.example.smartocr.data.DataRepositorySource
 import com.example.smartocr.data.Resource
 import com.example.smartocr.data.model.Document
@@ -127,7 +126,7 @@ class TemplateViewModel @Inject constructor(
 
     val listTemplateState = listTemplate.combine(selectedTemplate) { listResource, selected ->
         listResource.map { templateFromApi ->
-            (systemTemplate + templateFromApi!!).map { template ->
+            (systemTemplate + templateFromApi!!.reversed()).map { template ->
                 ItemTemplateState(template, template.id == selected?.id)
             }
         }
@@ -166,6 +165,31 @@ class TemplateViewModel @Inject constructor(
             }
         }
     }
+
+    fun editKeyConfig(
+        documentId: String,
+        data: List<String>,
+        name: String,
+        callback: sTypeAction<Resource<String>>
+    ) {
+        val apiKeyTemplate = StringBuilder()
+        data.forEachIndexed { index, s ->
+            if (index != 0 && index < data.size) {
+                apiKeyTemplate.append(", ")
+            }
+            apiKeyTemplate.append(s)
+        }
+        apiKeyTemplate.logd()
+        viewModelScope.launch(Dispatchers.IO) {
+            dataRepository.editKeyTemplate(documentId, Document(line = data, name = name)).collect {
+                callback.invoke(it)
+                if (it.isSuccess) {
+                    retry.emit(Unit)
+                }
+            }
+        }
+    }
+
 
     fun autoFill(documentId: String, callback: sTypeAction<Resource<ScanResult.TemplateResult>>) {
         viewModelScope.launch(Dispatchers.IO) {

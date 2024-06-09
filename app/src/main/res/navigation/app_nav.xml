@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_nav"
-    app:startDestination="@id/authFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/cameraFragment"
@@ -117,5 +117,9 @@
         android:id="@+id/manageTemplateKeyFragment"
         android:name="com.example.smartocr.ui.template.ManageTemplateKeyFragment"
         android:label="ManageTemplateKeyFragment" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.smartocr.ui.splash.SplashFragment"
+        android:label="SplashFragment" />
 
 </navigation>

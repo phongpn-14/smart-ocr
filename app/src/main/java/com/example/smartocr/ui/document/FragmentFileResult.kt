@@ -42,7 +42,7 @@ class FragmentFileResult : BaseFragment<FragmentFileResultBinding>() {
 
                 documentViewModel.listFileResult().collect {
                     it.whenSuccess {
-                        fileResultAdapter.update(it.data!!.map {
+                        fileResultAdapter.update(it.data!!.reversed().map {
                             ItemFileResult(it, onClick = {
                                 documentViewModel.downloadFile(
                                     requireContext(),

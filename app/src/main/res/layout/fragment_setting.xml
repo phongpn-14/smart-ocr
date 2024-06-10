@@ -39,6 +39,28 @@
             app:layout_constraintVertical_bias="0.45"
             tools:ignore="HardcodedText" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_manage_account"
+            style="@style/Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:gravity="start"
+            android:paddingVertical="16dp"
+            android:text="Quản lý account"
+            android:textColor="#2C3D7A"
+            android:textSize="16sp"
+            app:backgroundTint="#DBDBFF"
+            app:icon="@drawable/ic_user"
+            android:layout_marginTop="16dp"
+            app:iconSize="24dp"
+            app:iconTint="#1D2970"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bt_manage_key"
+            tools:ignore="HardcodedText" />
+
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_sign_out"

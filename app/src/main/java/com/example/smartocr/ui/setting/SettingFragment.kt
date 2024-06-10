@@ -58,6 +58,10 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             navigate(R.id.manageTemplateKeyFragment, bundleOf("isManageKey" to true))
         }
 
+        binding.btManageAccount.setOnClickListener {
+            toastShort("Tính năng đang phát triển")
+        }
+
         binding.root.setOnClickListener {
             hideKeyboard(true)
         }
